@@ -4,38 +4,44 @@ package tech.threekilogram.transition;
  * @author wuxio 2018-06-23:12:16
  */
 
+import android.view.View;
+
 /**
  * 使用该类制作静态变化效果,不能根据时间变化,只能根据进度变化
+ *
+ * @author wuxio
  */
 public class TransitionEvaluator implements Evaluator {
 
+    private static final String TAG = "TransitionEvaluator";
+
+    private View            mView;
     /**
      * 起始状态
      */
-    private ViewVisionState begin;
+    private ViewVisionState mBegin;
     /**
      * 结束状态
      */
-    private ViewVisionState end;
-    /**
-     * 用于重新布局view
-     */
-    private ViewRelayout mViewRelayout = new ViewRelayout();
+    private ViewVisionState mEnd;
 
     /**
-     * 保存上一个进度的计算结果
+     * 当{@link #setFraction(float)}时会重新布局view,如果此值为true,那么布局时就会重新测量
      */
-    private ViewVisionState mTemp = new ViewVisionState();
+    private boolean isRemeasureWhenFractionChanged;
+
+    private TransitionFactory.OnTransitionChangeListener mOnTransitionChangeListener;
 
 
-    TransitionEvaluator(ViewVisionState begin, ViewVisionState end) {
+    public TransitionEvaluator(View view, ViewVisionState begin, ViewVisionState end) {
 
-        this.begin = begin;
-        this.end = end;
+        mView = view;
+        this.mBegin = begin;
+        this.mEnd = end;
     }
 
 
-    void evaluate(float fraction, ViewVisionState startValue, ViewVisionState endValue) {
+    private void evaluate(float fraction, ViewVisionState startValue, ViewVisionState endValue) {
 
         /* 计算出当前的进度的值 */
 
@@ -46,40 +52,59 @@ public class TransitionEvaluator implements Evaluator {
         float rotation = startValue.rotation + (endValue.rotation - startValue.rotation) * fraction;
         float alpha = startValue.alpha + (endValue.alpha - startValue.alpha) * fraction;
 
-        /* 计算当前进度和上一个进度的值之间的差值 */
-        /* 使用差值移动:因为父布局移动时子布局同样会移动,使用差值,可以在父布局移动时修改子布局位置达到各自移动的效果 */
+        if (isRemeasureWhenFractionChanged) {
 
-        mViewRelayout.leftChanged = left - mTemp.left;
-        mViewRelayout.topChanged = top - mTemp.top;
-        mViewRelayout.rightChanged = right - mTemp.right;
-        mViewRelayout.bottomChanged = bottom - mTemp.bottom;
-        mViewRelayout.rotationChanged = rotation - mTemp.rotation;
-        mViewRelayout.alphaChanged = alpha - mTemp.alpha;
+            TransitionFactory.remeasureViewWithExactSpec(
+                    mView,
+                    Math.abs(right - left),
+                    Math.abs(bottom - top)
+            );
+        }
 
-        /* 记录当前的进度值作为下一次的参照 */
+        mView.layout(left, top, right, bottom);
+        mView.setRotation(rotation);
+        mView.setAlpha(alpha);
 
-        mTemp.left = left;
-        mTemp.top = top;
-        mTemp.right = right;
-        mTemp.bottom = bottom;
-        mTemp.rotation = rotation;
-        mTemp.alpha = alpha;
+        if (mOnTransitionChangeListener != null) {
+
+            mOnTransitionChangeListener.onChange(
+                    mView,
+                    fraction,
+                    left,
+                    top,
+                    right,
+                    bottom,
+                    rotation,
+                    alpha
+            );
+        }
     }
 
 
     @Override
     public void setFraction(float fraction) {
 
-        evaluate(fraction, begin, end);
-        mViewRelayout.layoutView(fraction);
+        evaluate(fraction, mBegin, mEnd);
     }
 
 
     /**
-     * @param remeasure true : 变化过程中将会重新测量
+     * 当{@link #setFraction(float)}时会重新布局view,如果设置为true,那么布局时就会重新测量
+     *
+     * @param remeasureWhenFractionChanged true:布局时重新测量
      */
-    public void setRemeasureWhenLayout(boolean remeasure) {
+    public void setRemeasureWhenFractionChanged(boolean remeasureWhenFractionChanged) {
 
-        mViewRelayout.setRemeasureWhenLayoutView(remeasure);
+        isRemeasureWhenFractionChanged = remeasureWhenFractionChanged;
+    }
+
+
+    /**
+     * @param onTransitionChangeListener 设置监听
+     */
+    public void setOnTransitionChangeListener(
+            TransitionFactory.OnTransitionChangeListener onTransitionChangeListener) {
+
+        mOnTransitionChangeListener = onTransitionChangeListener;
     }
 }

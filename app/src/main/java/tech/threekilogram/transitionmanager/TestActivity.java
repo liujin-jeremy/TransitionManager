@@ -11,9 +11,11 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import tech.threekilogram.transition.OnTransitionChangeListener;
-import tech.threekilogram.transition.TransitionFactory;
 import tech.threekilogram.transition.ViewVisionState;
+
+import static tech.threekilogram.transition.TransitionFactory.OnTransitionChangeListener;
+import static tech.threekilogram.transition.TransitionFactory.makeChangeAnimator;
+import static tech.threekilogram.transition.TransitionFactory.makeChangeBoundsAnimator;
 
 /**
  * @author wuxio
@@ -123,7 +125,7 @@ public class TestActivity extends AppCompatActivity {
 
                 if (isTransToRight) {
 
-                    mAnimator = TransitionFactory.makeChangeAnimator(
+                    mAnimator = makeChangeAnimator(
                             v,
                             locationLeft
                     );
@@ -131,7 +133,7 @@ public class TestActivity extends AppCompatActivity {
 
                 } else {
 
-                    mAnimator = TransitionFactory.makeChangeAnimator(
+                    mAnimator = makeChangeAnimator(
                             v,
                             locationRight
                     );
@@ -205,7 +207,7 @@ public class TestActivity extends AppCompatActivity {
 
                 if (isTransToRight) {
 
-                    mAnimator = TransitionFactory.makeChangeAnimator(
+                    mAnimator = makeChangeAnimator(
                             v,
                             locationLeft,
                             mAction
@@ -214,7 +216,7 @@ public class TestActivity extends AppCompatActivity {
 
                 } else {
 
-                    mAnimator = TransitionFactory.makeChangeAnimator(
+                    mAnimator = makeChangeAnimator(
                             v,
                             locationRight,
                             mAction
@@ -272,7 +274,7 @@ public class TestActivity extends AppCompatActivity {
 
                 if (isTransToRight) {
 
-                    mAnimator = TransitionFactory.makeChangeBoundsAnimator(
+                    mAnimator = makeChangeBoundsAnimator(
                             v,
                             mVisionState.getLeft(),
                             mVisionState.getTop(),
@@ -290,7 +292,7 @@ public class TestActivity extends AppCompatActivity {
                     int newBottom = container.getHeight();
                     int newTop = newBottom - button.getHeight() - 100;
 
-                    mAnimator = TransitionFactory.makeChangeBoundsAnimator(
+                    mAnimator = makeChangeBoundsAnimator(
                             v,
                             newLeft,
                             newTop,

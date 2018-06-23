@@ -111,7 +111,6 @@ public class ViewVisionState {
         this.alpha = view.getAlpha();
     }
 
-
     /**
      * 创建一个未来的可见状态
      */

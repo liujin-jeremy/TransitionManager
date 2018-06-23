@@ -3,7 +3,6 @@ package tech.threekilogram.transitionmanager;
 import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -11,9 +10,13 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import tech.threekilogram.transition.OnTransitionChangeListener;
+import tech.threekilogram.transition.TransitionEvaluator;
 import tech.threekilogram.transition.TransitionFactory;
+import tech.threekilogram.transition.ViewVisionState;
 
+/**
+ * @author wuxio
+ */
 public class ExampleActivity extends AppCompatActivity {
 
     private static final String TAG = "ExampleActivity";
@@ -40,7 +43,7 @@ public class ExampleActivity extends AppCompatActivity {
 
     private void initView() {
 
-        mTestFrame = (FrameLayout) findViewById(R.id.testFrame);
+        mTestFrame = findViewById(R.id.testFrame);
         mTestFrame.setOnClickListener(new TestFrameTransition(mTestFrame));
     }
 
@@ -48,19 +51,25 @@ public class ExampleActivity extends AppCompatActivity {
     /**
      * 点击执行动画
      */
-    private class TestFrameTransition implements View.OnClickListener {
+    private static class TestFrameTransition implements View.OnClickListener {
 
-        private FrameLayout mFrameLayout;
+        private ViewRect mViewRect = new ViewRect();
         private boolean     isExpand;
+        private Animator    mAnimator;
+        private FrameLayout mFrameLayout;
+        private TextView    mTestText;
 
-        private Animator          mAnimator;
-        private LocationContainer mContainer;
+        private TransitionFactory.OnTransitionChangeListener mExpandListener;
+        private TransitionFactory.OnTransitionChangeListener mCollapseListener;
 
 
         public TestFrameTransition(FrameLayout frameLayout) {
 
             mFrameLayout = frameLayout;
+            mTestText = mFrameLayout.findViewById(R.id.testText);
 
+            mExpandListener = new ExpandTransitionListener();
+            mCollapseListener = new ExpandTransitionListener();
         }
 
 
@@ -69,12 +78,12 @@ public class ExampleActivity extends AppCompatActivity {
 
             /* 放大frameLayout */
 
-            initViewRect();
-
             if (mAnimator != null && mAnimator.isRunning()) {
 
                 mAnimator.cancel();
             }
+
+            initViewRectIfNeed(mViewRect);
 
             if (isExpand) {
 
@@ -88,13 +97,27 @@ public class ExampleActivity extends AppCompatActivity {
         }
 
 
-        private void initViewRect() {
+        private void initViewRectIfNeed(ViewRect rect) {
 
-            if (mContainer == null) {
-
-                mContainer = new LocationContainer(mFrameLayout);
-                mContainer.initRect();
+            if (rect.rootTopStart == 0) {
+                rect.setRootRect(mFrameLayout);
+                rect.setTestTextChangeBoundsRect(mTestText);
             }
+        }
+
+
+        private void collapse() {
+
+            mAnimator = TransitionFactory.makeChangeBoundsAnimator(
+                    mFrameLayout,
+                    0,
+                    mViewRect.rootTopStart,
+                    mFrameLayout.getRight(),
+                    mFrameLayout.getBottom()
+            );
+
+            mAnimator.start();
+
         }
 
 
@@ -106,152 +129,102 @@ public class ExampleActivity extends AppCompatActivity {
                     0,
                     mFrameLayout.getRight(),
                     mFrameLayout.getBottom(),
-                    new OnTransitionChangeListener() {
-                        @Override
-                        public void onChange(
-                                View view,
-                                float process,
-                                int left,
-                                int top,
-                                int right,
-                                int bottom,
-                                float rotation,
-                                float alpha) {
-
-                        }
-                    }
+                    mExpandListener
             );
-            mAnimator.start();
-        }
 
-
-        private void collapse() {
-
-            mAnimator = TransitionFactory.makeChangeBoundsAnimator(
-                    mFrameLayout,
-                    mContainer.rectRootStart.left,
-                    mContainer.rectRootStart.top,
-                    mFrameLayout.getRight(),
-                    mFrameLayout.getBottom()
-            );
             mAnimator.start();
         }
 
 
         /**
-         * 记录所有view起始结束位置
+         * 记录view位置
          */
-        private class LocationContainer {
+        private class ViewRect {
 
-            private FrameLayout root;
-            private Rect        rectRootStart;
-            private Rect        rectRootEnd;
+            private int width;
+            private int height;
 
-            private TextView testText;
-            private Rect     rectTestTextStart;
-            private Rect     rectTestTextEnd;
+            private int rootTopStart;
+
+            private int testTextLeftStart;
+            private int testTextTopStart;
+            private int testTextRightStart;
+            private int testTextBottomStart;
+
+            private int testTextLeftEnd;
+            private int testTextTopEnd;
+            private int testTextRightEnd;
+            private int testTextBottomEnd;
 
 
-            public LocationContainer(FrameLayout root) {
+            void setRootRect(View root) {
 
-                this.root = root;
-                testText = root.findViewById(R.id.testText);
+                rootTopStart = root.getTop();
+
+                width = root.getRight();
+                height = root.getBottom();
             }
 
 
-            public void initRect() {
+            void setTestTextChangeBoundsRect(View testText) {
 
-                rectRootStart = new Rect(
-                        root.getLeft(),
-                        root.getTop(),
-                        root.getRight(),
-                        root.getBottom()
-                );
+                testTextLeftStart = testText.getLeft();
+                testTextTopStart = testText.getTop();
+                testTextRightStart = testText.getRight();
+                testTextBottomStart = testText.getBottom();
 
-                rectRootEnd = new Rect(
-                        0,
-                        0,
-                        root.getRight(),
-                        root.getBottom()
-                );
-
-                rectTestTextStart = new Rect(
-                        testText.getLeft(),
-                        testText.getTop(),
-                        testText.getRight(),
-                        testText.getBottom()
-                );
-
-                rectTestTextEnd = new Rect(
-                        testText.getLeft(),
-                        testText.getTop() + 500,
-                        testText.getRight(),
-                        testText.getBottom() + 500
-                );
+                testTextLeftEnd = width - testText.getWidth() - 200;
+                testTextTopEnd = 200;
+                testTextRightEnd = width;
+                testTextBottomEnd = 200 + testText.getHeight() + 200;
             }
         }
 
-        /**
-         * 展开折叠子view
-         */
-        private class AnimatorUpdateListener implements Animator.AnimatorListener {
+        private class ExpandTransitionListener implements TransitionFactory.OnTransitionChangeListener {
 
-            private boolean isExpand;
-
-
-            public void setExpand(boolean expand) {
-
-                isExpand = expand;
-            }
+            private TransitionEvaluator mTestTextEvaluator;
 
 
             @Override
-            public void onAnimationStart(Animator animation) {
+            public void onChange(
+                    View view,
+                    float fraction,
+                    int left,
+                    int top,
+                    int right,
+                    int bottom,
+                    float rotation,
+                    float alpha) {
 
-                if (isExpand) {
+                testChangeBounds(mViewRect, mTestText, fraction);
+            }
 
-                    Animator animator = TransitionFactory.makeChangeBoundsAnimator(
-                            mContainer.testText,
-                            mContainer.rectTestTextStart.left,
-                            mContainer.rectTestTextStart.top,
-                            mContainer.rectTestTextStart.right,
-                            mContainer.rectTestTextStart.bottom
+
+            private void testChangeBounds(ViewRect viewRect, View view, float fraction) {
+
+                if (mTestTextEvaluator == null) {
+
+                    ViewVisionState start = new ViewVisionState(
+                            view,
+                            viewRect.testTextLeftStart,
+                            viewRect.testTextTopStart,
+                            viewRect.testTextRightStart,
+                            viewRect.testTextBottomStart
                     );
 
-                    animator.start();
-
-                } else {
-
-                    Animator animator = TransitionFactory.makeChangeBoundsAnimator(
-                            mContainer.testText,
-                            mContainer.rectTestTextEnd.left,
-                            mContainer.rectTestTextEnd.top,
-                            mContainer.rectTestTextEnd.right,
-                            mContainer.rectTestTextEnd.bottom
+                    ViewVisionState end = new ViewVisionState(
+                            view,
+                            viewRect.testTextLeftEnd,
+                            viewRect.testTextTopEnd,
+                            viewRect.testTextRightEnd,
+                            viewRect.testTextBottomEnd
                     );
 
-                    animator.start();
+                    mTestTextEvaluator = new TransitionEvaluator(view, start, end);
                 }
 
-                Log.i(TAG, "onAnimationStart:" + "");
-            }
-
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-
-            }
-
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
+                mTestTextEvaluator.setFraction(fraction);
+                Log.i(TAG, "testChangeBounds:" + fraction);
             }
         }
     }

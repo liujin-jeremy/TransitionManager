@@ -15,8 +15,9 @@ class ViewRelayout {
     private static final String TAG = "ViewVisionState";
 
 
-    ViewRelayout() {
+    ViewRelayout(View view) {
 
+        this.view = view;
     }
 
 
@@ -46,7 +47,7 @@ class ViewRelayout {
     /**
      * 用于在变化过程中执行额外的操作
      */
-    OnTransitionChangeListener onTransitionChangeListener;
+    TransitionFactory.OnTransitionChangeListener onTransitionChangeListener;
 
     /**
      * 如果设置为true {@link #layoutView(float)}时会重新测量view,即:变化发生过程中不断重新测量
@@ -77,6 +78,15 @@ class ViewRelayout {
         float rotation = view.getRotation() + this.rotationChanged;
         float alpha = view.getAlpha() + this.alphaChanged;
 
+        if (mRemeasureWhenLayoutView) {
+
+            TransitionFactory.remeasureViewWithExactSpec(
+                    view,
+                    rightNew - leftNew,
+                    bottomNew - topNew
+            );
+        }
+
         view.layout(
                 leftNew,
                 topNew,
@@ -86,15 +96,6 @@ class ViewRelayout {
 
         view.setRotation(rotation);
         view.setAlpha(alpha);
-
-        if (mRemeasureWhenLayoutView) {
-
-            TransitionFactory.remeasureViewWithExactSpec(
-                    view,
-                    rightNew - leftNew,
-                    bottomNew - topNew
-            );
-        }
 
         if (onTransitionChangeListener != null) {
             onTransitionChangeListener.onChange(

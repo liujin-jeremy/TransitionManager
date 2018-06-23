@@ -526,12 +526,12 @@ public class TransitionFactory {
         /**
          * 用于重新布局view
          */
-        private ViewRelayout mViewRelayout = new ViewRelayout();
+        private ViewRelayout mViewRelayout;
 
         /**
          * 保存上一个进度的计算结果
          */
-        private ViewVisionStateResult mTemp = new ViewVisionStateResult(mViewRelayout);
+        private ViewVisionStateResult mTemp;
 
 
         private ViewLocationEvaluator(
@@ -549,17 +549,18 @@ public class TransitionFactory {
                 OnTransitionChangeListener listener,
                 boolean remeasureView) {
 
+            mViewRelayout = new ViewRelayout(view);
+            mViewRelayout.onTransitionChangeListener = listener;
+            mViewRelayout.setRemeasureWhenLayoutView(remeasureView);
+
+            mTemp = new ViewVisionStateResult(mViewRelayout);
+
             mTemp.left = start.left;
             mTemp.top = start.top;
             mTemp.right = start.right;
             mTemp.bottom = start.bottom;
             mTemp.rotation = start.rotation;
             mTemp.alpha = start.alpha;
-
-            mViewRelayout.view = view;
-            mViewRelayout.onTransitionChangeListener = listener;
-
-            mViewRelayout.setRemeasureWhenLayoutView(remeasureView);
         }
 
 
@@ -615,4 +616,34 @@ public class TransitionFactory {
         }
     }
 
+    /**
+     * 该监听用于{@link TransitionFactory}执行过程中的监听
+     *
+     * @author wuxio 2018-06-22:10:39
+     */
+    public interface OnTransitionChangeListener {
+
+        /**
+         * 监听view 变化过程
+         *
+         * @param view     view
+         * @param fraction 当前进度
+         * @param left     当前left
+         * @param top      当前top
+         * @param right    当前right
+         * @param bottom   当前bottom
+         * @param rotation 当前rotation
+         * @param alpha    当前alpha
+         */
+        void onChange(
+                View view,
+                float fraction,
+                int left,
+                int top,
+                int right,
+                int bottom,
+                float rotation,
+                float alpha
+        );
+    }
 }
