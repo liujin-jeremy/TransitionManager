@@ -12,9 +12,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import tech.threekilogram.transition.TransitionAction;
+import tech.threekilogram.transition.OnTransitionChangeListener;
 import tech.threekilogram.transition.TransitionFactory;
-import tech.threekilogram.transition.ViewLocation;
+import tech.threekilogram.transition.ViewVisionState;
 
 /**
  * @author wuxio
@@ -70,13 +70,13 @@ public class TestActivity extends AppCompatActivity {
             private boolean isTransToRight = false;
             private Animator mAnimator;
 
-            ViewLocation locationLeft;
-            ViewLocation locationRight;
+            ViewVisionState locationLeft;
+            ViewVisionState locationRight;
 
             /**
              * 使用该Action 在变化过程中保证文字位于center
              */
-            private TransitionAction mAction = new TransitionAction() {
+            private OnTransitionChangeListener mAction = new OnTransitionChangeListener() {
                 @Override
                 public void onChange(
                         View view,
@@ -85,7 +85,8 @@ public class TestActivity extends AppCompatActivity {
                         int top,
                         int right,
                         int bottom,
-                        float rotation) {
+                        float rotation,
+                        float alpha) {
 
                     //                    Log.i(TAG, "onChange:" + process + " " + left + " " + top + " " +
                     // right + " " +
@@ -106,8 +107,8 @@ public class TestActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (locationLeft == null) {
-                    locationLeft = new ViewLocation(v);
-                    locationLeft.setActionInTransition(mAction);
+                    locationLeft = new ViewVisionState(v);
+                    locationLeft.setOnTransitionChangeListener(mAction);
                     locationLeft.setAlpha(1f);
                 }
 
@@ -118,7 +119,7 @@ public class TestActivity extends AppCompatActivity {
                     int newBottom = container.getHeight();
                     int newTop = newBottom - button.getHeight() - 100;
 
-                    locationRight = new ViewLocation(
+                    locationRight = new ViewVisionState(
                             v,
                             newLeft,
                             newTop,
@@ -127,7 +128,7 @@ public class TestActivity extends AppCompatActivity {
                             90,
                             v.getAlpha()
                     );
-                    locationRight.setActionInTransition(mAction);
+                    locationRight.setOnTransitionChangeListener(mAction);
                     locationRight.setAlpha(0.5f);
                 }
 
@@ -137,7 +138,7 @@ public class TestActivity extends AppCompatActivity {
 
                 if (isTransToRight) {
 
-                    mAnimator = TransitionFactory.makeChange(
+                    mAnimator = TransitionFactory.makeChangeAnimator(
                             v,
                             locationLeft
                     );
@@ -145,7 +146,7 @@ public class TestActivity extends AppCompatActivity {
 
                 } else {
 
-                    mAnimator = TransitionFactory.makeChange(
+                    mAnimator = TransitionFactory.makeChangeAnimator(
                             v,
                             locationRight
                     );
@@ -166,13 +167,13 @@ public class TestActivity extends AppCompatActivity {
             private boolean isTransToRight = false;
             private Animator mAnimator;
 
-            ViewLocation locationLeft;
-            ViewLocation locationRight;
+            ViewVisionState locationLeft;
+            ViewVisionState locationRight;
 
             /**
              * 使用该Action 在变化过程中保证文字位于center
              */
-            private TransitionAction mAction = new TransitionAction() {
+            private OnTransitionChangeListener mAction = new OnTransitionChangeListener() {
                 @Override
                 public void onChange(
                         View view,
@@ -181,7 +182,7 @@ public class TestActivity extends AppCompatActivity {
                         int top,
                         int right,
                         int bottom,
-                        float rotation) {
+                        float rotation,float alpha) {
 
                     Log.i(TAG, "onChange:" + process + " " + left + " " + top + " " + right + " " +
                             bottom);
@@ -200,8 +201,8 @@ public class TestActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (locationLeft == null) {
-                    locationLeft = new ViewLocation(v);
-                    locationLeft.setActionInTransition(mAction);
+                    locationLeft = new ViewVisionState(v);
+                    locationLeft.setOnTransitionChangeListener(mAction);
                 }
 
                 if (locationRight == null) {
@@ -211,7 +212,7 @@ public class TestActivity extends AppCompatActivity {
                     int newBottom = container.getHeight();
                     int newTop = newBottom - button.getHeight() - 100;
 
-                    locationRight = new ViewLocation(
+                    locationRight = new ViewVisionState(
                             v,
                             newLeft,
                             newTop,
@@ -220,7 +221,7 @@ public class TestActivity extends AppCompatActivity {
                             90,
                             v.getAlpha()
                     );
-                    locationRight.setActionInTransition(mAction);
+                    locationRight.setOnTransitionChangeListener(mAction);
                 }
 
                 if (mAnimator != null && mAnimator.isRunning()) {
@@ -229,7 +230,7 @@ public class TestActivity extends AppCompatActivity {
 
                 if (isTransToRight) {
 
-                    mAnimator = TransitionFactory.makeChange(
+                    mAnimator = TransitionFactory.makeChangeAnimator(
                             v,
                             locationLeft
                     );
@@ -237,7 +238,7 @@ public class TestActivity extends AppCompatActivity {
 
                 } else {
 
-                    mAnimator = TransitionFactory.makeChange(
+                    mAnimator = TransitionFactory.makeChangeAnimator(
                             v,
                             locationRight
                     );
@@ -258,12 +259,12 @@ public class TestActivity extends AppCompatActivity {
             private boolean isTransToRight = false;
             private Animator mAnimator;
 
-            ViewLocation location;
+            ViewVisionState location;
 
             /**
              * 使用该Action 在变化过程中保证文字位于center
              */
-            private TransitionAction mAction = new TransitionAction() {
+            private OnTransitionChangeListener mAction = new OnTransitionChangeListener() {
                 @Override
                 public void onChange(
                         View view,
@@ -272,7 +273,7 @@ public class TestActivity extends AppCompatActivity {
                         int top,
                         int right,
                         int bottom,
-                        float rotation) {
+                        float rotation,float alpha) {
 
                     Log.i(TAG, "onChange:" + process + " " + left + " " + top + " " + right + " " +
                             bottom);
@@ -294,7 +295,7 @@ public class TestActivity extends AppCompatActivity {
                 int height = container.getHeight();
 
                 if (location == null) {
-                    location = new ViewLocation(v);
+                    location = new ViewVisionState(v);
                 }
 
                 if (mAnimator != null && mAnimator.isRunning()) {
@@ -303,7 +304,7 @@ public class TestActivity extends AppCompatActivity {
 
                 if (isTransToRight) {
 
-                    mAnimator = TransitionFactory.makeChangeBounds(
+                    mAnimator = TransitionFactory.makeChangeBoundsAnimator(
                             v,
                             location.getLeft(),
                             location.getTop(),
@@ -320,7 +321,7 @@ public class TestActivity extends AppCompatActivity {
                     int newBottom = height;
                     int newTop = newBottom - button.getHeight() - 100;
 
-                    mAnimator = TransitionFactory.makeChangeBounds(
+                    mAnimator = TransitionFactory.makeChangeBoundsAnimator(
                             v,
                             newLeft,
                             newTop,

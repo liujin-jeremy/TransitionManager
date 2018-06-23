@@ -7,7 +7,7 @@ import android.view.View;
  *
  * @author wuxio 2018-06-22:10:39
  */
-public interface TransitionAction {
+public interface OnTransitionChangeListener {
 
     /**
      * 监听view 变化过程
@@ -19,6 +19,7 @@ public interface TransitionAction {
      * @param right    当前right
      * @param bottom   当前bottom
      * @param rotation 当前rotation
+     * @param alpha    当前alpha
      */
     void onChange(
             View view,
@@ -27,6 +28,7 @@ public interface TransitionAction {
             int top,
             int right,
             int bottom,
-            float rotation
+            float rotation,
+            float alpha
     );
 }

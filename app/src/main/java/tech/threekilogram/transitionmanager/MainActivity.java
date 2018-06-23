@@ -16,8 +16,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+
     public void toTestActivity(View view) {
 
         TestActivity.start(this);
+    }
+
+
+    public void toFullTestActivity(View view) {
+
+        ExampleActivity.start(this);
     }
 }
