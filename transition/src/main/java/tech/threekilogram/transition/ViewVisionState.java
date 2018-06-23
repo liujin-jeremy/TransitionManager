@@ -30,7 +30,6 @@ public class ViewVisionState {
     public ViewVisionState(View view) {
 
         this(
-                view,
                 view.getLeft(),
                 view.getTop(),
                 view.getRight(),
@@ -47,7 +46,6 @@ public class ViewVisionState {
     public ViewVisionState(ViewVisionState visionState) {
 
         this(
-                visionState.getView(),
                 visionState.getLeft(),
                 visionState.getTop(),
                 visionState.getRight(),
@@ -66,7 +64,6 @@ public class ViewVisionState {
             Rect rect) {
 
         this(
-                view,
                 rect.left,
                 rect.top,
                 rect.right,
@@ -81,13 +78,11 @@ public class ViewVisionState {
      * 创建一个未来的可见状态
      */
     public ViewVisionState(
-            View view,
             Rect rect,
             float rotation,
             float alpha) {
 
         this(
-                view,
                 rect.left,
                 rect.top,
                 rect.right,
@@ -108,7 +103,6 @@ public class ViewVisionState {
             int right,
             int bottom) {
 
-        this.view = view;
         this.left = left;
         this.top = top;
         this.right = right;
@@ -122,7 +116,6 @@ public class ViewVisionState {
      * 创建一个未来的可见状态
      */
     public ViewVisionState(
-            View view,
             int left,
             int top,
             int right,
@@ -130,7 +123,6 @@ public class ViewVisionState {
             float rotation,
             float alpha) {
 
-        this.view = view;
         this.left = left;
         this.top = top;
         this.right = right;
@@ -139,11 +131,6 @@ public class ViewVisionState {
         this.alpha = alpha;
     }
 
-
-    /**
-     * view 需要使用动画的view
-     */
-    View view;
 
     /**
      * 坐标
@@ -159,68 +146,9 @@ public class ViewVisionState {
     float rotation;
 
     /**
-     * alpha
+     * alphaChanged
      */
     float alpha;
-
-    /**
-     * 用于在变化过程中执行额外的操作
-     */
-    OnTransitionChangeListener mOnTransitionChangeListener;
-
-    /**
-     * 如果设置为true {@link #layoutView(float)}时会重新测量view,即:变化发生过程中不断重新测量
-     */
-    private boolean mRemeasureWhenLayoutView;
-
-
-    public void setRemeasureWhenLayoutView(boolean remeasureWhenLayoutView) {
-
-        this.mRemeasureWhenLayoutView = remeasureWhenLayoutView;
-    }
-
-
-    /**
-     * {@link TransitionFactory.ViewLocationAnimatorUpdateListener} 每次更新时回调该方法,重新布局view
-     */
-    void layoutView(float process) {
-
-        /* 通过重新布局view的位置实现变化效果 */
-        /* 注意:进度变化时计算的是这个进度和上一个进度的差值,所以下面使用加法增加该差值
-         * 使用差值的原因参考 tech.threekilogram.transition.TransitionFactory.ViewLocationEvaluator 说明
-         * */
-
-        int leftNew = view.getLeft() + left;
-        int topNew = view.getTop() + top;
-        int rightNew = view.getRight() + right;
-        int bottomNew = view.getBottom() + bottom;
-        float rotation = view.getRotation() + this.rotation;
-        float alpha = view.getAlpha() + this.alpha;
-
-        view.layout(
-                leftNew,
-                topNew,
-                rightNew,
-                bottomNew
-        );
-
-        view.setRotation(rotation);
-        view.setAlpha(alpha);
-
-        if (mRemeasureWhenLayoutView) {
-
-            TransitionFactory.remeasureViewWithExactSpec(
-                    view,
-                    rightNew - leftNew,
-                    bottomNew - topNew
-            );
-        }
-
-        if (mOnTransitionChangeListener != null) {
-            mOnTransitionChangeListener.onChange(view, process, leftNew, topNew, rightNew, bottomNew,
-                    rotation, alpha);
-        }
-    }
 
 
     public int getLeft() {
@@ -259,12 +187,6 @@ public class ViewVisionState {
     }
 
 
-    public View getView() {
-
-        return view;
-    }
-
-
     public void setLeft(int left) {
 
         this.left = left;
@@ -298,23 +220,5 @@ public class ViewVisionState {
     public void setAlpha(@FloatRange(from = 0, to = 1f) float alpha) {
 
         this.alpha = alpha;
-    }
-
-
-    public void setView(View view) {
-
-        this.view = view;
-    }
-
-
-    public OnTransitionChangeListener getOnTransitionChangeListener() {
-
-        return mOnTransitionChangeListener;
-    }
-
-
-    public void setOnTransitionChangeListener(OnTransitionChangeListener onTransitionChangeListener) {
-
-        this.mOnTransitionChangeListener = onTransitionChangeListener;
     }
 }

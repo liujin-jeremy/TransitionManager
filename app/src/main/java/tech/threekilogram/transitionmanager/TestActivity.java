@@ -108,7 +108,6 @@ public class TestActivity extends AppCompatActivity {
 
                 if (locationLeft == null) {
                     locationLeft = new ViewVisionState(v);
-                    locationLeft.setOnTransitionChangeListener(mAction);
                     locationLeft.setAlpha(1f);
                 }
 
@@ -120,7 +119,6 @@ public class TestActivity extends AppCompatActivity {
                     int newTop = newBottom - button.getHeight() - 100;
 
                     locationRight = new ViewVisionState(
-                            v,
                             newLeft,
                             newTop,
                             newRight,
@@ -128,7 +126,6 @@ public class TestActivity extends AppCompatActivity {
                             90,
                             v.getAlpha()
                     );
-                    locationRight.setOnTransitionChangeListener(mAction);
                     locationRight.setAlpha(0.5f);
                 }
 
@@ -182,7 +179,7 @@ public class TestActivity extends AppCompatActivity {
                         int top,
                         int right,
                         int bottom,
-                        float rotation,float alpha) {
+                        float rotation, float alpha) {
 
                     Log.i(TAG, "onChange:" + process + " " + left + " " + top + " " + right + " " +
                             bottom);
@@ -202,7 +199,6 @@ public class TestActivity extends AppCompatActivity {
 
                 if (locationLeft == null) {
                     locationLeft = new ViewVisionState(v);
-                    locationLeft.setOnTransitionChangeListener(mAction);
                 }
 
                 if (locationRight == null) {
@@ -213,7 +209,6 @@ public class TestActivity extends AppCompatActivity {
                     int newTop = newBottom - button.getHeight() - 100;
 
                     locationRight = new ViewVisionState(
-                            v,
                             newLeft,
                             newTop,
                             newRight,
@@ -221,7 +216,6 @@ public class TestActivity extends AppCompatActivity {
                             90,
                             v.getAlpha()
                     );
-                    locationRight.setOnTransitionChangeListener(mAction);
                 }
 
                 if (mAnimator != null && mAnimator.isRunning()) {
@@ -273,7 +267,7 @@ public class TestActivity extends AppCompatActivity {
                         int top,
                         int right,
                         int bottom,
-                        float rotation,float alpha) {
+                        float rotation, float alpha) {
 
                     Log.i(TAG, "onChange:" + process + " " + left + " " + top + " " + right + " " +
                             bottom);
@@ -290,9 +284,6 @@ public class TestActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-
-                int width = container.getWidth();
-                int height = container.getHeight();
 
                 if (location == null) {
                     location = new ViewVisionState(v);
@@ -316,9 +307,9 @@ public class TestActivity extends AppCompatActivity {
 
                 } else {
 
-                    int newRight = width;
+                    int newRight = container.getWidth();
                     int newLeft = newRight - button.getWidth() - 100;
-                    int newBottom = height;
+                    int newBottom = container.getHeight();
                     int newTop = newBottom - button.getHeight() - 100;
 
                     mAnimator = TransitionFactory.makeChangeBoundsAnimator(
