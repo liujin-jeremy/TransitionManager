@@ -401,10 +401,83 @@ public class TransitionFactory {
             boolean remeasureView) {
 
         ValueAnimator animator = ValueAnimator.ofObject(
-                new ViewLocationEvaluator(view, visionStateBegin, listener),
+                new ViewLocationEvaluator(view, visionStateBegin, listener, remeasureView),
                 visionStateBegin,
-                visionStateEnd,
-                remeasureView
+                visionStateEnd
+        );
+
+        animator.addUpdateListener(mAnimatorUpdateListener);
+        return animator;
+    }
+
+
+    /**
+     * 创建animator
+     *
+     * @param view         需要变化的view
+     * @param visionStates 一组变化
+     * @return animator 动画
+     */
+    public static Animator makeSetAnimator(
+            @NonNull View view,
+            ViewVisionState... visionStates) {
+
+        return makeSetAnimator(view, null, false, visionStates);
+    }
+
+
+    /**
+     * 创建animator
+     *
+     * @param view          需要变化的view
+     * @param remeasureView 在变化过程中是否重新测量,true 重新测量
+     * @param visionStates  一组变化
+     * @return animator 动画
+     */
+    public static Animator makeSetAnimator(
+            @NonNull View view,
+            boolean remeasureView,
+            ViewVisionState... visionStates) {
+
+        return makeSetAnimator(view, null, remeasureView, visionStates);
+    }
+
+
+    /**
+     * 创建animator
+     *
+     * @param view         需要变化的view
+     * @param listener     在变化过程中额外进行处理
+     * @param visionStates 一组变化
+     * @return animator 动画
+     */
+    public static Animator makeSetAnimator(
+            @NonNull View view,
+            OnTransitionChangeListener listener,
+            ViewVisionState... visionStates) {
+
+        return makeSetAnimator(view, listener, false, visionStates);
+    }
+
+
+    /**
+     * 创建animator
+     *
+     * @param view          需要变化的view
+     * @param listener      在变化过程中额外进行处理
+     * @param remeasureView 在变化过程中是否重新测量,true 重新测量
+     * @param visionStates  一组变化
+     * @return animator 动画
+     */
+    public static Animator makeSetAnimator(
+            @NonNull View view,
+            OnTransitionChangeListener listener,
+            boolean remeasureView,
+            ViewVisionState... visionStates) {
+
+        ValueAnimator animator = ValueAnimator.ofObject(
+                new ViewLocationEvaluator(view, visionStates[0], listener, remeasureView),
+                (Object[]) visionStates
         );
 
         animator.addUpdateListener(mAnimatorUpdateListener);

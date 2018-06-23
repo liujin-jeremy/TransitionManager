@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -88,17 +87,6 @@ public class TestActivity extends AppCompatActivity {
                         float rotation,
                         float alpha) {
 
-                    //                    Log.i(TAG, "onChange:" + process + " " + left + " " + top + " " +
-                    // right + " " +
-                    //                            bottom);
-
-                    /* 因为该框架通过更改Layout位置重新布局view来实现变换的,
-                     所以getWidth 和getMeasuredWidth 一般情况下不会相同,(height 同样)
-                     一些与宽度高度相关的属性可能不会起作用:例如android:gravity="center",
-                     此时需要在变化过程中重新测量一下,使该属性起作用
-                     */
-                    //                    TransitionFactory.remeasureViewWithExactSpec(view, right - left,
-                    // bottom - top);
                 }
             };
 
@@ -181,15 +169,8 @@ public class TestActivity extends AppCompatActivity {
                         int bottom,
                         float rotation, float alpha) {
 
-                    Log.i(TAG, "onChange:" + process + " " + left + " " + top + " " + right + " " +
-                            bottom);
+                    //Log.i(TAG, "onChange:" + process + " " + left + " " + top + " " + right + " " + bottom);
 
-                    /* 因为该框架通过更改Layout位置重新布局view来实现变换的,
-                     所以getWidth 和getMeasuredWidth 一般情况下不会相同,(height 同样)
-                     一些与宽度高度相关的属性可能不会起作用:例如android:gravity="center",
-                     此时需要在变化过程中重新测量一下,使该属性起作用
-                     */
-                    TransitionFactory.remeasureViewWithExactSpec(view, right - left, bottom - top);
                 }
             };
 
@@ -226,7 +207,8 @@ public class TestActivity extends AppCompatActivity {
 
                     mAnimator = TransitionFactory.makeChangeAnimator(
                             v,
-                            locationLeft
+                            locationLeft,
+                            mAction
                     );
                     mAnimator.start();
 
@@ -234,7 +216,8 @@ public class TestActivity extends AppCompatActivity {
 
                     mAnimator = TransitionFactory.makeChangeAnimator(
                             v,
-                            locationRight
+                            locationRight,
+                            mAction
                     );
                     mAnimator.start();
                 }
@@ -253,7 +236,7 @@ public class TestActivity extends AppCompatActivity {
             private boolean isTransToRight = false;
             private Animator mAnimator;
 
-            ViewVisionState location;
+            ViewVisionState mVisionState;
 
             /**
              * 使用该Action 在变化过程中保证文字位于center
@@ -267,17 +250,11 @@ public class TestActivity extends AppCompatActivity {
                         int top,
                         int right,
                         int bottom,
-                        float rotation, float alpha) {
+                        float rotation,
+                        float alpha) {
 
-                    Log.i(TAG, "onChange:" + process + " " + left + " " + top + " " + right + " " +
-                            bottom);
+                    //Log.i(TAG, "onChange:" + process + " " + left + " " + top + " " + right + " " + bottom);
 
-                    /* 因为该框架通过更改Layout位置重新布局view来实现变换的,
-                     所以getWidth 和getMeasuredWidth 一般情况下不会相同,(height 同样)
-                     一些与宽度高度相关的属性可能不会起作用:例如android:gravity="center",
-                     此时需要在变化过程中重新测量一下,使该属性起作用
-                     */
-                    TransitionFactory.remeasureViewWithExactSpec(view, right - left, bottom - top);
                 }
             };
 
@@ -285,8 +262,8 @@ public class TestActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (location == null) {
-                    location = new ViewVisionState(v);
+                if (mVisionState == null) {
+                    mVisionState = new ViewVisionState(v);
                 }
 
                 if (mAnimator != null && mAnimator.isRunning()) {
@@ -297,11 +274,12 @@ public class TestActivity extends AppCompatActivity {
 
                     mAnimator = TransitionFactory.makeChangeBoundsAnimator(
                             v,
-                            location.getLeft(),
-                            location.getTop(),
-                            location.getRight(),
-                            location.getBottom(),
-                            mAction
+                            mVisionState.getLeft(),
+                            mVisionState.getTop(),
+                            mVisionState.getRight(),
+                            mVisionState.getBottom(),
+                            mAction,
+                            true
                     );
                     mAnimator.start();
 
@@ -318,7 +296,8 @@ public class TestActivity extends AppCompatActivity {
                             newTop,
                             newRight,
                             newBottom,
-                            mAction
+                            mAction,
+                            true
                     );
                     mAnimator.start();
                 }
