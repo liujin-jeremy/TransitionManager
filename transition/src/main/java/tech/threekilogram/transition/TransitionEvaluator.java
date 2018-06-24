@@ -30,14 +30,25 @@ public class TransitionEvaluator implements Evaluator {
      */
     private boolean isRemeasureWhenFractionChanged;
 
-    private TransitionFactory.OnTransitionChangeListener mOnTransitionChangeListener;
+
+    public TransitionEvaluator(View view, int endLeft, int endTop, int endRight, int endBottom) {
+
+        ViewVisionState end = new ViewVisionState(view, endLeft, endTop, endRight, endBottom);
+        setField(view, end);
+    }
 
 
-    public TransitionEvaluator(View view, ViewVisionState begin, ViewVisionState end) {
+    public TransitionEvaluator(View view, ViewVisionState end) {
+
+        setField(view, end);
+    }
+
+
+    private void setField(View view, ViewVisionState end) {
 
         mView = view;
-        this.mBegin = begin;
-        this.mEnd = end;
+        mBegin = new ViewVisionState(view);
+        mEnd = end;
     }
 
 
@@ -64,20 +75,6 @@ public class TransitionEvaluator implements Evaluator {
         mView.layout(left, top, right, bottom);
         mView.setRotation(rotation);
         mView.setAlpha(alpha);
-
-        if (mOnTransitionChangeListener != null) {
-
-            mOnTransitionChangeListener.onChange(
-                    mView,
-                    fraction,
-                    left,
-                    top,
-                    right,
-                    bottom,
-                    rotation,
-                    alpha
-            );
-        }
     }
 
 
@@ -96,15 +93,5 @@ public class TransitionEvaluator implements Evaluator {
     public void setRemeasureWhenFractionChanged(boolean remeasureWhenFractionChanged) {
 
         isRemeasureWhenFractionChanged = remeasureWhenFractionChanged;
-    }
-
-
-    /**
-     * @param onTransitionChangeListener 设置监听
-     */
-    public void setOnTransitionChangeListener(
-            TransitionFactory.OnTransitionChangeListener onTransitionChangeListener) {
-
-        mOnTransitionChangeListener = onTransitionChangeListener;
     }
 }

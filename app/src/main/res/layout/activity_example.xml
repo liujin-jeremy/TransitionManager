@@ -14,12 +14,46 @@
             android:background="@color/gainsboro">
 
         <TextView
-                android:id="@+id/testText"
+                android:id="@+id/testTransitionText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:background="@color/gold"
                 android:textSize="24sp"
-                android:text="test"/>
+                android:text="transition"/>
+
+        <TextView
+                android:id="@+id/testTranslateText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="36dp"
+                android:gravity="center"
+                android:background="@color/gold"
+                android:textSize="24sp"
+                android:text="translate"/>
+
+        <TextView
+                android:id="@+id/testAlphaText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="136dp"
+                android:layout_marginLeft="136dp"
+                android:gravity="center"
+                android:background="@color/gold"
+                android:textSize="24sp"
+                android:text="alpha"/>
+
+        <TextView
+                android:id="@+id/testRotationText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="36dp"
+                android:layout_marginRight="36dp"
+                android:gravity="center"
+                android:background="@color/gold"
+                android:textSize="24sp"
+                android:text="rotation"/>
 
     </FrameLayout>
 
