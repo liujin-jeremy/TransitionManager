@@ -16,7 +16,24 @@ import android.view.View;
 @SuppressWarnings("WeakerAccess")
 public class ViewVisionState {
 
-    private static final String TAG = "ViewVisionState";
+
+    /**
+     * 坐标
+     */
+    int left;
+    int top;
+    int right;
+    int bottom;
+
+    /**
+     * 旋转角度
+     */
+    float rotation;
+
+    /**
+     * alphaChanged
+     */
+    float alpha;
 
 
     ViewVisionState() {
@@ -111,6 +128,7 @@ public class ViewVisionState {
         this.alpha = view.getAlpha();
     }
 
+
     /**
      * 创建一个未来的可见状态
      */
@@ -129,25 +147,6 @@ public class ViewVisionState {
         this.rotation = rotation;
         this.alpha = alpha;
     }
-
-
-    /**
-     * 坐标
-     */
-    int left;
-    int top;
-    int right;
-    int bottom;
-
-    /**
-     * 旋转角度
-     */
-    float rotation;
-
-    /**
-     * alphaChanged
-     */
-    float alpha;
 
 
     public int getLeft() {

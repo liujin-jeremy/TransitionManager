@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="200dp"
+             android:background="@color/gold">
+
+    <TextView
+            android:id="@+id/view00"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/beige"
+            android:text="view00"/>
+
+    <FrameLayout
+            android:id="@+id/viewGroup00"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="bottom"
+            android:background="@color/burlywood">
+
+        <TextView
+                android:id="@+id/view01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/beige"
+                android:text="view01"/>
+
+    </FrameLayout>
+
+</FrameLayout>

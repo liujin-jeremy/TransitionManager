@@ -10,6 +10,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import tech.threekilogram.transition.AlphaEvaluator;
+import tech.threekilogram.transition.ColorEvaluator;
 import tech.threekilogram.transition.RotationEvaluator;
 import tech.threekilogram.transition.TransitionEvaluator;
 import tech.threekilogram.transition.TransitionFactory;
@@ -71,6 +72,7 @@ public class ExampleActivity extends AppCompatActivity {
         private TextView    mTestTranslateText;
         private TextView    mTestAlphaText;
         private TextView    mTestRotationText;
+        private TextView    mTestColorText;
 
         /* 为子view执行变化 */
 
@@ -85,6 +87,7 @@ public class ExampleActivity extends AppCompatActivity {
             mTestTranslateText = mFrameLayout.findViewById(R.id.testTranslateText);
             mTestAlphaText = mFrameLayout.findViewById(R.id.testAlphaText);
             mTestRotationText = mFrameLayout.findViewById(R.id.testRotationText);
+            mTestColorText = mFrameLayout.findViewById(R.id.testColorText);
 
             mExpandListener = new ExpandTransitionListener();
             mCollapseListener = new CollapseTransitionListener();
@@ -232,6 +235,7 @@ public class ExampleActivity extends AppCompatActivity {
             private TranslateEvaluator  mTestTransitionTranslateEvaluator;
             private AlphaEvaluator      mTestAlphaEvaluator;
             private RotationEvaluator   mTestRotationEvaluator;
+            private ColorEvaluator      mTestColorEvaluator;
 
 
             @Override
@@ -249,6 +253,41 @@ public class ExampleActivity extends AppCompatActivity {
                 testTranslate(mTestTranslateText, fraction);
                 testAlpha(mTestAlphaText, fraction);
                 testRotation(mTestRotationText, fraction);
+                testColor(mTestColorText, fraction);
+            }
+
+
+            private void testColor(TextView text, float fraction) {
+
+                if (mTestColorEvaluator == null) {
+
+                    final int startColor = mTestColorText
+                            .getContext()
+                            .getResources()
+                            .getColor(R.color.gold);
+
+                    final int endColor = mTestColorText
+                            .getContext()
+                            .getResources()
+                            .getColor(R.color.orangered);
+
+                    mTestColorEvaluator = new ColorEvaluator(new ColorEvaluator.ColorEvaluatorConstructor() {
+                        @Override
+                        public int getStartColor() {
+
+                            return startColor;
+                        }
+
+
+                        @Override
+                        public void onNewColorEvaluated(float process, int colorNew) {
+
+                            mTestColorText.setBackgroundColor(colorNew);
+                        }
+                    }, endColor);
+                }
+
+                mTestColorEvaluator.setFraction(fraction);
             }
 
 
@@ -319,6 +358,7 @@ public class ExampleActivity extends AppCompatActivity {
             private TranslateEvaluator  mTestTransitionTranslateEvaluator;
             private AlphaEvaluator      mTestAlphaEvaluator;
             private RotationEvaluator   mTestRotationEvaluator;
+            private ColorEvaluator      mTestColorEvaluator;
 
 
             @Override
@@ -336,6 +376,41 @@ public class ExampleActivity extends AppCompatActivity {
                 testTranslate(mTestTranslateText, fraction);
                 testAlpha(mTestAlphaText, fraction);
                 testRotation(mTestRotationText, fraction);
+                testColor(mTestColorText, fraction);
+            }
+
+
+            private void testColor(TextView text, float fraction) {
+
+                if (mTestColorEvaluator == null) {
+
+                    final int endColor = mTestColorText
+                            .getContext()
+                            .getResources()
+                            .getColor(R.color.gold);
+
+                    final int startColor = mTestColorText
+                            .getContext()
+                            .getResources()
+                            .getColor(R.color.orangered);
+
+                    mTestColorEvaluator = new ColorEvaluator(new ColorEvaluator.ColorEvaluatorConstructor() {
+                        @Override
+                        public int getStartColor() {
+
+                            return startColor;
+                        }
+
+
+                        @Override
+                        public void onNewColorEvaluated(float process, int colorNew) {
+
+                            mTestColorText.setBackgroundColor(colorNew);
+                        }
+                    }, endColor);
+                }
+
+                mTestColorEvaluator.setFraction(fraction);
             }
 
 

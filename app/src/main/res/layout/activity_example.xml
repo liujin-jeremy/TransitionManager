@@ -55,6 +55,16 @@
                 android:textSize="24sp"
                 android:text="rotation"/>
 
+        <TextView
+                android:id="@+id/testColorText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|bottom"
+                android:gravity="center"
+                android:background="@color/gold"
+                android:textSize="24sp"
+                android:text="color"/>
+
     </FrameLayout>
 
 </FrameLayout>
