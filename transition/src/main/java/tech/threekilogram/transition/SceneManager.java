@@ -80,7 +80,43 @@ public class SceneManager {
                 bottom
         );
 
-        compareWithEndScene(layoutEndSceneID);
+        LayoutInflater inflater = LayoutInflater.from(mSceneToChange.getContext());
+        ViewGroup sceneEnd = (ViewGroup) inflater.inflate(layoutEndSceneID, null);
+
+        compareWithEndScene(sceneEnd);
+    }
+
+
+    /**
+     * create a scene with a begin scene , you could
+     * use {@link #setSceneEndRect(int, int, int, int)} set end scene layout rect,
+     *
+     * note that the {@code sceneToChange} must layouted
+     */
+    public SceneManager(ViewGroup sceneToChange, ViewGroup sceneEnd) {
+
+        mSceneToChange = sceneToChange;
+
+        int left = sceneToChange.getLeft();
+        int top = sceneToChange.getTop();
+        int right = sceneToChange.getRight();
+        int bottom = sceneToChange.getBottom();
+
+        setSceneBeginRect(
+                left,
+                top,
+                right,
+                bottom
+        );
+
+        setSceneEndRect(
+                left,
+                top,
+                right,
+                bottom
+        );
+
+        compareWithEndScene(sceneEnd);
     }
 
 
@@ -112,7 +148,42 @@ public class SceneManager {
                 sceneEndBottom
         );
 
-        compareWithEndScene(layoutEndSceneID);
+        LayoutInflater inflater = LayoutInflater.from(mSceneToChange.getContext());
+        ViewGroup sceneEnd = (ViewGroup) inflater.inflate(layoutEndSceneID, null);
+
+        compareWithEndScene(sceneEnd);
+    }
+
+
+    /**
+     * create a scene with a begin scene,and set the end scene layout rect;
+     *
+     * note that the {@code sceneToChange} must layouted
+     */
+    public SceneManager(final ViewGroup sceneToChange,
+                        int sceneEndLeft,
+                        int sceneEndTop,
+                        int sceneEndRight,
+                        int sceneEndBottom,
+                        ViewGroup sceneEnd) {
+
+        mSceneToChange = sceneToChange;
+
+        setSceneBeginRect(
+                sceneToChange.getLeft(),
+                sceneToChange.getTop(),
+                sceneToChange.getRight(),
+                sceneToChange.getBottom()
+        );
+
+        setSceneEndRect(
+                sceneEndLeft,
+                sceneEndTop,
+                sceneEndRight,
+                sceneEndBottom
+        );
+
+        compareWithEndScene(sceneEnd);
     }
 
 
@@ -143,12 +214,9 @@ public class SceneManager {
     /**
      * set the layoutID as the end Scene,this will create evaluator through begin scene and end scene
      *
-     * @param layoutEndSceneID end scene layoutID
+     * @param sceneEnd scene end state
      */
-    private void compareWithEndScene(@LayoutRes int layoutEndSceneID) {
-
-        LayoutInflater inflater = LayoutInflater.from(mSceneToChange.getContext());
-        ViewGroup sceneEnd = (ViewGroup) inflater.inflate(layoutEndSceneID, null);
+    private void compareWithEndScene(ViewGroup sceneEnd) {
 
         int widthSpec = MeasureSpec.makeMeasureSpec(mSceneEndRight - mSceneEndLeft, MeasureSpec.EXACTLY);
         int heightSpec = MeasureSpec.makeMeasureSpec(mSceneEndBottom - mSceneEndTop, MeasureSpec.EXACTLY);
@@ -237,7 +305,7 @@ public class SceneManager {
 
 
     /**
-     * call this after {@link #compareWithEndScene(int)} ,will get the child evaluator
+     * call this will get the child evaluator
      *
      * @param childId child Id
      * @return child evaluator
@@ -264,7 +332,7 @@ public class SceneManager {
 
 
     /**
-     * call this after {@link #compareWithEndScene(int)} ,will get the child evaluator
+     * call this will update the child evaluator
      *
      * @param childId child Id
      * @return child evaluator
