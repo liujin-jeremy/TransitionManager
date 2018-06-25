@@ -44,10 +44,22 @@ public class TransitionEvaluator implements Evaluator {
     }
 
 
+    public TransitionEvaluator(View view, ViewVisionState begin, ViewVisionState end) {
+
+        setField(view, begin, end);
+    }
+
+
     private void setField(View view, ViewVisionState end) {
 
+        setField(view, new ViewVisionState(view), end);
+    }
+
+
+    private void setField(View view, ViewVisionState begin, ViewVisionState end) {
+
         mView = view;
-        mBegin = new ViewVisionState(view);
+        mBegin = begin;
         mEnd = end;
     }
 

@@ -2,7 +2,6 @@ package tech.threekilogram.transition;
 
 import android.animation.Animator;
 import android.support.annotation.LayoutRes;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.MeasureSpec;
@@ -163,6 +162,7 @@ public class SceneManager {
      * @param begin start scene
      * @param end   end scene
      */
+    @SuppressWarnings("UnnecessaryLocalVariable")
     private void createChildrenEvaluator(
             ViewGroup begin,
             ViewGroup end) {
@@ -174,13 +174,6 @@ public class SceneManager {
             View beginChild = begin.getChildAt(i);
             int childId = beginChild.getId();
             View childById = end.findViewById(childId);
-
-            Log.i(TAG, "createChildrenEvaluator:" + "start" + " "
-                    + beginChild.getLeft() + " " +
-                    +beginChild.getTop() + " " +
-                    +beginChild.getRight() + " " +
-                    +beginChild.getBottom()
-            );
 
             if (childById != null) {
 
@@ -201,22 +194,96 @@ public class SceneManager {
                     createChildrenEvaluator((ViewGroup) beginChild, (ViewGroup) childById);
                 }
 
+                end.removeView(childById);
+
             } else {
 
                 /* what is sceneEnd without this id view */
 
             }
-
         }
 
     }
 
 
+    @Deprecated
+    private void addExtraViews(ViewGroup begin, ViewGroup end) {
+
+        while (end.getChildCount() > 0) {
+
+            /* get the views those in end scene but not in begin scene */
+            View child = end.getChildAt(0);
+
+            /* create a evaluator to use when change scene */
+            addEvaluatorOfViewInBoth(generateDefaultEndSceneExtraViewEvaluator(child));
+
+            /* remove child then add to scene begin */
+            end.removeViewAt(0);
+            /* use the size child measured to avoid remeasure when add to scene begin */
+            begin.addView(child, child.getMeasuredWidth(), child.getMeasuredHeight());
+
+            /* layout as a point ,make him not visible */
+            child.layout(0, 0, 0, 0);
+        }
+    }
+
+
+    /**
+     * when end scene has some views that begin scene did not have, manager will remove those extra views
+     * and add them to scene Begin,
+     * and set them a default transition : from 0 size to size at scene end
+     */
+    @Deprecated
+    @SuppressWarnings("UnnecessaryLocalVariable")
+    private Evaluator generateDefaultEndSceneExtraViewEvaluator(View extraViewInEndScene) {
+
+        /* end vision state defined by scene end */
+
+        int left = extraViewInEndScene.getLeft();
+        int top = extraViewInEndScene.getTop();
+        int right = extraViewInEndScene.getRight();
+        int bottom = extraViewInEndScene.getBottom();
+
+        ViewVisionState stateEnd = new ViewVisionState(
+                extraViewInEndScene,
+                left,
+                top,
+                right,
+                bottom
+        );
+
+        /* begin vision state : from center of view change to size */
+
+        int beginLeft = left + (right - left) / 2;
+        int beginTop = top + (bottom - top) / 2;
+        int beginRight = beginLeft;
+        int beginBottom = beginTop;
+
+        ViewVisionState stateBegin = new ViewVisionState(
+                beginLeft,
+                beginTop,
+                beginRight,
+                beginBottom,
+                extraViewInEndScene.getRotation(),
+                0
+        );
+
+        return new TransitionEvaluator(extraViewInEndScene, stateBegin, stateEnd);
+    }
+
+
+    /**
+     * notify all children the animate fraction changed, evaluator need update
+     *
+     * @param fraction new fraction
+     */
     private void notifyAllEvaluatorFractionUpdate(float fraction) {
 
         ArrayList< Evaluator > temp = mEvaluatorsOfViewInBoth;
 
         if (temp != null) {
+
+            /* update all evaluator's fraction */
 
             int size = temp.size();
             for (int i = 0; i < size; i++) {

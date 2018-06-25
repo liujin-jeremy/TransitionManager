@@ -28,4 +28,12 @@
 
     </FrameLayout>
 
+    <TextView
+            android:id="@+id/viewExtra00"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:background="@color/beige"
+            android:text="viewExtra00"/>
+
 </FrameLayout>
