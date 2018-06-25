@@ -28,4 +28,11 @@ public class RotationEvaluator implements Evaluator {
         float current = mRotationBegin + (mRotationEnd - mRotationBegin) * fraction;
         mView.setRotation(current);
     }
+
+
+    @Override
+    public View getTarget() {
+
+        return mView;
+    }
 }

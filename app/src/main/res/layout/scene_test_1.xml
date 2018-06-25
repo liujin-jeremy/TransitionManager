@@ -36,4 +36,13 @@
             android:background="@color/beige"
             android:text="viewExtra00"/>
 
+    <TextView
+            android:id="@+id/view02"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="36dp"
+            android:background="@color/beige"
+            android:text="delay 3000"/>
+
 </FrameLayout>

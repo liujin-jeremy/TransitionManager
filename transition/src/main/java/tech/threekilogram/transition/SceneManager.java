@@ -1,6 +1,7 @@
 package tech.threekilogram.transition;
 
 import android.animation.Animator;
+import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +20,6 @@ public class SceneManager {
     private static final String TAG = "SceneManager";
 
     private ViewGroup mSceneToChange;
-    private ViewGroup mSceneEnd;
 
     /**
      * begin scene layout rect
@@ -37,11 +37,17 @@ public class SceneManager {
     private int mSceneEndRight;
     private int mSceneEndBottom;
 
+    /**
+     * true current scene is to end
+     */
     private boolean isCurrentSceneEnd;
 
     private Animator              mSceneAnimator;
     private OnSceneUpdateListener mUpdateListener;
 
+    /**
+     * use list because the order must not changed when animate
+     */
     private ArrayList< Evaluator > mEvaluatorsOfViewInBoth;
 
 
@@ -51,7 +57,7 @@ public class SceneManager {
      *
      * note that the {@code sceneToChange} must layouted
      */
-    public SceneManager(ViewGroup sceneToChange) {
+    public SceneManager(ViewGroup sceneToChange, @LayoutRes int layoutEndSceneID) {
 
         mSceneToChange = sceneToChange;
 
@@ -73,6 +79,8 @@ public class SceneManager {
                 right,
                 bottom
         );
+
+        compareWithEndScene(layoutEndSceneID);
     }
 
 
@@ -85,7 +93,8 @@ public class SceneManager {
                         int sceneEndLeft,
                         int sceneEndTop,
                         int sceneEndRight,
-                        int sceneEndBottom) {
+                        int sceneEndBottom,
+                        @LayoutRes int layoutEndSceneID) {
 
         mSceneToChange = sceneToChange;
 
@@ -102,9 +111,14 @@ public class SceneManager {
                 sceneEndRight,
                 sceneEndBottom
         );
+
+        compareWithEndScene(layoutEndSceneID);
     }
 
 
+    /**
+     * set the begin scene layout rect
+     */
     private void setSceneBeginRect(int left, int top, int right, int bottom) {
 
         mSceneBeginLeft = left;
@@ -126,33 +140,22 @@ public class SceneManager {
     }
 
 
-    private void addEvaluatorOfViewInBoth(Evaluator evaluator) {
-
-        if (mEvaluatorsOfViewInBoth == null) {
-
-            mEvaluatorsOfViewInBoth = new ArrayList<>();
-        }
-
-        mEvaluatorsOfViewInBoth.add(evaluator);
-    }
-
-
     /**
-     * set the layoutID as the end Scene
+     * set the layoutID as the end Scene,this will create evaluator through begin scene and end scene
      *
      * @param layoutEndSceneID end scene layoutID
      */
-    public void setEndScene(@LayoutRes int layoutEndSceneID) {
+    private void compareWithEndScene(@LayoutRes int layoutEndSceneID) {
 
         LayoutInflater inflater = LayoutInflater.from(mSceneToChange.getContext());
-        mSceneEnd = (ViewGroup) inflater.inflate(layoutEndSceneID, null);
+        ViewGroup sceneEnd = (ViewGroup) inflater.inflate(layoutEndSceneID, null);
 
         int widthSpec = MeasureSpec.makeMeasureSpec(mSceneEndRight - mSceneEndLeft, MeasureSpec.EXACTLY);
         int heightSpec = MeasureSpec.makeMeasureSpec(mSceneEndBottom - mSceneEndTop, MeasureSpec.EXACTLY);
-        mSceneEnd.measure(widthSpec, heightSpec);
-        mSceneEnd.layout(0, 0, mSceneEnd.getMeasuredWidth(), mSceneEnd.getMeasuredHeight());
+        sceneEnd.measure(widthSpec, heightSpec);
+        sceneEnd.layout(0, 0, sceneEnd.getMeasuredWidth(), sceneEnd.getMeasuredHeight());
 
-        createChildrenEvaluator(mSceneToChange, mSceneEnd);
+        createChildrenEvaluator(mSceneToChange, sceneEnd);
     }
 
 
@@ -185,90 +188,86 @@ public class SceneManager {
                         childById.getBottom()
                 );
 
-                addEvaluatorOfViewInBoth(transitionEvaluator);
+                addEvaluatorOfChildToList(transitionEvaluator);
 
-                /* what if beginChild is viewGroup */
+                /* if beginChild is viewGroup compare it's children with child find from scene end */
 
                 if (childById instanceof ViewGroup && beginChild instanceof ViewGroup) {
 
                     createChildrenEvaluator((ViewGroup) beginChild, (ViewGroup) childById);
                 }
 
+                /* remove the compared view to short find view time */
                 end.removeView(childById);
-
-            } else {
-
-                /* what is sceneEnd without this id view */
-
             }
-        }
-
-    }
-
-
-    @Deprecated
-    private void addExtraViews(ViewGroup begin, ViewGroup end) {
-
-        while (end.getChildCount() > 0) {
-
-            /* get the views those in end scene but not in begin scene */
-            View child = end.getChildAt(0);
-
-            /* create a evaluator to use when change scene */
-            addEvaluatorOfViewInBoth(generateDefaultEndSceneExtraViewEvaluator(child));
-
-            /* remove child then add to scene begin */
-            end.removeViewAt(0);
-            /* use the size child measured to avoid remeasure when add to scene begin */
-            begin.addView(child, child.getMeasuredWidth(), child.getMeasuredHeight());
-
-            /* layout as a point ,make him not visible */
-            child.layout(0, 0, 0, 0);
         }
     }
 
 
     /**
-     * when end scene has some views that begin scene did not have, manager will remove those extra views
-     * and add them to scene Begin,
-     * and set them a default transition : from 0 size to size at scene end
+     * add the views evaluator
      */
-    @Deprecated
-    @SuppressWarnings("UnnecessaryLocalVariable")
-    private Evaluator generateDefaultEndSceneExtraViewEvaluator(View extraViewInEndScene) {
+    private void addEvaluatorOfChildToList(Evaluator evaluator) {
 
-        /* end vision state defined by scene end */
+        if (mEvaluatorsOfViewInBoth == null) {
 
-        int left = extraViewInEndScene.getLeft();
-        int top = extraViewInEndScene.getTop();
-        int right = extraViewInEndScene.getRight();
-        int bottom = extraViewInEndScene.getBottom();
+            mEvaluatorsOfViewInBoth = new ArrayList<>();
+        }
 
-        ViewVisionState stateEnd = new ViewVisionState(
-                extraViewInEndScene,
-                left,
-                top,
-                right,
-                bottom
-        );
+        mEvaluatorsOfViewInBoth.add(evaluator);
+    }
 
-        /* begin vision state : from center of view change to size */
 
-        int beginLeft = left + (right - left) / 2;
-        int beginTop = top + (bottom - top) / 2;
-        int beginRight = beginLeft;
-        int beginBottom = beginTop;
+    /**
+     * call this after {@link #compareWithEndScene(int)} ,will get the child evaluator
+     *
+     * @param childId child Id
+     * @return child evaluator
+     */
+    public Evaluator getChildEvaluator(@IdRes int childId) {
 
-        ViewVisionState stateBegin = new ViewVisionState(
-                beginLeft,
-                beginTop,
-                beginRight,
-                beginBottom,
-                extraViewInEndScene.getRotation(),
-                0
-        );
+        ArrayList< Evaluator > evaluators = mEvaluatorsOfViewInBoth;
 
-        return new TransitionEvaluator(extraViewInEndScene, stateBegin, stateEnd);
+        if (evaluators != null) {
+
+            int size = evaluators.size();
+            for (int i = 0; i < size; i++) {
+
+                Evaluator evaluator = evaluators.get(i);
+
+                if (evaluator.getTarget().getId() == childId) {
+                    return evaluator;
+                }
+            }
+        }
+
+        return null;
+    }
+
+
+    /**
+     * call this after {@link #compareWithEndScene(int)} ,will get the child evaluator
+     *
+     * @param childId child Id
+     * @return child evaluator
+     */
+    public void updateChildEvaluator(@IdRes int childId, Evaluator evaluator) {
+
+        ArrayList< Evaluator > evaluators = mEvaluatorsOfViewInBoth;
+
+        if (evaluators != null) {
+
+            int size = evaluators.size();
+            for (int i = 0; i < size; i++) {
+
+                Evaluator temp = evaluators.get(i);
+
+                if (temp.getTarget().getId() == childId) {
+
+                    evaluators.set(i, evaluator);
+                }
+            }
+        }
     }
 
 
@@ -299,6 +298,25 @@ public class SceneManager {
                 }
             }
         }
+    }
+
+
+    /**
+     * change scene
+     *
+     * @return true : changed to end scene
+     */
+    public boolean changeScene() {
+
+        if (isCurrentSceneEnd) {
+
+            createSceneBeginAnimator().start();
+        } else {
+
+            createSceneEndAnimator().start();
+        }
+
+        return isCurrentSceneEnd;
     }
 
 

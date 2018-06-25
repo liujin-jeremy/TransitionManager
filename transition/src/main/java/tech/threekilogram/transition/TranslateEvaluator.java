@@ -40,4 +40,11 @@ public class TranslateEvaluator implements Evaluator {
         mView.setX(currentX);
         mView.setY(currentY);
     }
+
+
+    @Override
+    public View getTarget() {
+
+        return mView;
+    }
 }

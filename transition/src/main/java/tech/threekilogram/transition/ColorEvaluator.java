@@ -2,6 +2,7 @@ package tech.threekilogram.transition;
 
 import android.support.annotation.ColorInt;
 import android.support.graphics.drawable.ArgbEvaluator;
+import android.view.View;
 
 /**
  * @author wuxio 2018-06-24:17:21
@@ -17,11 +18,14 @@ public class ColorEvaluator implements Evaluator {
 
     private ArgbEvaluator mArgbEvaluator;
 
+    private View mView;
 
-    public ColorEvaluator(ColorEvaluatorConstructor constructor, @ColorInt int endColor) {
 
+    public ColorEvaluator(View view, ColorEvaluatorConstructor constructor, @ColorInt int endColor) {
+
+        mView = view;
         mConstructor = constructor;
-        mStartColor = constructor.getStartColor();
+        mStartColor = constructor.getStartColor(view);
         mEndColor = endColor;
 
         mArgbEvaluator = new ArgbEvaluator();
@@ -32,7 +36,14 @@ public class ColorEvaluator implements Evaluator {
     public void setFraction(float fraction) {
 
         Integer currentColor = (Integer) mArgbEvaluator.evaluate(fraction, mStartColor, mEndColor);
-        mConstructor.onNewColorEvaluated(fraction, currentColor);
+        mConstructor.onNewColorEvaluated(mView, fraction, currentColor);
+    }
+
+
+    @Override
+    public View getTarget() {
+
+        return mView;
     }
 
 
@@ -41,17 +52,19 @@ public class ColorEvaluator implements Evaluator {
         /**
          * 获取开始颜色
          *
+         * @param view target
          * @return start color
          */
         @ColorInt
-        int getStartColor();
+        int getStartColor(View view);
 
         /**
          * when new color evaluate this will call
          *
+         * @param view     view target
          * @param process  current process
          * @param colorNew new color at this process
          */
-        void onNewColorEvaluated(float process, int colorNew);
+        void onNewColorEvaluated(View view, float process, int colorNew);
     }
 }

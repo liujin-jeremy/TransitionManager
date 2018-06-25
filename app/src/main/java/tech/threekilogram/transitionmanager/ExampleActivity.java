@@ -271,20 +271,25 @@ public class ExampleActivity extends AppCompatActivity {
                             .getResources()
                             .getColor(R.color.orangered);
 
-                    mTestColorEvaluator = new ColorEvaluator(new ColorEvaluator.ColorEvaluatorConstructor() {
-                        @Override
-                        public int getStartColor() {
+                    mTestColorEvaluator = new ColorEvaluator(
+                            mTestColorText,
+                            new ColorEvaluator.ColorEvaluatorConstructor() {
+                                @Override
+                                public int getStartColor(View view) {
 
-                            return startColor;
-                        }
+                                    return startColor;
+                                }
 
 
-                        @Override
-                        public void onNewColorEvaluated(float process, int colorNew) {
+                                @Override
+                                public void onNewColorEvaluated(View view, float process, int colorNew) {
 
-                            mTestColorText.setBackgroundColor(colorNew);
-                        }
-                    }, endColor);
+                                    mTestColorText.setBackgroundColor(colorNew);
+                                }
+
+                            },
+                            endColor
+                    );
                 }
 
                 mTestColorEvaluator.setFraction(fraction);
@@ -394,20 +399,24 @@ public class ExampleActivity extends AppCompatActivity {
                             .getResources()
                             .getColor(R.color.orangered);
 
-                    mTestColorEvaluator = new ColorEvaluator(new ColorEvaluator.ColorEvaluatorConstructor() {
-                        @Override
-                        public int getStartColor() {
+                    mTestColorEvaluator = new ColorEvaluator(
+                            mTestColorText,
+                            new ColorEvaluator.ColorEvaluatorConstructor() {
+                                @Override
+                                public int getStartColor(View view) {
 
-                            return startColor;
-                        }
+                                    return startColor;
+                                }
 
 
-                        @Override
-                        public void onNewColorEvaluated(float process, int colorNew) {
+                                @Override
+                                public void onNewColorEvaluated(View view, float process, int colorNew) {
 
-                            mTestColorText.setBackgroundColor(colorNew);
-                        }
-                    }, endColor);
+                                    mTestColorText.setBackgroundColor(colorNew);
+                                }
+                            },
+                            endColor
+                    );
                 }
 
                 mTestColorEvaluator.setFraction(fraction);

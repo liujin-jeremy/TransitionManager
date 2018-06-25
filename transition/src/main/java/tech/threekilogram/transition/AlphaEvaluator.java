@@ -28,4 +28,11 @@ public class AlphaEvaluator implements Evaluator {
         float currentAlpha = mAlphaBegin + (mAlphaEnd - mAlphaBegin) * fraction;
         mView.setAlpha(currentAlpha);
     }
+
+
+    @Override
+    public View getTarget() {
+
+        return mView;
+    }
 }

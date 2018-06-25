@@ -97,6 +97,13 @@ public class TransitionEvaluator implements Evaluator {
     }
 
 
+    @Override
+    public View getTarget() {
+
+        return mView;
+    }
+
+
     /**
      * 当{@link #setFraction(float)}时会重新布局view,如果设置为true,那么布局时就会重新测量
      *

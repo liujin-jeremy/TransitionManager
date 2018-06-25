@@ -8,7 +8,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import tech.threekilogram.transition.DelayEvaluator;
+import tech.threekilogram.transition.Evaluator;
 import tech.threekilogram.transition.SceneManager;
+import tech.threekilogram.transition.TransitionEvaluator;
 
 /**
  * @author wuxio
@@ -51,10 +54,19 @@ public class SceneActivity extends AppCompatActivity {
                         0,
                         0,
                         mRoot.getWidth(),
-                        mRoot.getBottom()
+                        mRoot.getBottom(),
+                        R.layout.scene_test_1
                 );
 
-                mSceneManager.setEndScene(R.layout.scene_test_1);
+                Evaluator evaluator = mSceneManager.getChildEvaluator(R.id.viewExtra00);
+                if (evaluator instanceof TransitionEvaluator) {
+
+                    ((TransitionEvaluator) evaluator).setRemeasureWhenFractionChanged(true);
+                }
+
+                Evaluator evaluator01 = mSceneManager.getChildEvaluator(R.id.view02);
+                DelayEvaluator delayEvaluator = new DelayEvaluator(evaluator01, 1000);
+                mSceneManager.updateChildEvaluator(R.id.view02, delayEvaluator);
             }
         });
 
@@ -70,11 +82,13 @@ public class SceneActivity extends AppCompatActivity {
                 if (mSceneManager.isCurrentSceneEnd()) {
 
                     start = mSceneManager.createSceneBeginAnimator();
+                    start.setDuration(3000);
                     start.start();
 
                 } else {
 
                     end = mSceneManager.createSceneEndAnimator();
+                    end.setDuration(3000);
                     end.start();
                 }
             }
