@@ -6,12 +6,13 @@ import android.support.annotation.NonNull;
 import android.view.View;
 
 /**
+ * wrapper a {@link Evaluator} make him set fraction delayed at delayed time
+ *
  * @author wuxio 2018-06-25:11:14
  */
 public class DelayEvaluator implements Evaluator {
 
-    private static final String        TAG      = "DelayEvaluator";
-    private static       HelperHandler sHandler = new HelperHandler();
+    private static HelperHandler sHandler = new HelperHandler();
 
     private Evaluator mEvaluatorActual;
     private int       mDelayed;
@@ -37,13 +38,20 @@ public class DelayEvaluator implements Evaluator {
     @Override
     public void setFraction(float fraction) {
 
-        sHandler.sendDelayMessage(this, mDelayed, fraction);
+        /* set target location stable */
 
         View target = mEvaluatorActual.getTarget();
-        target.layout(mLeft,mTop,mRight,mBottom);
+        target.layout(mLeft, mTop, mRight, mBottom);
+
+        sHandler.sendDelayMessage(this, mDelayed, fraction);
     }
 
 
+    /**
+     * handler use this to set fraction when time up
+     *
+     * @param fraction fraction
+     */
     private void setFractionWhenReceiveMessage(float fraction) {
 
         mEvaluatorActual.setFraction(fraction);

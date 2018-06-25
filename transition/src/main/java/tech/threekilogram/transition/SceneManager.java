@@ -188,6 +188,8 @@ public class SceneManager {
                         childById.getBottom()
                 );
 
+                remeasure0SizeViewInBeginScene(beginChild, childById);
+
                 addEvaluatorOfChildToList(transitionEvaluator);
 
                 /* if beginChild is viewGroup compare it's children with child find from scene end */
@@ -200,6 +202,22 @@ public class SceneManager {
                 /* remove the compared view to short find view time */
                 end.removeView(childById);
             }
+        }
+    }
+
+
+    /**
+     * if view in begin Scene is 0 size,remeasure if with end scene it size
+     */
+    private void remeasure0SizeViewInBeginScene(View beginChild, View childById) {
+
+        if (beginChild.getMeasuredWidth() == 0 && beginChild.getMeasuredHeight() == 0) {
+
+            TransitionFactory.remeasureViewWithExactSpec(
+                    beginChild,
+                    childById.getRight() - childById.getLeft(),
+                    childById.getBottom() - childById.getTop()
+            );
         }
     }
 

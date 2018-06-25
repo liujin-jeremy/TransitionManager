@@ -45,4 +45,13 @@
             android:background="@color/beige"
             android:text="delay 3000"/>
 
+    <TextView
+            android:id="@+id/view03"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="58dp"
+            android:background="@color/beige"
+            android:text="fraction"/>
+
 </FrameLayout>

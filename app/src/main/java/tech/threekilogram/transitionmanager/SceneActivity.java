@@ -11,7 +11,7 @@ import android.widget.FrameLayout;
 import tech.threekilogram.transition.DelayEvaluator;
 import tech.threekilogram.transition.Evaluator;
 import tech.threekilogram.transition.SceneManager;
-import tech.threekilogram.transition.TransitionEvaluator;
+import tech.threekilogram.transition.SegmentFractionEvaluator;
 
 /**
  * @author wuxio
@@ -58,15 +58,14 @@ public class SceneActivity extends AppCompatActivity {
                         R.layout.scene_test_1
                 );
 
-                Evaluator evaluator = mSceneManager.getChildEvaluator(R.id.viewExtra00);
-                if (evaluator instanceof TransitionEvaluator) {
-
-                    ((TransitionEvaluator) evaluator).setRemeasureWhenFractionChanged(true);
-                }
-
                 Evaluator evaluator01 = mSceneManager.getChildEvaluator(R.id.view02);
                 DelayEvaluator delayEvaluator = new DelayEvaluator(evaluator01, 1000);
                 mSceneManager.updateChildEvaluator(R.id.view02, delayEvaluator);
+
+                Evaluator evaluator1 = mSceneManager.getChildEvaluator(R.id.view03);
+                SegmentFractionEvaluator fractionEvaluator = new SegmentFractionEvaluator(evaluator1, 0.4f,
+                        0.9f);
+                mSceneManager.updateChildEvaluator(R.id.view03, fractionEvaluator);
             }
         });
 
