@@ -198,11 +198,11 @@ public class SceneManager {
        */
       private void measureAndLayoutSceneFromInflate (ViewGroup scene, int width, int height) {
 
-            int widthSpec = MeasureSpec
-                .makeMeasureSpec(width, MeasureSpec.EXACTLY);
-            int heightSpec = MeasureSpec
-                .makeMeasureSpec(height, MeasureSpec.EXACTLY);
+            int widthSpec = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY);
+            int heightSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
+
             scene.measure(widthSpec, heightSpec);
+
             scene.layout(0, 0, scene.getMeasuredWidth(), scene.getMeasuredHeight());
       }
 
@@ -221,36 +221,36 @@ public class SceneManager {
 
             for(int i = 0; i < count; i++) {
 
-                  View beginChild = from.getChildAt(i);
-                  int childId = beginChild.getId();
-                  View childById = to.findViewById(childId);
+                  View childAtBeginScene = from.getChildAt(i);
+                  int childId = childAtBeginScene.getId();
+                  View childAtEndScene = to.findViewById(childId);
 
-                  if(childById != null) {
+                  if(childAtEndScene != null) {
 
                         TransitionEvaluator transitionEvaluator = new TransitionEvaluator(
-                            beginChild,
-                            childById.getLeft(),
-                            childById.getTop(),
-                            childById.getRight(),
-                            childById.getBottom()
+                            childAtBeginScene,
+                            childAtEndScene.getLeft(),
+                            childAtEndScene.getTop(),
+                            childAtEndScene.getRight(),
+                            childAtEndScene.getBottom()
                         );
-
-                        remeasure0SizeViewInBeginScene(beginChild, childById);
 
                         addEvaluatorOfChildToList(transitionEvaluator);
 
-                        /* if beginChild is viewGroup compare it's children with child find from scene provideVisionState */
+                        /* if childAtBeginScene is viewGroup compare it's children with child find from scene provideVisionState */
 
-                        if(childById instanceof ViewGroup && beginChild instanceof ViewGroup) {
+                        if(childAtEndScene instanceof ViewGroup
+                            && childAtBeginScene instanceof ViewGroup) {
 
                               createChildrenEvaluator(
-                                  (ViewGroup) beginChild,
-                                  (ViewGroup) childById
+                                  (ViewGroup) childAtBeginScene,
+                                  (ViewGroup) childAtEndScene
                               );
                         }
 
+                        remeasure0SizeViewInBeginScene(childAtBeginScene, childAtEndScene);
                         /* remove the compared view to short find view time */
-                        to.removeView(childById);
+                        to.removeView(childAtEndScene);
                   }
             }
       }

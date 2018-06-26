@@ -4,6 +4,7 @@ import android.os.Message;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.view.View;
+import java.util.UUID;
 
 /**
  * wrapper a {@link Evaluator} make him set fraction delayed at delayed time
@@ -12,101 +13,101 @@ import android.view.View;
  */
 public class DelayEvaluator implements Evaluator {
 
-    private static HelperHandler sHandler = new HelperHandler();
+      private static HelperHandler sHandler = new HelperHandler();
 
-    private Evaluator mEvaluatorActual;
-    private int       mDelayed;
-    private int       mLeft;
-    private int       mTop;
-    private int       mRight;
-    private int       mBottom;
+      private Evaluator mEvaluatorActual;
+      private int       mDelayed;
+      private int       mLeft;
+      private int       mTop;
+      private int       mRight;
+      private int       mBottom;
 
+      int what = hashCode();
 
-    public DelayEvaluator(@NonNull Evaluator evaluatorActual, @IntRange(from = 0) int delayed) {
+      public DelayEvaluator (@NonNull Evaluator evaluatorActual, @IntRange(from = 0) int delayed) {
 
-        mEvaluatorActual = evaluatorActual;
-        mDelayed = delayed;
+            mEvaluatorActual = evaluatorActual;
+            mDelayed = delayed;
 
-        View target = mEvaluatorActual.getTarget();
-        mLeft = target.getLeft();
-        mTop = target.getTop();
-        mRight = target.getRight();
-        mBottom = target.getBottom();
-    }
+            View target = mEvaluatorActual.getTarget();
+            mLeft = target.getLeft();
+            mTop = target.getTop();
+            mRight = target.getRight();
+            mBottom = target.getBottom();
+      }
 
+      public void setDelayed (int delayed) {
 
-    public void setDelayed (int delayed) {
-
-        mDelayed = delayed;
-    }
-
-    @Override
-    public void setFraction(float fraction) {
-
-        /* set target location stable */
-
-        if(mDelayed <= 0) {
-            mEvaluatorActual.setFraction(fraction);
-            return;
-        }
-
-        View target = mEvaluatorActual.getTarget();
-        target.layout(mLeft, mTop, mRight, mBottom);
-
-        sHandler.sendDelayMessage(this, mDelayed, fraction);
-    }
-
-    /**
-     * handler use this to set fraction when time up
-     *
-     * @param fraction fraction
-     */
-    private void setFractionWhenReceiveMessage(float fraction) {
-
-        mEvaluatorActual.setFraction(fraction);
-
-        View target = mEvaluatorActual.getTarget();
-        mLeft = target.getLeft();
-        mTop = target.getTop();
-        mRight = target.getRight();
-        mBottom = target.getBottom();
-    }
-
-
-    @Override
-    public View getTarget() {
-
-        return mEvaluatorActual.getTarget();
-    }
-
-
-    /**
-     * send delayed message
-     */
-    private static class HelperHandler extends android.os.Handler {
-
-        private final static int WHAT_DELAYED = 0b1001;
-
-
-        @Override
-        public void handleMessage(Message msg) {
-
-            if (msg.what == WHAT_DELAYED) {
-
-                ((DelayEvaluator) msg.obj).setFractionWhenReceiveMessage(msg.arg1 * 1f / 1000);
+            if(delayed < 0) {
+                  delayed = 0;
             }
-        }
+            mDelayed = delayed;
+      }
 
+      public void cancel () {
 
-        public void sendDelayMessage(DelayEvaluator target, int delayed, float fraction) {
+            sHandler.removeMessages(what);
+      }
 
-            Message message = Message.obtain();
+      @Override
+      public void setFraction (float fraction) {
 
-            message.what = WHAT_DELAYED;
-            message.obj = target;
-            message.arg1 = (int) (fraction * 1000);
+            /* set target location stable */
 
-            sendMessageDelayed(message, delayed);
-        }
-    }
+            View target = mEvaluatorActual.getTarget();
+            target.layout(mLeft, mTop, mRight, mBottom);
+
+            if(mDelayed <= 0) {
+
+                  setFractionWhenReceiveMessage(fraction);
+            } else {
+
+                  sHandler.sendDelayMessage(this, mDelayed, fraction);
+            }
+      }
+
+      /**
+       * handler use this to set fraction when time up
+       *
+       * @param fraction fraction
+       */
+      private void setFractionWhenReceiveMessage (float fraction) {
+
+            mEvaluatorActual.setFraction(fraction);
+
+            View target = mEvaluatorActual.getTarget();
+            mLeft = target.getLeft();
+            mTop = target.getTop();
+            mRight = target.getRight();
+            mBottom = target.getBottom();
+      }
+
+      @Override
+      public View getTarget () {
+
+            return mEvaluatorActual.getTarget();
+      }
+
+      /**
+       * send delayed message
+       */
+      private static class HelperHandler extends android.os.Handler {
+
+            @Override
+            public void handleMessage (Message msg) {
+
+                  ((DelayEvaluator) msg.obj).setFractionWhenReceiveMessage(msg.arg1 * 1f / 1000);
+            }
+
+            public void sendDelayMessage (DelayEvaluator target, int delayed, float fraction) {
+
+                  Message message = Message.obtain();
+
+                  message.what = target.what;
+                  message.obj = target;
+                  message.arg1 = (int) (fraction * 1000);
+
+                  sendMessageDelayed(message, delayed);
+            }
+      }
 }
