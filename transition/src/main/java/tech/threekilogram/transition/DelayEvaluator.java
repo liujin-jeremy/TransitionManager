@@ -35,17 +35,26 @@ public class DelayEvaluator implements Evaluator {
     }
 
 
+    public void setDelayed (int delayed) {
+
+        mDelayed = delayed;
+    }
+
     @Override
     public void setFraction(float fraction) {
 
         /* set target location stable */
+
+        if(mDelayed <= 0) {
+            mEvaluatorActual.setFraction(fraction);
+            return;
+        }
 
         View target = mEvaluatorActual.getTarget();
         target.layout(mLeft, mTop, mRight, mBottom);
 
         sHandler.sendDelayMessage(this, mDelayed, fraction);
     }
-
 
     /**
      * handler use this to set fraction when time up

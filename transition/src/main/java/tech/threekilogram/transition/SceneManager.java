@@ -19,7 +19,9 @@ public class SceneManager {
 
       private static final String TAG = "SceneManager";
 
-      private ViewGroup mSceneToChange;
+      private ViewGroup       mSceneToChange;
+      private ViewVisionState mBeginSceneVision;
+      private ViewVisionState mEndSceneVision;
 
       /**
        * begin scene layout rect
@@ -82,7 +84,11 @@ public class SceneManager {
             LayoutInflater inflater = LayoutInflater.from(mSceneToChange.getContext());
             ViewGroup sceneEnd = (ViewGroup) inflater.inflate(layoutEndSceneID, null);
 
-            compareBeginEndScene(sceneEnd);
+            measureAndLayoutSceneFromInflate(sceneEnd, right - left, bottom - top);
+            createChildrenEvaluator(sceneToChange, sceneEnd);
+
+            mBeginSceneVision = new ViewVisionState(sceneToChange);
+            mEndSceneVision = new ViewVisionState(sceneEnd);
       }
 
       /**
@@ -114,7 +120,11 @@ public class SceneManager {
                 bottom
             );
 
-            compareBeginEndScene(sceneEnd);
+            measureAndLayoutSceneFromInflate(sceneEnd, right - left, bottom - top);
+            createChildrenEvaluator(sceneToChange, sceneEnd);
+
+            mBeginSceneVision = new ViewVisionState(sceneToChange);
+            mEndSceneVision = new ViewVisionState(sceneEnd);
       }
 
       /**
@@ -149,7 +159,15 @@ public class SceneManager {
             LayoutInflater inflater = LayoutInflater.from(mSceneToChange.getContext());
             ViewGroup sceneEnd = (ViewGroup) inflater.inflate(layoutEndSceneID, null);
 
-            compareBeginEndScene(sceneEnd);
+            measureAndLayoutSceneFromInflate(
+                sceneEnd,
+                sceneEndRight - sceneEndLeft,
+                sceneEndBottom - sceneEndLeft
+            );
+            createChildrenEvaluator(sceneToChange, sceneEnd);
+
+            mBeginSceneVision = new ViewVisionState(sceneToChange);
+            mEndSceneVision = new ViewVisionState(sceneEnd);
       }
 
       /**
@@ -181,7 +199,15 @@ public class SceneManager {
                 sceneEndBottom
             );
 
-            compareBeginEndScene(sceneEnd);
+            measureAndLayoutSceneFromInflate(
+                sceneEnd,
+                sceneEndRight - sceneEndLeft,
+                sceneEndBottom - sceneEndLeft
+            );
+            createChildrenEvaluator(sceneToChange, sceneEnd);
+
+            mBeginSceneVision = new ViewVisionState(sceneToChange);
+            mEndSceneVision = new ViewVisionState(sceneEnd);
       }
 
       /**
@@ -206,42 +232,34 @@ public class SceneManager {
             mSceneEndBottom = bottom;
       }
 
-      /**
-       * set the layoutID as the end Scene,this will create evaluator through begin scene and end
-       * scene
-       *
-       * @param sceneEnd scene end state
-       */
-      private void compareBeginEndScene (ViewGroup sceneEnd) {
+      private void measureAndLayoutSceneFromInflate (ViewGroup scene, int width, int height) {
 
             int widthSpec = MeasureSpec
-                .makeMeasureSpec(mSceneEndRight - mSceneEndLeft, MeasureSpec.EXACTLY);
+                .makeMeasureSpec(width, MeasureSpec.EXACTLY);
             int heightSpec = MeasureSpec
-                .makeMeasureSpec(mSceneEndBottom - mSceneEndTop, MeasureSpec.EXACTLY);
-            sceneEnd.measure(widthSpec, heightSpec);
-            sceneEnd.layout(0, 0, sceneEnd.getMeasuredWidth(), sceneEnd.getMeasuredHeight());
-
-            createChildrenEvaluator(mSceneToChange, sceneEnd);
+                .makeMeasureSpec(height, MeasureSpec.EXACTLY);
+            scene.measure(widthSpec, heightSpec);
+            scene.layout(0, 0, scene.getMeasuredWidth(), scene.getMeasuredHeight());
       }
 
       /**
        * compare children in two scene ,make Evaluator to run when animator start
        *
-       * @param begin start scene
-       * @param end end scene
+       * @param from from this scene to {@code to} scene
+       * @param to decide view at from end visionState
        */
       @SuppressWarnings("UnnecessaryLocalVariable")
       private void createChildrenEvaluator (
-          ViewGroup begin,
-          ViewGroup end) {
+          ViewGroup from,
+          ViewGroup to) {
 
-            int count = begin.getChildCount();
+            int count = from.getChildCount();
 
             for(int i = 0; i < count; i++) {
 
-                  View beginChild = begin.getChildAt(i);
+                  View beginChild = from.getChildAt(i);
                   int childId = beginChild.getId();
-                  View childById = end.findViewById(childId);
+                  View childById = to.findViewById(childId);
 
                   if(childById != null) {
 
@@ -257,16 +275,18 @@ public class SceneManager {
 
                         addEvaluatorOfChildToList(transitionEvaluator);
 
-                        /* if beginChild is viewGroup compare it's children with child find from scene end */
+                        /* if beginChild is viewGroup compare it's children with child find from scene provideVisionState */
 
                         if(childById instanceof ViewGroup && beginChild instanceof ViewGroup) {
 
                               createChildrenEvaluator(
-                                  (ViewGroup) beginChild, (ViewGroup) childById);
+                                  (ViewGroup) beginChild,
+                                  (ViewGroup) childById
+                              );
                         }
 
                         /* remove the compared view to short find view time */
-                        end.removeView(childById);
+                        to.removeView(childById);
                   }
             }
       }
@@ -421,6 +441,40 @@ public class SceneManager {
       }
 
       /**
+       * change current scene to end ,is not at end scene
+       */
+      public void setSceneToEnd () {
+
+            if(!isCurrentSceneEnd) {
+                  isCurrentSceneEnd = true;
+
+                  TransitionEvaluator transitionEvaluator =
+                      new TransitionEvaluator(mSceneToChange, mEndSceneVision);
+
+                  transitionEvaluator.setFraction(1);
+
+                  notifyAllEvaluatorFractionUpdate(1);
+            }
+      }
+
+      /**
+       * change current scene to end ,is not at end scene
+       */
+      public void setSceneToBegin () {
+
+            if(!isCurrentSceneEnd) {
+                  isCurrentSceneEnd = false;
+
+                  TransitionEvaluator transitionEvaluator =
+                      new TransitionEvaluator(mSceneToChange, mBeginSceneVision);
+
+                  transitionEvaluator.setFraction(1);
+
+                  notifyAllEvaluatorFractionUpdate(0);
+            }
+      }
+
+      /**
        * @return true : current is in sceneEnd, false : current is in scene begin
        */
       public boolean isCurrentSceneEnd () {
@@ -446,12 +500,10 @@ public class SceneManager {
                   mUpdateListener = new OnSceneUpdateListener();
             }
 
-            mSceneAnimator = TransitionFactory.makeChangeBoundsAnimator(
+            mSceneAnimator = TransitionFactory.makeAnimator(
                 mSceneToChange,
-                mSceneEndLeft,
-                mSceneEndTop,
-                mSceneEndRight,
-                mSceneEndBottom,
+                mBeginSceneVision,
+                mEndSceneVision,
                 mUpdateListener
             );
 
@@ -476,12 +528,10 @@ public class SceneManager {
                   mUpdateListener = new OnSceneUpdateListener();
             }
 
-            mSceneAnimator = TransitionFactory.makeChangeBoundsAnimator(
+            mSceneAnimator = TransitionFactory.makeAnimator(
                 mSceneToChange,
-                mSceneBeginLeft,
-                mSceneBeginTop,
-                mSceneBeginRight,
-                mSceneBeginBottom,
+                mEndSceneVision,
+                mBeginSceneVision,
                 mUpdateListener
             );
 
