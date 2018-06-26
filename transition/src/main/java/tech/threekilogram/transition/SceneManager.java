@@ -19,44 +19,54 @@ public class SceneManager {
 
       private static final String TAG = "SceneManager";
 
-      private ViewGroup       mSceneToChange;
+      /**
+       * a scene as Begin Scene , {@link SceneManager} will change this to end scene
+       */
+      private ViewGroup mSceneToChange;
+
+      /**
+       * begin scene vision State
+       */
       private ViewVisionState mBeginSceneVision;
+
+      /**
+       * end scene vision state
+       */
       private ViewVisionState mEndSceneVision;
 
       /**
-       * begin scene layout rect
-       */
-      private int mSceneBeginLeft;
-      private int mSceneBeginTop;
-      private int mSceneBeginRight;
-      private int mSceneBeginBottom;
-
-      /**
-       * end scene layout rect
-       */
-      private int mSceneEndLeft;
-      private int mSceneEndTop;
-      private int mSceneEndRight;
-      private int mSceneEndBottom;
-
-      /**
-       * true current scene is to end
+       * true : current scene is to end
        */
       private boolean isCurrentSceneEnd;
 
-      private Animator              mSceneAnimator;
+      /**
+       * use this to change {@link #mSceneToChange} to end scene
+       */
+      private Animator mSceneAnimator;
+
+      /**
+       * use this to change child in {@link #mSceneToChange} to end scene state
+       */
       private OnSceneUpdateListener mUpdateListener;
 
       /**
+       * this list contains all {@link Evaluator} of child in both scene,use {@link Evaluator} to
+       * changeView VisionState
+       * <p>
        * use list because the order must not changed when animate
        */
       private ArrayList<Evaluator> mEvaluatorsOfViewInBoth;
 
       /**
-       * create a scene with a begin scene , you could use {@link #setSceneEndRect(int, int, int,
-       * int)} set end scene layout rect,
+       * @param sceneToChange this is beginScene, it's child could change visionState to visionState
+       * defined by {@code layoutEndSceneID}
+       * @param layoutEndSceneID end scene will inflate from this layout, end scene decide child in
+       * begin scene's end vision state
        * <p>
-       * note that the {@code sceneToChange} must layouted
+       * note : {@code sceneToChange} must layout finished
+       * <p>
+       * note : the two scene must has same children, only children's visionState different and
+       * scene size different
        */
       public SceneManager (ViewGroup sceneToChange, @LayoutRes int layoutEndSceneID) {
 
@@ -66,20 +76,6 @@ public class SceneManager {
             int top = sceneToChange.getTop();
             int right = sceneToChange.getRight();
             int bottom = sceneToChange.getBottom();
-
-            setSceneBeginRect(
-                left,
-                top,
-                right,
-                bottom
-            );
-
-            setSceneEndRect(
-                left,
-                top,
-                right,
-                bottom
-            );
 
             LayoutInflater inflater = LayoutInflater.from(mSceneToChange.getContext());
             ViewGroup sceneEnd = (ViewGroup) inflater.inflate(layoutEndSceneID, null);
@@ -92,10 +88,15 @@ public class SceneManager {
       }
 
       /**
-       * create a scene with a begin scene , you could use {@link #setSceneEndRect(int, int, int,
-       * int)} set end scene layout rect,
+       * @param sceneToChange this is beginScene, it's child could change visionState to visionState
+       * defined by {@code layoutEndSceneID}
+       * @param sceneEnd this is end scene , end scene decide child in begin scene's end vision
+       * state
        * <p>
-       * note that the {@code sceneToChange} must layouted
+       * note : {@code sceneToChange} must layout finished
+       * <p>
+       * note : the two scene must has same children, only children's visionState different and
+       * scene size different
        */
       public SceneManager (ViewGroup sceneToChange, ViewGroup sceneEnd) {
 
@@ -106,20 +107,6 @@ public class SceneManager {
             int right = sceneToChange.getRight();
             int bottom = sceneToChange.getBottom();
 
-            setSceneBeginRect(
-                left,
-                top,
-                right,
-                bottom
-            );
-
-            setSceneEndRect(
-                left,
-                top,
-                right,
-                bottom
-            );
-
             measureAndLayoutSceneFromInflate(sceneEnd, right - left, bottom - top);
             createChildrenEvaluator(sceneToChange, sceneEnd);
 
@@ -128,9 +115,19 @@ public class SceneManager {
       }
 
       /**
-       * create a scene with a begin scene,and set the end scene layout rect;
+       * @param sceneToChange this is beginScene, it's child could change visionState to visionState
+       * defined by {@code layoutEndSceneID}
+       * @param sceneEndLeft this decide beginScene's left when at endState
+       * @param sceneEndTop this decide beginScene's top when at endState
+       * @param sceneEndRight this decide beginScene's right when at endState
+       * @param sceneEndBottom this decide beginScene's bottom when at endState
+       * @param layoutEndSceneID end scene will inflate from this layout, end scene decide child in
+       * begin scene's end vision state
        * <p>
-       * note that the {@code sceneToChange} must layouted
+       * note : {@code sceneToChange} must layout finished
+       * <p>
+       * note : the two scene must has same children, only children's visionState different and
+       * scene size different
        */
       public SceneManager (
           final ViewGroup sceneToChange,
@@ -142,27 +139,13 @@ public class SceneManager {
 
             mSceneToChange = sceneToChange;
 
-            setSceneBeginRect(
-                sceneToChange.getLeft(),
-                sceneToChange.getTop(),
-                sceneToChange.getRight(),
-                sceneToChange.getBottom()
-            );
-
-            setSceneEndRect(
-                sceneEndLeft,
-                sceneEndTop,
-                sceneEndRight,
-                sceneEndBottom
-            );
-
             LayoutInflater inflater = LayoutInflater.from(mSceneToChange.getContext());
             ViewGroup sceneEnd = (ViewGroup) inflater.inflate(layoutEndSceneID, null);
 
             measureAndLayoutSceneFromInflate(
                 sceneEnd,
                 sceneEndRight - sceneEndLeft,
-                sceneEndBottom - sceneEndLeft
+                sceneEndBottom - sceneEndTop
             );
             createChildrenEvaluator(sceneToChange, sceneEnd);
 
@@ -171,9 +154,18 @@ public class SceneManager {
       }
 
       /**
-       * create a scene with a begin scene,and set the end scene layout rect;
+       * @param sceneToChange this is beginScene, it's child could change visionState to visionState
+       * defined by {@code layoutEndSceneID}
+       * @param sceneEndLeft this decide beginScene's left when at endState
+       * @param sceneEndTop this decide beginScene's top when at endState
+       * @param sceneEndRight this decide beginScene's right when at endState
+       * @param sceneEndBottom this decide beginScene's bottom when at endState
+       * @param sceneEnd end scene ； end scene decide child in begin scene's end vision state
        * <p>
-       * note that the {@code sceneToChange} must layouted
+       * note : {@code sceneToChange} must layout finished
+       * <p>
+       * note : the two scene must has same children, only children's visionState different and
+       * scene size different
        */
       public SceneManager (
           final ViewGroup sceneToChange,
@@ -185,24 +177,10 @@ public class SceneManager {
 
             mSceneToChange = sceneToChange;
 
-            setSceneBeginRect(
-                sceneToChange.getLeft(),
-                sceneToChange.getTop(),
-                sceneToChange.getRight(),
-                sceneToChange.getBottom()
-            );
-
-            setSceneEndRect(
-                sceneEndLeft,
-                sceneEndTop,
-                sceneEndRight,
-                sceneEndBottom
-            );
-
             measureAndLayoutSceneFromInflate(
                 sceneEnd,
                 sceneEndRight - sceneEndLeft,
-                sceneEndBottom - sceneEndLeft
+                sceneEndBottom - sceneEndTop
             );
             createChildrenEvaluator(sceneToChange, sceneEnd);
 
@@ -211,27 +189,13 @@ public class SceneManager {
       }
 
       /**
-       * set the begin scene layout rect
+       * if end scene is inflate from layout, must measure and layout it, then could compare with
+       * begin scene
+       *
+       * @param scene need measure and layout
+       * @param width use this to measure scene
+       * @param height use this to measure scene
        */
-      private void setSceneBeginRect (int left, int top, int right, int bottom) {
-
-            mSceneBeginLeft = left;
-            mSceneBeginTop = top;
-            mSceneBeginRight = right;
-            mSceneBeginBottom = bottom;
-      }
-
-      /**
-       * set the end scene layout rect
-       */
-      private void setSceneEndRect (int left, int top, int right, int bottom) {
-
-            mSceneEndLeft = left;
-            mSceneEndTop = top;
-            mSceneEndRight = right;
-            mSceneEndBottom = bottom;
-      }
-
       private void measureAndLayoutSceneFromInflate (ViewGroup scene, int width, int height) {
 
             int widthSpec = MeasureSpec
@@ -243,10 +207,10 @@ public class SceneManager {
       }
 
       /**
-       * compare children in two scene ,make Evaluator to run when animator start
+       * compare children in two scene , then make Evaluator to run when animator running
        *
        * @param from from this scene to {@code to} scene
-       * @param to decide view at from end visionState
+       * @param to decide view at {@code from} end visionState
        */
       @SuppressWarnings("UnnecessaryLocalVariable")
       private void createChildrenEvaluator (
@@ -292,7 +256,7 @@ public class SceneManager {
       }
 
       /**
-       * if view in begin Scene is 0 size(width && height is 0),measure it with size defined in end
+       * if view in begin Scene is 0 size(width && height is 0),measure it with size defined at end
        * scene
        */
       private void remeasure0SizeViewInBeginScene (View beginChild, View childById) {
@@ -308,7 +272,7 @@ public class SceneManager {
       }
 
       /**
-       * add the views evaluator
+       * add the views evaluator to list
        */
       private void addEvaluatorOfChildToList (Evaluator evaluator) {
 
@@ -403,7 +367,7 @@ public class SceneManager {
       }
 
       /**
-       * change scene
+       * change scene with animator
        *
        * @return true : changed to end scene
        */
@@ -421,7 +385,7 @@ public class SceneManager {
       }
 
       /**
-       * change current scene to end ,is not at end scene
+       * change current scene to end with animator
        */
       public void changeSceneToEnd () {
 
@@ -431,7 +395,7 @@ public class SceneManager {
       }
 
       /**
-       * change current scene to end ,is not at end scene
+       * change current scene to begin with animator
        */
       public void changeSceneToBegin () {
 
@@ -441,36 +405,43 @@ public class SceneManager {
       }
 
       /**
-       * change current scene to end ,is not at end scene
+       * change current scene to end immediately, with out animator
        */
       public void setSceneToEnd () {
 
             if(!isCurrentSceneEnd) {
                   isCurrentSceneEnd = true;
 
+                  /* change scene self */
+
                   TransitionEvaluator transitionEvaluator =
                       new TransitionEvaluator(mSceneToChange, mEndSceneVision);
 
                   transitionEvaluator.setFraction(1);
+
+                  /* change children in beginScene */
 
                   notifyAllEvaluatorFractionUpdate(1);
             }
       }
 
       /**
-       * change current scene to end ,is not at end scene
+       * change current scene to begin immediately, with out animator
        */
       public void setSceneToBegin () {
 
-            if(!isCurrentSceneEnd) {
+            if(isCurrentSceneEnd) {
                   isCurrentSceneEnd = false;
+
+                  /* change scene self */
 
                   TransitionEvaluator transitionEvaluator =
                       new TransitionEvaluator(mSceneToChange, mBeginSceneVision);
-
                   transitionEvaluator.setFraction(1);
 
-                  notifyAllEvaluatorFractionUpdate(0);
+                  /* change children in beginScene */
+
+                  notifyAllEvaluatorFractionUpdate(1);
             }
       }
 
@@ -539,7 +510,7 @@ public class SceneManager {
       }
 
       /**
-       * use this to set children evaluator fraction
+       * use this to set children evaluator fraction,when Scene animator is running
        */
       private class OnSceneUpdateListener implements TransitionFactory.OnTransitionChangeListener {
 

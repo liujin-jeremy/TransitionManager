@@ -22,6 +22,7 @@
         </activity>
         <activity android:name=".SceneActivity">
         </activity>
+          <activity android:name=".SceneSetActivity"/>
     </application>
 
 </manifest>

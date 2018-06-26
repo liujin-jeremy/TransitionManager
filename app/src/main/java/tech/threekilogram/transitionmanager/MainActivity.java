@@ -9,28 +9,30 @@ import android.view.View;
  */
 public class MainActivity extends AppCompatActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+      @Override
+      protected void onCreate (Bundle savedInstanceState) {
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-    }
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_main);
+      }
 
+      public void toTestActivity (View view) {
 
-    public void toTestActivity(View view) {
+            TestActivity.start(this);
+      }
 
-        TestActivity.start(this);
-    }
+      public void toFullTestActivity (View view) {
 
+            ExampleActivity.start(this);
+      }
 
-    public void toFullTestActivity(View view) {
+      public void toSceneActivity (View view) {
 
-        ExampleActivity.start(this);
-    }
+            SceneActivity.start(this);
+      }
 
+      public void toSceneSetActivity (View view) {
 
-    public void toSceneActivity(View view) {
-
-        SceneActivity.start(this);
-    }
+            SceneSetActivity.start(this);
+      }
 }
