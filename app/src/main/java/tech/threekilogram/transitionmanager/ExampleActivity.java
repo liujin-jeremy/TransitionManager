@@ -9,12 +9,12 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import tech.threekilogram.transition.AlphaEvaluator;
-import tech.threekilogram.transition.ColorEvaluator;
-import tech.threekilogram.transition.RotationEvaluator;
-import tech.threekilogram.transition.TransitionEvaluator;
+import tech.threekilogram.transition.scene.AlphaEvaluator;
+import tech.threekilogram.transition.scene.ColorEvaluator;
+import tech.threekilogram.transition.scene.RotationEvaluator;
+import tech.threekilogram.transition.scene.TransitionEvaluator;
 import tech.threekilogram.transition.TransitionFactory;
-import tech.threekilogram.transition.TranslateEvaluator;
+import tech.threekilogram.transition.scene.TranslateEvaluator;
 import tech.threekilogram.transition.ViewVisionState;
 
 /**

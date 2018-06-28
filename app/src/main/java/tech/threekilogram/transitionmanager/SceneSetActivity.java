@@ -1,16 +1,12 @@
 package tech.threekilogram.transitionmanager;
 
-import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.FrameLayout;
-import tech.threekilogram.transition.DelayEvaluator;
-import tech.threekilogram.transition.Evaluator;
-import tech.threekilogram.transition.SceneManager;
-import tech.threekilogram.transition.SegmentFractionEvaluator;
+import tech.threekilogram.transition.scene.SceneManager;
 
 /**
  * @author wuxio

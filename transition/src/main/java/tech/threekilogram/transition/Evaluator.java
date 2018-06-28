@@ -7,7 +7,8 @@ package tech.threekilogram.transition;
 import android.view.View;
 
 /**
- * 通用静态动画接口
+ * 通用进度动画接口
+ * @author liujin
  */
 public interface Evaluator {
 

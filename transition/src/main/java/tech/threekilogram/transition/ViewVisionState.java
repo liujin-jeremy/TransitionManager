@@ -9,214 +9,220 @@ import android.support.annotation.FloatRange;
 import android.view.View;
 
 /**
- * record view location,use this to make anim
+ * 记录一个view的坐标，角度，alpha
  *
  * @author wuxio
  */
 @SuppressWarnings("WeakerAccess")
 public class ViewVisionState {
 
+      /**
+       * 坐标
+       */
+      int left;
+      int top;
+      int right;
+      int bottom;
 
-    /**
-     * 坐标
-     */
-    int left;
-    int top;
-    int right;
-    int bottom;
+      /**
+       * 旋转角度
+       */
+      float rotation;
 
-    /**
-     * 旋转角度
-     */
-    float rotation;
+      /**
+       * alphaChanged
+       */
+      float alpha;
 
-    /**
-     * alphaChanged
-     */
-    float alpha;
+      ViewVisionState () {
 
+      }
 
-    ViewVisionState() {
+      /**
+       * 创建一个当前的可见状态
+       */
+      public ViewVisionState (View view) {
 
-    }
-
-
-    /**
-     * 创建一个当前的可见状态
-     */
-    public ViewVisionState(View view) {
-
-        this(
+            this(
                 view.getLeft(),
                 view.getTop(),
                 view.getRight(),
                 view.getBottom(),
                 view.getRotation(),
                 view.getAlpha()
-        );
-    }
+            );
+      }
 
+      /**
+       * 根据另一个可视状态创建一个一模一样的
+       */
+      public ViewVisionState (ViewVisionState visionState) {
 
-    /**
-     * 根据另一个可视状态创建一个一模一样的
-     */
-    public ViewVisionState(ViewVisionState visionState) {
-
-        this(
+            this(
                 visionState.getLeft(),
                 visionState.getTop(),
                 visionState.getRight(),
                 visionState.getBottom(),
                 visionState.getRotation(),
                 visionState.getAlpha()
-        );
-    }
+            );
+      }
 
+      /**
+       * 创建一个未来的可见状态
+       */
+      public ViewVisionState (
+          View view,
+          Rect rect) {
 
-    /**
-     * 创建一个未来的可见状态
-     */
-    public ViewVisionState(
-            View view,
-            Rect rect) {
-
-        this(
+            this(
                 rect.left,
                 rect.top,
                 rect.right,
                 rect.bottom,
                 view.getRotation(),
                 view.getAlpha()
-        );
-    }
+            );
+      }
 
+      /**
+       * 创建一个未来的可见状态
+       */
+      public ViewVisionState (
+          Rect rect,
+          float rotation,
+          float alpha) {
 
-    /**
-     * 创建一个未来的可见状态
-     */
-    public ViewVisionState(
-            Rect rect,
-            float rotation,
-            float alpha) {
-
-        this(
+            this(
                 rect.left,
                 rect.top,
                 rect.right,
                 rect.bottom,
                 rotation,
                 alpha
-        );
-    }
+            );
+      }
 
+      /**
+       * 创建一个未来的可见状态
+       */
+      public ViewVisionState (
+          View view,
+          int left,
+          int top,
+          int right,
+          int bottom) {
 
-    /**
-     * 创建一个未来的可见状态
-     */
-    public ViewVisionState(
-            View view,
-            int left,
-            int top,
-            int right,
-            int bottom) {
+            this.left = left;
+            this.top = top;
+            this.right = right;
+            this.bottom = bottom;
+            this.rotation = view.getRotation();
+            this.alpha = view.getAlpha();
+      }
 
-        this.left = left;
-        this.top = top;
-        this.right = right;
-        this.bottom = bottom;
-        this.rotation = view.getRotation();
-        this.alpha = view.getAlpha();
-    }
+      /**
+       * 创建一个未来的可见状态
+       */
+      public ViewVisionState (
+          int left,
+          int top,
+          int right,
+          int bottom,
+          float rotation,
+          float alpha) {
 
+            this.left = left;
+            this.top = top;
+            this.right = right;
+            this.bottom = bottom;
+            this.rotation = rotation;
+            this.alpha = alpha;
+      }
 
-    /**
-     * 创建一个未来的可见状态
-     */
-    public ViewVisionState(
-            int left,
-            int top,
-            int right,
-            int bottom,
-            float rotation,
-            float alpha) {
+      public int getLeft () {
 
-        this.left = left;
-        this.top = top;
-        this.right = right;
-        this.bottom = bottom;
-        this.rotation = rotation;
-        this.alpha = alpha;
-    }
+            return left;
+      }
 
+      public int getTop () {
 
-    public int getLeft() {
+            return top;
+      }
 
-        return left;
-    }
+      public int getRight () {
 
+            return right;
+      }
 
-    public int getTop() {
+      public int getBottom () {
 
-        return top;
-    }
+            return bottom;
+      }
 
+      public float getRotation () {
 
-    public int getRight() {
+            return rotation;
+      }
 
-        return right;
-    }
+      public float getAlpha () {
 
+            return alpha;
+      }
 
-    public int getBottom() {
+      public void setLeft (int left) {
 
-        return bottom;
-    }
+            this.left = left;
+      }
 
+      public void setTop (int top) {
 
-    public float getRotation() {
+            this.top = top;
+      }
 
-        return rotation;
-    }
+      public void setRight (int right) {
 
+            this.right = right;
+      }
 
-    public float getAlpha() {
+      public void setBottom (int bottom) {
 
-        return alpha;
-    }
+            this.bottom = bottom;
+      }
 
+      public void setRotation (float rotation) {
 
-    public void setLeft(int left) {
+            this.rotation = rotation;
+      }
 
-        this.left = left;
-    }
+      public void setAlpha (@FloatRange(from = 0, to = 1f) float alpha) {
 
+            this.alpha = alpha;
+      }
 
-    public void setTop(int top) {
+      /**
+       * 根据一个view的显示状态，重新设置值
+       *
+       * @param view 新的状态的view
+       */
+      public void update (View view) {
 
-        this.top = top;
-    }
+            left = view.getLeft();
+            top = view.getTop();
+            right = view.getRight();
+            bottom = view.getBottom();
 
+            rotation = view.getRotation();
+            alpha = view.getAlpha();
+      }
 
-    public void setRight(int right) {
+      /**
+       * @param view 应用给view
+       */
+      public void applyTo (View view) {
 
-        this.right = right;
-    }
-
-
-    public void setBottom(int bottom) {
-
-        this.bottom = bottom;
-    }
-
-
-    public void setRotation(float rotation) {
-
-        this.rotation = rotation;
-    }
-
-
-    public void setAlpha(@FloatRange(from = 0, to = 1f) float alpha) {
-
-        this.alpha = alpha;
-    }
+            view.layout(left, top, right, bottom);
+            view.setRotation(rotation);
+            view.setAlpha(alpha);
+      }
 }

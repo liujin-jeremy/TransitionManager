@@ -1,39 +1,48 @@
-package tech.threekilogram.transition;
+package tech.threekilogram.transition.scene;
 
 import android.os.Message;
-import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.view.View;
-import java.util.UUID;
+import tech.threekilogram.transition.Evaluator;
+import tech.threekilogram.transition.ViewVisionState;
 
 /**
- * wrapper a {@link Evaluator} make him set fraction delayed at delayed time
+ * wrapper a {@link Evaluator} make him could set fraction with a delayed time
  *
  * @author wuxio 2018-06-25:11:14
  */
 public class DelayEvaluator implements Evaluator {
 
+      /**
+       * 发送延时消息
+       */
       private static HelperHandler sHandler = new HelperHandler();
 
-      private Evaluator mEvaluatorActual;
-      private int       mDelayed;
-      private int       mLeft;
-      private int       mTop;
-      private int       mRight;
-      private int       mBottom;
+      /**
+       * 实际起作用的evaluator
+       */
+      private Evaluator       mEvaluatorActual;
+      /**
+       * 延时时间
+       */
+      private int             mDelayed;
+      /**
+       * 记录上一次显示状态
+       */
+      private ViewVisionState mViewVisionState;
 
+      /**
+       * 使用该 what 取消延时任务
+       */
       int what = hashCode();
 
-      public DelayEvaluator (@NonNull Evaluator evaluatorActual, @IntRange(from = 0) int delayed) {
+      public DelayEvaluator (@NonNull Evaluator evaluatorActual, int delayed) {
 
             mEvaluatorActual = evaluatorActual;
-            mDelayed = delayed;
+            setDelayed(delayed);
 
             View target = mEvaluatorActual.getTarget();
-            mLeft = target.getLeft();
-            mTop = target.getTop();
-            mRight = target.getRight();
-            mBottom = target.getBottom();
+            mViewVisionState = new ViewVisionState(target);
       }
 
       public void setDelayed (int delayed) {
@@ -44,6 +53,9 @@ public class DelayEvaluator implements Evaluator {
             mDelayed = delayed;
       }
 
+      /**
+       * 取消延时设置进度
+       */
       public void cancel () {
 
             sHandler.removeMessages(what);
@@ -55,7 +67,7 @@ public class DelayEvaluator implements Evaluator {
             /* set target location stable */
 
             View target = mEvaluatorActual.getTarget();
-            target.layout(mLeft, mTop, mRight, mBottom);
+            mViewVisionState.applyTo(target);
 
             if(mDelayed <= 0) {
 
@@ -76,10 +88,7 @@ public class DelayEvaluator implements Evaluator {
             mEvaluatorActual.setFraction(fraction);
 
             View target = mEvaluatorActual.getTarget();
-            mLeft = target.getLeft();
-            mTop = target.getTop();
-            mRight = target.getRight();
-            mBottom = target.getBottom();
+            mViewVisionState.update(target);
       }
 
       @Override
