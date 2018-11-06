@@ -1,25 +1,10 @@
 ## 一个动画框架
 
-## 引入
-
-Add it in your root build.gradle at the end of repositories:
-
 ```
-	allprojects {
-		repositories {
-			...
-			maven { url 'https://jitpack.io' }
-		}
-	}
+implementation 'tech.threekilogram:transition:2.0.0'
 ```
 
-**Step 2.** Add the dependency
 
-```
-	dependencies {
-	        implementation 'com.github.threekilogram:TransitionManager:1.2.4'
-	}
-```
 
 ## 效果
 
