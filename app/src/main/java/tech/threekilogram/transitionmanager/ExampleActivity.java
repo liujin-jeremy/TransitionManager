@@ -80,8 +80,8 @@ public class ExampleActivity extends AppCompatActivity {
                 mTransitionImage,
                 500,
                 50,
-                1000,
-                550
+                900,
+                450
             );
             mTransitionSeek.setOnSeekBarChangeListener( new SimpleOnSeekBarChangeListener() {
 

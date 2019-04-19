@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import tech.threekilogram.transition.TransitionFactory;
+import tech.threekilogram.transition.SceneManager.OnTransitionChangeListener;
 import tech.threekilogram.transition.ViewVisionState;
 import tech.threekilogram.transition.impl.AlphaEvaluator;
 import tech.threekilogram.transition.impl.ColorEvaluator;
@@ -70,8 +70,8 @@ public class FullTestActivity extends AppCompatActivity {
 
             /* 为子view执行变化 */
 
-            private TransitionFactory.OnTransitionChangeListener mExpandListener;
-            private TransitionFactory.OnTransitionChangeListener mCollapseListener;
+            private OnTransitionChangeListener mExpandListener;
+            private OnTransitionChangeListener mCollapseListener;
 
             public TestFrameTransition ( FrameLayout frameLayout ) {
 
@@ -126,16 +126,7 @@ public class FullTestActivity extends AppCompatActivity {
              */
             private void collapse ( ) {
 
-                  mAnimator = TransitionFactory.makeChangeBoundsAnimator(
-                      mFrameLayout,
-                      0,
-                      mViewRect.rootTopStart,
-                      mFrameLayout.getRight(),
-                      mFrameLayout.getBottom(),
-                      mCollapseListener
-                  );
 
-                  mAnimator.start();
             }
 
             /**
@@ -143,16 +134,6 @@ public class FullTestActivity extends AppCompatActivity {
              */
             private void expand ( ) {
 
-                  mAnimator = TransitionFactory.makeChangeBoundsAnimator(
-                      mFrameLayout,
-                      0,
-                      0,
-                      mFrameLayout.getRight(),
-                      mFrameLayout.getBottom(),
-                      mExpandListener
-                  );
-
-                  mAnimator.start();
             }
 
             /**
@@ -212,7 +193,7 @@ public class FullTestActivity extends AppCompatActivity {
             /**
              * 执行子view展开动画
              */
-            private class ExpandTransitionListener implements TransitionFactory.OnTransitionChangeListener {
+            private class ExpandTransitionListener implements OnTransitionChangeListener {
 
                   private TransitionEvaluator mTestTextEvaluator;
                   private TranslateEvaluator  mTestTransitionTranslateEvaluator;
@@ -334,7 +315,7 @@ public class FullTestActivity extends AppCompatActivity {
             /**
              * 执行子view折叠动画
              */
-            private class CollapseTransitionListener implements TransitionFactory.OnTransitionChangeListener {
+            private class CollapseTransitionListener implements OnTransitionChangeListener {
 
                   private TransitionEvaluator mTestTextEvaluator;
                   private TranslateEvaluator  mTestTransitionTranslateEvaluator;

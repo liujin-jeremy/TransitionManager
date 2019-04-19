@@ -17,79 +17,70 @@ import tech.threekilogram.transition.impl.SegmentFractionEvaluator;
  */
 public class SceneActivity extends AppCompatActivity {
 
-    public static void start(Context context) {
+      public static void start ( Context context ) {
 
-        Intent starter = new Intent(context, SceneActivity.class);
-        context.startActivity(starter);
-    }
+            Intent starter = new Intent( context, SceneActivity.class );
+            context.startActivity( starter );
+      }
 
+      protected FrameLayout mRoot;
+      protected FrameLayout mScene;
+      private   SceneManager mSceneManager;
 
-    protected FrameLayout  mRoot;
-    protected FrameLayout  mScene;
-    private   SceneManager mSceneManager;
+      @Override
+      protected void onCreate ( Bundle savedInstanceState ) {
 
+            super.onCreate( savedInstanceState );
+            super.setContentView( R.layout.activity_scene );
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+            initView();
+      }
 
-        super.onCreate(savedInstanceState);
-        super.setContentView(R.layout.activity_scene);
+      private void initView ( ) {
 
-        initView();
-    }
+            mRoot = (FrameLayout) findViewById( R.id.root );
+            mScene = (FrameLayout) findViewById( R.id.scene );
 
+            mRoot.post( new Runnable() {
 
-    private void initView() {
+                  @Override
+                  public void run ( ) {
 
-        mRoot = (FrameLayout) findViewById(R.id.root);
-        mScene = (FrameLayout) findViewById(R.id.scene);
+                        mSceneManager = new SceneManager(
+                            mScene,
+                            0,
+                            0,
+                            mRoot.getWidth(),
+                            mRoot.getBottom(),
+                            R.layout.scene_test_1
+                        );
 
-        mRoot.post(new Runnable() {
-            @Override
-            public void run() {
+                        Evaluator evaluator01 = mSceneManager.getChildEvaluator( R.id.view02 );
+                        DelayEvaluator delayEvaluator = new DelayEvaluator( evaluator01, 1000 );
+                        mSceneManager.updateChildEvaluator( R.id.view02, delayEvaluator );
 
-                mSceneManager = new SceneManager(
-                        mScene,
-                        0,
-                        0,
-                        mRoot.getWidth(),
-                        mRoot.getBottom(),
-                        R.layout.scene_test_1
-                );
+                        Evaluator evaluator1 = mSceneManager.getChildEvaluator( R.id.view03 );
+                        SegmentFractionEvaluator fractionEvaluator = new SegmentFractionEvaluator( evaluator1, 0.4f,
+                                                                                                   0.9f
+                        );
+                        mSceneManager.updateChildEvaluator( R.id.view03, fractionEvaluator );
+                  }
+            } );
 
-                Evaluator evaluator01 = mSceneManager.getChildEvaluator(R.id.view02);
-                DelayEvaluator delayEvaluator = new DelayEvaluator(evaluator01, 1000);
-                mSceneManager.updateChildEvaluator(R.id.view02, delayEvaluator);
+            mScene.setOnClickListener( new View.OnClickListener() {
 
-                Evaluator evaluator1 = mSceneManager.getChildEvaluator(R.id.view03);
-                SegmentFractionEvaluator fractionEvaluator = new SegmentFractionEvaluator(evaluator1, 0.4f,
-                        0.9f);
-                mSceneManager.updateChildEvaluator(R.id.view03, fractionEvaluator);
-            }
-        });
+                  private Animator start;
+                  private Animator end;
 
-        mScene.setOnClickListener(new View.OnClickListener() {
+                  @Override
+                  public void onClick ( View v ) {
 
-            private Animator start;
-            private Animator end;
+                        if( mSceneManager.isCurrentSceneEnd() ) {
 
+                        } else {
 
-            @Override
-            public void onClick(View v) {
-
-                if (mSceneManager.isCurrentSceneEnd()) {
-
-                    start = mSceneManager.createSceneBeginAnimator();
-                    start.setDuration(3000);
-                    start.start();
-
-                } else {
-
-                    end = mSceneManager.createSceneEndAnimator();
-                    end.setDuration(3000);
-                    end.start();
-                }
-            }
-        });
-    }
+                        }
+                  }
+            } );
+      }
 }
