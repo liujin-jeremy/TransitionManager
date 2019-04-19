@@ -6,7 +6,7 @@ package tech.threekilogram.transition.impl;
 
 import android.view.View;
 import tech.threekilogram.transition.Evaluator;
-import tech.threekilogram.transition.TransitionFactory;
+import tech.threekilogram.transition.Measure;
 import tech.threekilogram.transition.ViewVisionState;
 
 /**
@@ -98,7 +98,7 @@ public class TransitionEvaluator implements Evaluator {
 
             if( isRemeasureWhenFractionChanged ) {
 
-                  TransitionFactory.remeasureViewWithExactSpec(
+                  Measure.remeasureViewWithExactSpec(
                       mView,
                       Math.abs( right - left ),
                       Math.abs( bottom - top )

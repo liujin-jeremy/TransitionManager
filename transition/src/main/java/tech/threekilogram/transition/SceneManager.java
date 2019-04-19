@@ -12,7 +12,7 @@ import tech.threekilogram.transition.impl.TransitionEvaluator;
 
 /**
  * 根据view在不同布局中的显示状态（位置，角度，alpha）创建场景动画
- *
+ * <p>
  * create scene transition
  *
  * @author wuxio 2018-06-24:16:02
@@ -61,16 +61,16 @@ public class SceneManager {
 
       /**
        * @param sceneToChange this is beginScene, it's child could change visionState to visionState
-       * defined by {@code layoutEndSceneID}
+       *     defined by {@code layoutEndSceneID}
        * @param layoutEndSceneID end scene will inflate from this layout, end scene decide child in
-       * begin scene's end vision state
-       * <p>
-       * note : {@code sceneToChange} must layout finished
-       * <p>
-       * note : the two scene must has same children, only children's visionState different and
-       * scene size different
+       *     begin scene's end vision state
+       *     <p>
+       *     note : {@code sceneToChange} must layout finished
+       *     <p>
+       *     note : the two scene must has same children, only children's visionState different and
+       *     scene size different
        */
-      public SceneManager (ViewGroup sceneToChange, @LayoutRes int layoutEndSceneID) {
+      public SceneManager ( ViewGroup sceneToChange, @LayoutRes int layoutEndSceneID ) {
 
             mSceneToChange = sceneToChange;
 
@@ -79,28 +79,28 @@ public class SceneManager {
             int right = sceneToChange.getRight();
             int bottom = sceneToChange.getBottom();
 
-            LayoutInflater inflater = LayoutInflater.from(mSceneToChange.getContext());
-            ViewGroup sceneEnd = (ViewGroup) inflater.inflate(layoutEndSceneID, null);
+            LayoutInflater inflater = LayoutInflater.from( mSceneToChange.getContext() );
+            ViewGroup sceneEnd = (ViewGroup) inflater.inflate( layoutEndSceneID, null );
 
-            measureAndLayoutSceneFromInflate(sceneEnd, right - left, bottom - top);
-            createChildrenEvaluator(sceneToChange, sceneEnd);
+            measureAndLayoutSceneFromInflate( sceneEnd, right - left, bottom - top );
+            createChildrenEvaluator( sceneToChange, sceneEnd );
 
-            mBeginSceneVision = new ViewVisionState(sceneToChange);
-            mEndSceneVision = new ViewVisionState(sceneEnd);
+            mBeginSceneVision = new ViewVisionState( sceneToChange );
+            mEndSceneVision = new ViewVisionState( sceneEnd );
       }
 
       /**
        * @param sceneToChange this is beginScene, it's child could change visionState to visionState
-       * defined by {@code layoutEndSceneID}
+       *     defined by {@code layoutEndSceneID}
        * @param sceneEnd this is end scene , end scene decide child in begin scene's end vision
-       * state
-       * <p>
-       * note : {@code sceneToChange} must layout finished
-       * <p>
-       * note : the two scene must has same children, only children's visionState different and
-       * scene size different
+       *     state
+       *     <p>
+       *     note : {@code sceneToChange} must layout finished
+       *     <p>
+       *     note : the two scene must has same children, only children's visionState different and
+       *     scene size different
        */
-      public SceneManager (ViewGroup sceneToChange, ViewGroup sceneEnd) {
+      public SceneManager ( ViewGroup sceneToChange, ViewGroup sceneEnd ) {
 
             mSceneToChange = sceneToChange;
 
@@ -109,27 +109,27 @@ public class SceneManager {
             int right = sceneToChange.getRight();
             int bottom = sceneToChange.getBottom();
 
-            measureAndLayoutSceneFromInflate(sceneEnd, right - left, bottom - top);
-            createChildrenEvaluator(sceneToChange, sceneEnd);
+            measureAndLayoutSceneFromInflate( sceneEnd, right - left, bottom - top );
+            createChildrenEvaluator( sceneToChange, sceneEnd );
 
-            mBeginSceneVision = new ViewVisionState(sceneToChange);
-            mEndSceneVision = new ViewVisionState(sceneEnd);
+            mBeginSceneVision = new ViewVisionState( sceneToChange );
+            mEndSceneVision = new ViewVisionState( sceneEnd );
       }
 
       /**
        * @param sceneToChange this is beginScene, it's child could change visionState to visionState
-       * defined by {@code layoutEndSceneID}
+       *     defined by {@code layoutEndSceneID}
        * @param sceneEndLeft this decide beginScene's left when at endState
        * @param sceneEndTop this decide beginScene's top when at endState
        * @param sceneEndRight this decide beginScene's right when at endState
        * @param sceneEndBottom this decide beginScene's bottom when at endState
        * @param layoutEndSceneID end scene will inflate from this layout, end scene decide child in
-       * begin scene's end vision state
-       * <p>
-       * note : {@code sceneToChange} must layout finished
-       * <p>
-       * note : the two scene must has same children, only children's visionState different and
-       * scene size different
+       *     begin scene's end vision state
+       *     <p>
+       *     note : {@code sceneToChange} must layout finished
+       *     <p>
+       *     note : the two scene must has same children, only children's visionState different and
+       *     scene size different
        */
       public SceneManager (
           final ViewGroup sceneToChange,
@@ -137,37 +137,37 @@ public class SceneManager {
           int sceneEndTop,
           int sceneEndRight,
           int sceneEndBottom,
-          @LayoutRes int layoutEndSceneID) {
+          @LayoutRes int layoutEndSceneID ) {
 
             mSceneToChange = sceneToChange;
 
-            LayoutInflater inflater = LayoutInflater.from(mSceneToChange.getContext());
-            ViewGroup sceneEnd = (ViewGroup) inflater.inflate(layoutEndSceneID, null);
+            LayoutInflater inflater = LayoutInflater.from( mSceneToChange.getContext() );
+            ViewGroup sceneEnd = (ViewGroup) inflater.inflate( layoutEndSceneID, null );
 
             measureAndLayoutSceneFromInflate(
                 sceneEnd,
                 sceneEndRight - sceneEndLeft,
                 sceneEndBottom - sceneEndTop
             );
-            createChildrenEvaluator(sceneToChange, sceneEnd);
+            createChildrenEvaluator( sceneToChange, sceneEnd );
 
-            mBeginSceneVision = new ViewVisionState(sceneToChange);
-            mEndSceneVision = new ViewVisionState(sceneEnd);
+            mBeginSceneVision = new ViewVisionState( sceneToChange );
+            mEndSceneVision = new ViewVisionState( sceneEnd );
       }
 
       /**
        * @param sceneToChange this is beginScene, it's child could change visionState to visionState
-       * defined by {@code layoutEndSceneID}
+       *     defined by {@code layoutEndSceneID}
        * @param sceneEndLeft this decide beginScene's left when at endState
        * @param sceneEndTop this decide beginScene's top when at endState
        * @param sceneEndRight this decide beginScene's right when at endState
        * @param sceneEndBottom this decide beginScene's bottom when at endState
        * @param sceneEnd end scene ； end scene decide child in begin scene's end vision state
-       * <p>
-       * note : {@code sceneToChange} must layout finished
-       * <p>
-       * note : the two scene must has same children, only children's visionState different and
-       * scene size different
+       *     <p>
+       *     note : {@code sceneToChange} must layout finished
+       *     <p>
+       *     note : the two scene must has same children, only children's visionState different and
+       *     scene size different
        */
       public SceneManager (
           final ViewGroup sceneToChange,
@@ -175,7 +175,7 @@ public class SceneManager {
           int sceneEndTop,
           int sceneEndRight,
           int sceneEndBottom,
-          ViewGroup sceneEnd) {
+          ViewGroup sceneEnd ) {
 
             mSceneToChange = sceneToChange;
 
@@ -184,10 +184,10 @@ public class SceneManager {
                 sceneEndRight - sceneEndLeft,
                 sceneEndBottom - sceneEndTop
             );
-            createChildrenEvaluator(sceneToChange, sceneEnd);
+            createChildrenEvaluator( sceneToChange, sceneEnd );
 
-            mBeginSceneVision = new ViewVisionState(sceneToChange);
-            mEndSceneVision = new ViewVisionState(sceneEnd);
+            mBeginSceneVision = new ViewVisionState( sceneToChange );
+            mEndSceneVision = new ViewVisionState( sceneEnd );
       }
 
       /**
@@ -198,14 +198,14 @@ public class SceneManager {
        * @param width use this to measure scene
        * @param height use this to measure scene
        */
-      private void measureAndLayoutSceneFromInflate (ViewGroup scene, int width, int height) {
+      private void measureAndLayoutSceneFromInflate ( ViewGroup scene, int width, int height ) {
 
-            int widthSpec = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY);
-            int heightSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
+            int widthSpec = MeasureSpec.makeMeasureSpec( width, MeasureSpec.EXACTLY );
+            int heightSpec = MeasureSpec.makeMeasureSpec( height, MeasureSpec.EXACTLY );
 
-            scene.measure(widthSpec, heightSpec);
+            scene.measure( widthSpec, heightSpec );
 
-            scene.layout(0, 0, scene.getMeasuredWidth(), scene.getMeasuredHeight());
+            scene.layout( 0, 0, scene.getMeasuredWidth(), scene.getMeasuredHeight() );
       }
 
       /**
@@ -217,17 +217,17 @@ public class SceneManager {
       @SuppressWarnings("UnnecessaryLocalVariable")
       private void createChildrenEvaluator (
           ViewGroup from,
-          ViewGroup to) {
+          ViewGroup to ) {
 
             int count = from.getChildCount();
 
-            for(int i = 0; i < count; i++) {
+            for( int i = 0; i < count; i++ ) {
 
-                  View childAtBeginScene = from.getChildAt(i);
+                  View childAtBeginScene = from.getChildAt( i );
                   int childId = childAtBeginScene.getId();
-                  View childAtEndScene = to.findViewById(childId);
+                  View childAtEndScene = to.findViewById( childId );
 
-                  if(childAtEndScene != null) {
+                  if( childAtEndScene != null ) {
 
                         TransitionEvaluator transitionEvaluator = new TransitionEvaluator(
                             childAtBeginScene,
@@ -237,12 +237,12 @@ public class SceneManager {
                             childAtEndScene.getBottom()
                         );
 
-                        addEvaluatorOfChildToList(transitionEvaluator);
+                        addEvaluatorOfChildToList( transitionEvaluator );
 
                         /* if childAtBeginScene is viewGroup compare it's children with child find from scene provideVisionState */
 
-                        if(childAtEndScene instanceof ViewGroup
-                            && childAtBeginScene instanceof ViewGroup) {
+                        if( childAtEndScene instanceof ViewGroup
+                            && childAtBeginScene instanceof ViewGroup ) {
 
                               createChildrenEvaluator(
                                   (ViewGroup) childAtBeginScene,
@@ -250,9 +250,9 @@ public class SceneManager {
                               );
                         }
 
-                        remeasure0SizeViewInBeginScene(childAtBeginScene, childAtEndScene);
+                        remeasure0SizeViewInBeginScene( childAtBeginScene, childAtEndScene );
                         /* remove the compared view to short find view time */
-                        to.removeView(childAtEndScene);
+                        to.removeView( childAtEndScene );
                   }
             }
       }
@@ -261,11 +261,11 @@ public class SceneManager {
        * if view in begin Scene is 0 size(width && height is 0),measure it with size defined at end
        * scene
        */
-      private void remeasure0SizeViewInBeginScene (View beginChild, View childById) {
+      private void remeasure0SizeViewInBeginScene ( View beginChild, View childById ) {
 
-            if(beginChild.getMeasuredWidth() == 0 && beginChild.getMeasuredHeight() == 0) {
+            if( beginChild.getMeasuredWidth() == 0 && beginChild.getMeasuredHeight() == 0 ) {
 
-                  TransitionFactory.remeasureViewWithExactSpec(
+                  Measure.remeasureViewWithExactSpec(
                       beginChild,
                       childById.getRight() - childById.getLeft(),
                       childById.getBottom() - childById.getTop()
@@ -276,14 +276,14 @@ public class SceneManager {
       /**
        * add the views evaluator to list
        */
-      private void addEvaluatorOfChildToList (Evaluator evaluator) {
+      private void addEvaluatorOfChildToList ( Evaluator evaluator ) {
 
-            if(mEvaluatorsOfViewInBoth == null) {
+            if( mEvaluatorsOfViewInBoth == null ) {
 
                   mEvaluatorsOfViewInBoth = new ArrayList<>();
             }
 
-            mEvaluatorsOfViewInBoth.add(evaluator);
+            mEvaluatorsOfViewInBoth.add( evaluator );
       }
 
       /**
@@ -293,18 +293,18 @@ public class SceneManager {
        *
        * @return child evaluator
        */
-      public Evaluator getChildEvaluator (@IdRes int childId) {
+      public Evaluator getChildEvaluator ( @IdRes int childId ) {
 
             ArrayList<Evaluator> evaluators = mEvaluatorsOfViewInBoth;
 
-            if(evaluators != null) {
+            if( evaluators != null ) {
 
                   int size = evaluators.size();
-                  for(int i = 0; i < size; i++) {
+                  for( int i = 0; i < size; i++ ) {
 
-                        Evaluator evaluator = evaluators.get(i);
+                        Evaluator evaluator = evaluators.get( i );
 
-                        if(evaluator.getTarget().getId() == childId) {
+                        if( evaluator.getTarget().getId() == childId ) {
                               return evaluator;
                         }
                   }
@@ -320,20 +320,20 @@ public class SceneManager {
        *
        * @return child evaluator
        */
-      public void updateChildEvaluator (@IdRes int childId, Evaluator evaluator) {
+      public void updateChildEvaluator ( @IdRes int childId, Evaluator evaluator ) {
 
             ArrayList<Evaluator> evaluators = mEvaluatorsOfViewInBoth;
 
-            if(evaluators != null) {
+            if( evaluators != null ) {
 
                   int size = evaluators.size();
-                  for(int i = 0; i < size; i++) {
+                  for( int i = 0; i < size; i++ ) {
 
-                        Evaluator temp = evaluators.get(i);
+                        Evaluator temp = evaluators.get( i );
 
-                        if(temp.getTarget().getId() == childId) {
+                        if( temp.getTarget().getId() == childId ) {
 
-                              evaluators.set(i, evaluator);
+                              evaluators.set( i, evaluator );
                         }
                   }
             }
@@ -344,177 +344,83 @@ public class SceneManager {
        *
        * @param fraction new fraction
        */
-      private void notifyAllEvaluatorFractionUpdate (float fraction) {
+      private void notifyAllEvaluatorFractionUpdate ( float fraction ) {
 
             ArrayList<Evaluator> temp = mEvaluatorsOfViewInBoth;
 
-            if(temp != null) {
+            if( temp != null ) {
 
                   /* update all evaluator's fraction */
 
                   int size = temp.size();
-                  for(int i = 0; i < size; i++) {
+                  for( int i = 0; i < size; i++ ) {
 
-                        Evaluator evaluator = temp.get(i);
+                        Evaluator evaluator = temp.get( i );
 
-                        if(isCurrentSceneEnd) {
+                        if( isCurrentSceneEnd ) {
 
-                              evaluator.setFraction(fraction);
+                              evaluator.setFraction( fraction );
                         } else {
 
-                              evaluator.setFraction(1 - fraction);
+                              evaluator.setFraction( 1 - fraction );
                         }
                   }
             }
       }
 
       /**
-       * change scene with animator
-       *
-       * @return true : changed to end scene
-       */
-      public boolean changeScene () {
-
-            if(isCurrentSceneEnd) {
-
-                  createSceneBeginAnimator().start();
-            } else {
-
-                  createSceneEndAnimator().start();
-            }
-
-            return isCurrentSceneEnd;
-      }
-
-      /**
-       * change current scene to end with animator
-       */
-      public void changeSceneToEnd () {
-
-            if(!isCurrentSceneEnd) {
-                  createSceneEndAnimator().start();
-            }
-      }
-
-      /**
-       * change current scene to begin with animator
-       */
-      public void changeSceneToBegin () {
-
-            if(isCurrentSceneEnd) {
-                  createSceneBeginAnimator().start();
-            }
-      }
-
-      /**
        * change current scene to end immediately, with out animator
        */
-      public void setSceneToEnd () {
+      public void setSceneToEnd ( ) {
 
-            if(!isCurrentSceneEnd) {
+            if( !isCurrentSceneEnd ) {
                   isCurrentSceneEnd = true;
 
                   /* change scene self */
 
                   TransitionEvaluator transitionEvaluator =
-                      new TransitionEvaluator(mSceneToChange, mEndSceneVision);
+                      new TransitionEvaluator( mSceneToChange, mEndSceneVision );
 
-                  transitionEvaluator.setFraction(1);
+                  transitionEvaluator.setFraction( 1 );
 
                   /* change children in beginScene */
 
-                  notifyAllEvaluatorFractionUpdate(1);
+                  notifyAllEvaluatorFractionUpdate( 1 );
             }
       }
 
       /**
        * change current scene to begin immediately, with out animator
        */
-      public void setSceneToBegin () {
+      public void setSceneToBegin ( ) {
 
-            if(isCurrentSceneEnd) {
+            if( isCurrentSceneEnd ) {
                   isCurrentSceneEnd = false;
 
                   /* change scene self */
 
                   TransitionEvaluator transitionEvaluator =
-                      new TransitionEvaluator(mSceneToChange, mBeginSceneVision);
-                  transitionEvaluator.setFraction(1);
+                      new TransitionEvaluator( mSceneToChange, mBeginSceneVision );
+                  transitionEvaluator.setFraction( 1 );
 
                   /* change children in beginScene */
 
-                  notifyAllEvaluatorFractionUpdate(1);
+                  notifyAllEvaluatorFractionUpdate( 1 );
             }
       }
 
       /**
        * @return true : current is in sceneEnd, false : current is in scene begin
        */
-      public boolean isCurrentSceneEnd () {
+      public boolean isCurrentSceneEnd ( ) {
 
             return isCurrentSceneEnd;
       }
 
       /**
-       * get the animator that could change scene to end
-       *
-       * @return animator
-       */
-      public Animator createSceneEndAnimator () {
-
-            isCurrentSceneEnd = true;
-
-            if(mSceneAnimator != null && mSceneAnimator.isRunning()) {
-
-                  mSceneAnimator.cancel();
-            }
-
-            if(mUpdateListener == null) {
-                  mUpdateListener = new OnSceneUpdateListener();
-            }
-
-            mSceneAnimator = TransitionFactory.makeAnimator(
-                mSceneToChange,
-                mBeginSceneVision,
-                mEndSceneVision,
-                mUpdateListener
-            );
-
-            return mSceneAnimator;
-      }
-
-      /**
-       * get the animator that could change scene to end
-       *
-       * @return animator
-       */
-      public Animator createSceneBeginAnimator () {
-
-            isCurrentSceneEnd = false;
-
-            if(mSceneAnimator != null && mSceneAnimator.isRunning()) {
-
-                  mSceneAnimator.cancel();
-            }
-
-            if(mUpdateListener == null) {
-                  mUpdateListener = new OnSceneUpdateListener();
-            }
-
-            mSceneAnimator = TransitionFactory.makeAnimator(
-                mSceneToChange,
-                mEndSceneVision,
-                mBeginSceneVision,
-                mUpdateListener
-            );
-
-            return mSceneAnimator;
-      }
-
-      /**
        * use this to set children evaluator fraction,when Scene animator is running
        */
-      private class OnSceneUpdateListener implements TransitionFactory.OnTransitionChangeListener {
+      private class OnSceneUpdateListener implements OnTransitionChangeListener {
 
             @Override
             public void onChange (
@@ -525,9 +431,38 @@ public class SceneManager {
                 int right,
                 int bottom,
                 float rotation,
-                float alpha) {
+                float alpha ) {
 
-                  notifyAllEvaluatorFractionUpdate(fraction);
+                  notifyAllEvaluatorFractionUpdate( fraction );
             }
+      }
+
+      /**
+       * @author wuxio 2018-06-22:10:39
+       */
+      public interface OnTransitionChangeListener {
+
+            /**
+             * 监听view 变化过程
+             *
+             * @param view view
+             * @param fraction 当前进度
+             * @param left 当前left
+             * @param top 当前top
+             * @param right 当前right
+             * @param bottom 当前bottom
+             * @param rotation 当前rotation
+             * @param alpha 当前alpha
+             */
+            void onChange (
+                View view,
+                float fraction,
+                int left,
+                int top,
+                int right,
+                int bottom,
+                float rotation,
+                float alpha
+            );
       }
 }
