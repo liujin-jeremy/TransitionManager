@@ -24,4 +24,8 @@
         <item name="android:windowExitAnimation">@anim/slide_to_bottom</item>
     </style>
 
+      <style name="Progress" parent="AppTheme">
+            <item name="colorAccent">@color/gold</item>
+      </style>
+
 </resources>

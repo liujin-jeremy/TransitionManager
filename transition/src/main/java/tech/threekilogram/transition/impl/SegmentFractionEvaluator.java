@@ -1,4 +1,4 @@
-package tech.threekilogram.transition.scene;
+package tech.threekilogram.transition.impl;
 
 import android.support.annotation.FloatRange;
 import android.view.View;

@@ -1,4 +1,4 @@
-package tech.threekilogram.transition.scene;
+package tech.threekilogram.transition.impl;
 
 import android.view.View;
 import tech.threekilogram.transition.Evaluator;

@@ -31,7 +31,7 @@ public class TransitionFactory {
        */
       public static Animator makeChangeBoundsAnimator (
           @NonNull View view,
-          Rect rectEnd) {
+          Rect rectEnd ) {
 
             return makeChangeBoundsAnimator(
                 view,
@@ -55,7 +55,7 @@ public class TransitionFactory {
       public static Animator makeChangeBoundsAnimator (
           @NonNull View view,
           Rect rectEnd,
-          OnTransitionChangeListener listener) {
+          OnTransitionChangeListener listener ) {
 
             return makeChangeBoundsAnimator(
                 view,
@@ -79,7 +79,7 @@ public class TransitionFactory {
       public static Animator makeChangeBoundsAnimator (
           @NonNull View view,
           Rect rectEnd,
-          boolean remeasureView) {
+          boolean remeasureView ) {
 
             return makeChangeBoundsAnimator(
                 view,
@@ -106,7 +106,7 @@ public class TransitionFactory {
           @NonNull View view,
           Rect rectEnd,
           OnTransitionChangeListener listener,
-          boolean remeasureView) {
+          boolean remeasureView ) {
 
             return makeChangeBoundsAnimator(
                 view,
@@ -135,7 +135,7 @@ public class TransitionFactory {
           int leftEnd,
           int topEnd,
           int rightEnd,
-          int bottomEnd) {
+          int bottomEnd ) {
 
             return makeChangeBoundsAnimator(
                 view,
@@ -165,7 +165,7 @@ public class TransitionFactory {
           int topEnd,
           int rightEnd,
           int bottomEnd,
-          boolean remeasureView) {
+          boolean remeasureView ) {
 
             return makeChangeBoundsAnimator(
                 view,
@@ -196,9 +196,9 @@ public class TransitionFactory {
           int topEnd,
           int rightEnd,
           int bottomEnd,
-          OnTransitionChangeListener listener) {
+          OnTransitionChangeListener listener ) {
 
-            ViewVisionState locationBegin = new ViewVisionState(view);
+            ViewVisionState locationBegin = new ViewVisionState( view );
 
             ViewVisionState locationEnd = new ViewVisionState(
                 leftEnd,
@@ -209,7 +209,7 @@ public class TransitionFactory {
                 view.getAlpha()
             );
 
-            return makeAnimator(view, locationBegin, locationEnd, listener);
+            return makeAnimator( view, locationBegin, locationEnd, listener );
       }
 
       /**
@@ -232,9 +232,9 @@ public class TransitionFactory {
           int rightEnd,
           int bottomEnd,
           OnTransitionChangeListener listener,
-          boolean remeasureView) {
+          boolean remeasureView ) {
 
-            ViewVisionState locationBegin = new ViewVisionState(view);
+            ViewVisionState locationBegin = new ViewVisionState( view );
 
             ViewVisionState locationEnd = new ViewVisionState(
                 leftEnd,
@@ -245,7 +245,7 @@ public class TransitionFactory {
                 view.getAlpha()
             );
 
-            return makeAnimator(view, locationBegin, locationEnd, listener, remeasureView);
+            return makeAnimator( view, locationBegin, locationEnd, listener, remeasureView );
       }
 
       /**
@@ -258,9 +258,9 @@ public class TransitionFactory {
        */
       public static Animator makeChangeAnimator (
           @NonNull View view,
-          ViewVisionState visionStateEnd) {
+          ViewVisionState visionStateEnd ) {
 
-            return makeChangeAnimator(view, visionStateEnd, null);
+            return makeChangeAnimator( view, visionStateEnd, null );
       }
 
       /**
@@ -275,9 +275,9 @@ public class TransitionFactory {
       public static Animator makeChangeAnimator (
           @NonNull View view,
           ViewVisionState visionStateEnd,
-          boolean remeasureView) {
+          boolean remeasureView ) {
 
-            return makeChangeAnimator(view, visionStateEnd, null, remeasureView);
+            return makeChangeAnimator( view, visionStateEnd, null, remeasureView );
       }
 
       /**
@@ -292,11 +292,11 @@ public class TransitionFactory {
       public static Animator makeChangeAnimator (
           @NonNull View view,
           ViewVisionState visionStateEnd,
-          OnTransitionChangeListener listener) {
+          OnTransitionChangeListener listener ) {
 
-            ViewVisionState locationBegin = new ViewVisionState(view);
+            ViewVisionState locationBegin = new ViewVisionState( view );
 
-            return makeAnimator(view, locationBegin, visionStateEnd, listener);
+            return makeAnimator( view, locationBegin, visionStateEnd, listener );
       }
 
       /**
@@ -313,11 +313,11 @@ public class TransitionFactory {
           @NonNull View view,
           ViewVisionState visionStateEnd,
           OnTransitionChangeListener listener,
-          boolean remeasureView) {
+          boolean remeasureView ) {
 
-            ViewVisionState locationBegin = new ViewVisionState(view);
+            ViewVisionState locationBegin = new ViewVisionState( view );
 
-            return makeAnimator(view, locationBegin, visionStateEnd, listener, remeasureView);
+            return makeAnimator( view, locationBegin, visionStateEnd, listener, remeasureView );
       }
 
       /**
@@ -332,9 +332,9 @@ public class TransitionFactory {
       public static Animator makeAnimator (
           @NonNull View view,
           ViewVisionState visionStateBegin,
-          ViewVisionState visionStateEnd) {
+          ViewVisionState visionStateEnd ) {
 
-            return makeAnimator(view, visionStateBegin, visionStateEnd, null);
+            return makeAnimator( view, visionStateBegin, visionStateEnd, null );
       }
 
       /**
@@ -351,9 +351,9 @@ public class TransitionFactory {
           @NonNull View view,
           ViewVisionState visionStateBegin,
           ViewVisionState visionStateEnd,
-          boolean remeasureView) {
+          boolean remeasureView ) {
 
-            return makeAnimator(view, visionStateBegin, visionStateEnd, null, remeasureView);
+            return makeAnimator( view, visionStateBegin, visionStateEnd, null, remeasureView );
       }
 
       /**
@@ -370,7 +370,7 @@ public class TransitionFactory {
           @NonNull View view,
           ViewVisionState visionStateBegin,
           ViewVisionState visionStateEnd,
-          OnTransitionChangeListener listener) {
+          OnTransitionChangeListener listener ) {
 
             return makeAnimator(
                 view,
@@ -397,15 +397,15 @@ public class TransitionFactory {
           ViewVisionState visionStateBegin,
           ViewVisionState visionStateEnd,
           OnTransitionChangeListener listener,
-          boolean remeasureView) {
+          boolean remeasureView ) {
 
             ValueAnimator animator = ValueAnimator.ofObject(
-                new ViewVisionStateEvaluator(view, visionStateBegin, listener, remeasureView),
+                new ViewVisionStateEvaluator( view, visionStateBegin, listener, remeasureView ),
                 visionStateBegin,
                 visionStateEnd
             );
 
-            animator.addUpdateListener(mAnimatorUpdateListener);
+            animator.addUpdateListener( mAnimatorUpdateListener );
             return animator;
       }
 
@@ -419,9 +419,9 @@ public class TransitionFactory {
        */
       public static Animator makeSetAnimator (
           @NonNull View view,
-          ViewVisionState... visionStates) {
+          ViewVisionState... visionStates ) {
 
-            return makeSetAnimator(view, null, false, visionStates);
+            return makeSetAnimator( view, null, false, visionStates );
       }
 
       /**
@@ -436,9 +436,9 @@ public class TransitionFactory {
       public static Animator makeSetAnimator (
           @NonNull View view,
           boolean remeasureView,
-          ViewVisionState... visionStates) {
+          ViewVisionState... visionStates ) {
 
-            return makeSetAnimator(view, null, remeasureView, visionStates);
+            return makeSetAnimator( view, null, remeasureView, visionStates );
       }
 
       /**
@@ -453,9 +453,9 @@ public class TransitionFactory {
       public static Animator makeSetAnimator (
           @NonNull View view,
           OnTransitionChangeListener listener,
-          ViewVisionState... visionStates) {
+          ViewVisionState... visionStates ) {
 
-            return makeSetAnimator(view, listener, false, visionStates);
+            return makeSetAnimator( view, listener, false, visionStates );
       }
 
       /**
@@ -472,14 +472,14 @@ public class TransitionFactory {
           @NonNull View view,
           OnTransitionChangeListener listener,
           boolean remeasureView,
-          ViewVisionState... visionStates) {
+          ViewVisionState... visionStates ) {
 
             ValueAnimator animator = ValueAnimator.ofObject(
-                new ViewVisionStateEvaluator(view, visionStates[0], listener, remeasureView),
+                new ViewVisionStateEvaluator( view, visionStates[ 0 ], listener, remeasureView ),
                 (Object[]) visionStates
             );
 
-            animator.addUpdateListener(mAnimatorUpdateListener);
+            animator.addUpdateListener( mAnimatorUpdateListener );
             return animator;
       }
 
@@ -490,12 +490,12 @@ public class TransitionFactory {
        * @param width 新的宽度
        * @param height 新的高度
        */
-      public static void remeasureViewWithExactSpec (View view, int width, int height) {
+      public static void remeasureViewWithExactSpec ( View view, int width, int height ) {
 
-            int widthSpec = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY);
-            int heightSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
+            int widthSpec = MeasureSpec.makeMeasureSpec( width, MeasureSpec.EXACTLY );
+            int heightSpec = MeasureSpec.makeMeasureSpec( height, MeasureSpec.EXACTLY );
 
-            view.measure(widthSpec, heightSpec);
+            view.measure( widthSpec, heightSpec );
       }
 
       /**
@@ -505,12 +505,12 @@ public class TransitionFactory {
        * @param width 新的宽度
        * @param height 新的高度
        */
-      public static void remeasureViewWithAtMostSpec (View view, int width, int height) {
+      public static void remeasureViewWithAtMostSpec ( View view, int width, int height ) {
 
-            int widthSpec = MeasureSpec.makeMeasureSpec(width, MeasureSpec.AT_MOST);
-            int heightSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.AT_MOST);
+            int widthSpec = MeasureSpec.makeMeasureSpec( width, MeasureSpec.AT_MOST );
+            int heightSpec = MeasureSpec.makeMeasureSpec( height, MeasureSpec.AT_MOST );
 
-            view.measure(widthSpec, heightSpec);
+            view.measure( widthSpec, heightSpec );
       }
 
       /**
@@ -532,22 +532,22 @@ public class TransitionFactory {
             private ViewVisionStateEvaluator (
                 @NonNull View view,
                 ViewVisionState start,
-                OnTransitionChangeListener listener) {
+                OnTransitionChangeListener listener ) {
 
-                  this(view, start, listener, false);
+                  this( view, start, listener, false );
             }
 
             private ViewVisionStateEvaluator (
                 @NonNull View view,
                 ViewVisionState start,
                 OnTransitionChangeListener listener,
-                boolean remeasureView) {
+                boolean remeasureView ) {
 
-                  mViewRelayout = new ViewRelayout(view);
+                  mViewRelayout = new ViewRelayout( view );
                   mViewRelayout.onTransitionChangeListener = listener;
-                  mViewRelayout.setRemeasureWhenLayoutView(remeasureView);
+                  mViewRelayout.setRemeasureWhenLayoutView( remeasureView );
 
-                  mTemp = new ViewVisionStateResult(mViewRelayout);
+                  mTemp = new ViewVisionStateResult( mViewRelayout );
 
                   mTemp.left = start.left;
                   mTemp.top = start.top;
@@ -561,19 +561,19 @@ public class TransitionFactory {
             public ViewVisionState evaluate (
                 float fraction,
                 ViewVisionState startValue,
-                ViewVisionState endValue) {
+                ViewVisionState endValue ) {
 
                   /* 计算出当前的进度的值 */
 
-                  int left = (int) (startValue.left + (endValue.left - startValue.left) * fraction);
-                  int top = (int) (startValue.top + (endValue.top - startValue.top) * fraction);
-                  int right = (int) (startValue.right
-                      + (endValue.right - startValue.right) * fraction);
-                  int bottom = (int) (startValue.bottom
-                      + (endValue.bottom - startValue.bottom) * fraction);
+                  int left = (int) ( startValue.left + ( endValue.left - startValue.left ) * fraction );
+                  int top = (int) ( startValue.top + ( endValue.top - startValue.top ) * fraction );
+                  int right = (int) ( startValue.right
+                      + ( endValue.right - startValue.right ) * fraction );
+                  int bottom = (int) ( startValue.bottom
+                      + ( endValue.bottom - startValue.bottom ) * fraction );
                   float rotation =
-                      startValue.rotation + (endValue.rotation - startValue.rotation) * fraction;
-                  float alpha = startValue.alpha + (endValue.alpha - startValue.alpha) * fraction;
+                      startValue.rotation + ( endValue.rotation - startValue.rotation ) * fraction;
+                  float alpha = startValue.alpha + ( endValue.alpha - startValue.alpha ) * fraction;
 
                   /* 计算当前进度和上一个进度的值之间的差值 */
                   /* 使用差值移动:因为父布局移动时子布局同样会移动,使用差值,可以在父布局移动时修改子布局位置达到各自移动的效果 */
@@ -600,7 +600,7 @@ public class TransitionFactory {
 
       private static class ViewRelayout {
 
-            ViewRelayout (View view) {
+            ViewRelayout ( View view ) {
 
                   this.view = view;
             }
@@ -638,7 +638,7 @@ public class TransitionFactory {
              */
             boolean mRemeasureWhenLayoutView;
 
-            void setRemeasureWhenLayoutView (boolean remeasureWhenLayoutView) {
+            void setRemeasureWhenLayoutView ( boolean remeasureWhenLayoutView ) {
 
                   this.mRemeasureWhenLayoutView = remeasureWhenLayoutView;
             }
@@ -646,13 +646,12 @@ public class TransitionFactory {
             /**
              * {@link TransitionFactory.ViewLocationAnimatorUpdateListener} 每次更新时回调该方法,重新布局view
              */
-            void layoutView (float process) {
+            void layoutView ( float process ) {
 
                   /* 通过重新布局view的位置实现变化效果 */
                   /* 注意:进度变化时计算的是这个进度和上一个进度的差值,所以下面使用加法增加该差值
                    * 使用差值的原因参考 tech.threekilogram.transition.TransitionFactory.ViewLocationEvaluator 说明
                    * */
-
                   int leftNew = view.getLeft() + leftChanged;
                   int topNew = view.getTop() + topChanged;
                   int rightNew = view.getRight() + rightChanged;
@@ -660,7 +659,7 @@ public class TransitionFactory {
                   float rotation = view.getRotation() + this.rotationChanged;
                   float alpha = view.getAlpha() + this.alphaChanged;
 
-                  if(mRemeasureWhenLayoutView) {
+                  if( mRemeasureWhenLayoutView ) {
 
                         TransitionFactory.remeasureViewWithExactSpec(
                             view,
@@ -676,10 +675,10 @@ public class TransitionFactory {
                       bottomNew
                   );
 
-                  view.setRotation(rotation);
-                  view.setAlpha(alpha);
+                  view.setRotation( rotation );
+                  view.setAlpha( alpha );
 
-                  if(onTransitionChangeListener != null) {
+                  if( onTransitionChangeListener != null ) {
                         onTransitionChangeListener.onChange(
                             view,
                             process,
@@ -703,7 +702,7 @@ public class TransitionFactory {
 
             ViewRelayout viewRelayout;
 
-             ViewVisionStateResult (ViewRelayout viewRelayout) {
+            ViewVisionStateResult ( ViewRelayout viewRelayout ) {
 
                   this.viewRelayout = viewRelayout;
             }
@@ -716,12 +715,12 @@ public class TransitionFactory {
                                                               ValueAnimator.AnimatorUpdateListener {
 
             @Override
-            public void onAnimationUpdate (ValueAnimator animation) {
+            public void onAnimationUpdate ( ValueAnimator animation ) {
 
                   ViewVisionStateResult value =
                       (ViewVisionStateResult) animation.getAnimatedValue();
                   float fraction = animation.getAnimatedFraction();
-                  value.viewRelayout.layoutView(fraction);
+                  value.viewRelayout.layoutView( fraction );
             }
       }
 

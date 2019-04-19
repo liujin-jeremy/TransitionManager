@@ -1,70 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ExampleActivity">
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ExampleActivity">
 
-    <FrameLayout
-            android:id="@+id/testFrame"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_gravity="bottom"
-            android:background="@color/gainsboro">
+      <android.support.constraint.ConstraintLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content">
 
-        <TextView
-                android:id="@+id/testTransitionText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:background="@color/gold"
-                android:textSize="24sp"
-                android:text="transition"/>
+            <FrameLayout
+                android:id="@+id/translateContainer"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-                android:id="@+id/testTranslateText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="36dp"
-                android:gravity="center"
-                android:background="@color/gold"
-                android:textSize="24sp"
-                android:text="translate"/>
+                  <ImageView
+                      android:id="@+id/translateImage"
+                      android:layout_width="80dp"
+                      android:layout_height="80dp"
+                      android:background="@color/gold"
+                      android:src="@drawable/batman"/>
 
-        <TextView
-                android:id="@+id/testAlphaText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="136dp"
-                android:layout_marginLeft="136dp"
-                android:gravity="center"
-                android:background="@color/gold"
-                android:textSize="24sp"
-                android:text="alpha"/>
+                  <SeekBar
+                      android:id="@+id/translateSeek"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="bottom"
+                      android:theme="@style/Progress"/>
 
-        <TextView
-                android:id="@+id/testRotationText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:layout_marginEnd="36dp"
-                android:layout_marginRight="36dp"
-                android:gravity="center"
-                android:background="@color/gold"
-                android:textSize="24sp"
-                android:text="rotation"/>
+            </FrameLayout>
 
-        <TextView
-                android:id="@+id/testColorText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|bottom"
-                android:gravity="center"
-                android:background="@color/gold"
-                android:textSize="24sp"
-                android:text="color"/>
+            <FrameLayout
+                android:id="@+id/alphaContainer"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/translateContainer">
 
-    </FrameLayout>
+                  <ImageView
+                      android:id="@+id/alphaImage"
+                      android:layout_width="80dp"
+                      android:layout_height="80dp"
+                      android:layout_gravity="center|top"
+                      android:background="@color/gold"
+                      android:src="@drawable/batman"/>
 
-</FrameLayout>
+                  <SeekBar
+                      android:id="@+id/alphaSeek"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="bottom"
+                      android:theme="@style/Progress"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/colorContainer"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/alphaContainer">
+                  <ImageView
+                      android:id="@+id/colorImage"
+                      android:layout_width="80dp"
+                      android:layout_height="80dp"
+                      android:layout_gravity="center|top"
+                      android:background="@color/gold"
+                      android:src="@drawable/batman"/>
+
+                  <SeekBar
+                      android:id="@+id/colorSeek"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="bottom"
+                      android:theme="@style/Progress"/>
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/rotationContainer"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/colorContainer">
+
+                  <ImageView
+                      android:id="@+id/rotationImage"
+                      android:layout_width="80dp"
+                      android:layout_height="80dp"
+                      android:layout_gravity="center|top"
+                      android:background="@color/gold"
+                      android:src="@drawable/batman"/>
+
+                  <SeekBar
+                      android:id="@+id/rotationSeek"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="bottom"
+                      android:theme="@style/Progress"/>
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/transitionContainer"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rotationContainer">
+                  <ImageView
+                      android:id="@+id/transitionImage"
+                      android:layout_width="80dp"
+                      android:layout_height="80dp"
+                      android:background="@color/gold"
+                      android:src="@drawable/batman"/>
+
+                  <SeekBar
+                      android:id="@+id/transitionSeek"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="bottom"
+                      android:theme="@style/Progress"/>
+            </FrameLayout>
+
+      </android.support.constraint.ConstraintLayout>
+
+</android.support.v4.widget.NestedScrollView>

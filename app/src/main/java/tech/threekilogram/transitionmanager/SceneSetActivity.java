@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.FrameLayout;
-import tech.threekilogram.transition.scene.SceneManager;
+import tech.threekilogram.transition.SceneManager;
 
 /**
  * @author wuxio

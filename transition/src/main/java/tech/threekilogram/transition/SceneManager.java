@@ -1,4 +1,4 @@
-package tech.threekilogram.transition.scene;
+package tech.threekilogram.transition;
 
 import android.animation.Animator;
 import android.support.annotation.IdRes;
@@ -7,11 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
-
 import java.util.ArrayList;
-import tech.threekilogram.transition.Evaluator;
-import tech.threekilogram.transition.TransitionFactory;
-import tech.threekilogram.transition.ViewVisionState;
+import tech.threekilogram.transition.impl.TransitionEvaluator;
 
 /**
  * 根据view在不同布局中的显示状态（位置，角度，alpha）创建场景动画
