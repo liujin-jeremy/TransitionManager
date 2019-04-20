@@ -15,6 +15,9 @@ import tech.threekilogram.transition.impl.AlphaEvaluator;
 import tech.threekilogram.transition.impl.ColorEvaluator;
 import tech.threekilogram.transition.impl.ColorEvaluator.ColorApply;
 import tech.threekilogram.transition.impl.RotationEvaluator;
+import tech.threekilogram.transition.impl.RotationXEvaluator;
+import tech.threekilogram.transition.impl.RotationYEvaluator;
+import tech.threekilogram.transition.impl.SegmentFractionEvaluator;
 import tech.threekilogram.transition.impl.TransitionEvaluator;
 import tech.threekilogram.transition.impl.TranslateEvaluator;
 
@@ -35,6 +38,15 @@ public class ExampleActivity extends AppCompatActivity {
       private ImageView   mTransitionImage;
       private SeekBar     mTransitionSeek;
       private FrameLayout mTransitionContainer;
+      private ImageView   mSegmentImage;
+      private SeekBar     mSegmentSeek;
+      private FrameLayout mSegmentContainer;
+      private ImageView   mRotationXImage;
+      private SeekBar     mRotationXSeek;
+      private FrameLayout mRotationXContainer;
+      private ImageView   mRotationYImage;
+      private SeekBar     mRotationYSeek;
+      private FrameLayout mRotationYContainer;
 
       public static void start ( Context context ) {
 
@@ -72,6 +84,66 @@ public class ExampleActivity extends AppCompatActivity {
             mTransitionSeek = (SeekBar) findViewById( R.id.transitionSeek );
             mTransitionContainer = (FrameLayout) findViewById( R.id.transitionContainer );
             buildTransitionTest();
+            mSegmentImage = (ImageView) findViewById( R.id.segmentImage );
+            mSegmentSeek = (SeekBar) findViewById( R.id.segmentSeek );
+            mSegmentContainer = (FrameLayout) findViewById( R.id.segmentContainer );
+            buildSegmentTest();
+            mRotationXImage = (ImageView) findViewById( R.id.rotationXImage );
+            mRotationXSeek = (SeekBar) findViewById( R.id.rotationXSeek );
+            mRotationXContainer = (FrameLayout) findViewById( R.id.rotationXContainer );
+            buildRotationXTest();
+            mRotationYImage = (ImageView) findViewById( R.id.rotationYImage );
+            mRotationYSeek = (SeekBar) findViewById( R.id.rotationYSeek );
+            mRotationYContainer = (FrameLayout) findViewById( R.id.rotationYContainer );
+            buildRotationYTest();
+      }
+
+      private void buildRotationYTest ( ) {
+
+            final Evaluator evaluator = new RotationYEvaluator( mRotationYImage, 180 );
+            mRotationYSeek.setOnSeekBarChangeListener( new SimpleOnSeekBarChangeListener() {
+
+                  @Override
+                  public void onProgressChanged ( SeekBar seekBar, int progress, boolean fromUser ) {
+
+                        float v = progress * 1f / seekBar.getMax();
+                        evaluator.setFraction( v );
+                  }
+            } );
+      }
+
+      private void buildRotationXTest ( ) {
+
+            final Evaluator evaluator = new RotationXEvaluator( mRotationXImage, 180 );
+            mRotationXSeek.setOnSeekBarChangeListener( new SimpleOnSeekBarChangeListener() {
+
+                  @Override
+                  public void onProgressChanged ( SeekBar seekBar, int progress, boolean fromUser ) {
+
+                        float v = progress * 1f / seekBar.getMax();
+                        evaluator.setFraction( v );
+                  }
+            } );
+      }
+
+      private void buildSegmentTest ( ) {
+
+            Evaluator evaluator = new TranslateEvaluator(
+                mSegmentImage,
+                800,
+                150
+            );
+            final Evaluator segment = new SegmentFractionEvaluator( evaluator, 0.3f, 0.7f );
+
+            mSegmentSeek.setOnSeekBarChangeListener( new SimpleOnSeekBarChangeListener() {
+
+                  @Override
+                  public void onProgressChanged ( SeekBar seekBar, int progress, boolean fromUser ) {
+
+                        float v = progress * 1f / seekBar.getMax();
+                        segment.setFraction( v );
+                  }
+            } );
       }
 
       private void buildTransitionTest ( ) {

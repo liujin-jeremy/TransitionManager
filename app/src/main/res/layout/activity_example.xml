@@ -112,6 +112,58 @@
             </FrameLayout>
 
             <FrameLayout
+                android:id="@+id/rotationXContainer"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rotationContainer">
+
+                  <ImageView
+                      android:id="@+id/rotationXImage"
+                      android:layout_width="80dp"
+                      android:layout_height="80dp"
+                      android:layout_gravity="center|top"
+                      android:background="@color/gold"
+                      android:src="@drawable/batman"/>
+
+                  <SeekBar
+                      android:id="@+id/rotationXSeek"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="bottom"
+                      android:theme="@style/Progress"/>
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/rotationYContainer"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rotationXContainer">
+
+                  <ImageView
+                      android:id="@+id/rotationYImage"
+                      android:layout_width="80dp"
+                      android:layout_height="80dp"
+                      android:layout_gravity="center|top"
+                      android:background="@color/gold"
+                      android:src="@drawable/batman"/>
+
+                  <SeekBar
+                      android:id="@+id/rotationYSeek"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="bottom"
+                      android:theme="@style/Progress"/>
+            </FrameLayout>
+
+            <FrameLayout
                 android:id="@+id/transitionContainer"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
@@ -119,7 +171,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rotationContainer">
+                app:layout_constraintTop_toBottomOf="@+id/rotationYContainer">
                   <ImageView
                       android:id="@+id/transitionImage"
                       android:layout_width="80dp"
@@ -133,6 +185,31 @@
                       android:layout_height="wrap_content"
                       android:layout_gravity="bottom"
                       android:theme="@style/Progress"/>
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/segmentContainer"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/transitionContainer">
+
+                  <ImageView
+                      android:id="@+id/segmentImage"
+                      android:layout_width="80dp"
+                      android:layout_height="80dp"
+                      android:background="@color/gold"
+                      android:src="@drawable/batman"/>
+
+                  <SeekBar
+                      android:id="@+id/segmentSeek"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="bottom"
+                      android:theme="@style/Progress"/>
+
             </FrameLayout>
 
       </android.support.constraint.ConstraintLayout>
