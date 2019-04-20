@@ -3,13 +3,14 @@ package tech.threekilogram.transition.impl;
 import android.support.annotation.FloatRange;
 import android.view.View;
 import tech.threekilogram.transition.Evaluator;
+import tech.threekilogram.transition.WrapperEvaluator;
 
 /**
  * 将一段进度映射成另一段进度
  *
  * @author wuxio 2018-06-25:12:57
  */
-public class SegmentFractionEvaluator implements Evaluator {
+public class SegmentFractionEvaluator implements WrapperEvaluator {
 
       private Evaluator mEvaluatorActual;
 
@@ -22,7 +23,7 @@ public class SegmentFractionEvaluator implements Evaluator {
       public SegmentFractionEvaluator (
           Evaluator evaluatorActual,
           @FloatRange(from = 0, to = 1) float startFraction,
-          @FloatRange(from = 0, to = 1) float endFraction) {
+          @FloatRange(from = 0, to = 1) float endFraction ) {
 
             mEvaluatorActual = evaluatorActual;
             mStartFraction = startFraction;
@@ -30,34 +31,40 @@ public class SegmentFractionEvaluator implements Evaluator {
       }
 
       @Override
-      public void setFraction (float fraction) {
+      public void setFraction ( float fraction ) {
 
-            if(fraction < mStartFraction) {
+            if( fraction < mStartFraction ) {
 
-                  mEvaluatorActual.setFraction(0);
-            } else if(fraction >= mStartFraction && fraction <= mEndFraction) {
+                  mEvaluatorActual.setFraction( 0 );
+            } else if( fraction >= mStartFraction && fraction <= mEndFraction ) {
 
-                  fraction = (fraction - mStartFraction) / (mEndFraction - mStartFraction);
-                  mEvaluatorActual.setFraction(fraction);
+                  fraction = ( fraction - mStartFraction ) / ( mEndFraction - mStartFraction );
+                  mEvaluatorActual.setFraction( fraction );
             } else {
 
-                  mEvaluatorActual.setFraction(1);
+                  mEvaluatorActual.setFraction( 1 );
             }
       }
 
       @Override
-      public View getTarget () {
+      public View getTarget ( ) {
 
             return mEvaluatorActual.getTarget();
       }
 
-      public void setEndFraction (float endFraction) {
+      public void setEndFraction ( float endFraction ) {
 
             mEndFraction = endFraction;
       }
 
-      public void setStartFraction (float startFraction) {
+      public void setStartFraction ( float startFraction ) {
 
             mStartFraction = startFraction;
+      }
+
+      @Override
+      public Evaluator getActual ( ) {
+
+            return mEvaluatorActual;
       }
 }

@@ -14,6 +14,7 @@ import tech.threekilogram.transition.Evaluator;
 import tech.threekilogram.transition.impl.AlphaEvaluator;
 import tech.threekilogram.transition.impl.ColorEvaluator;
 import tech.threekilogram.transition.impl.ColorEvaluator.ColorApply;
+import tech.threekilogram.transition.impl.DelayEvaluator;
 import tech.threekilogram.transition.impl.RotationEvaluator;
 import tech.threekilogram.transition.impl.RotationXEvaluator;
 import tech.threekilogram.transition.impl.RotationYEvaluator;
@@ -47,6 +48,9 @@ public class ExampleActivity extends AppCompatActivity {
       private ImageView   mRotationYImage;
       private SeekBar     mRotationYSeek;
       private FrameLayout mRotationYContainer;
+      private ImageView   mDelayImage;
+      private SeekBar     mDelaySeek;
+      private FrameLayout mDelayContainer;
 
       public static void start ( Context context ) {
 
@@ -96,6 +100,25 @@ public class ExampleActivity extends AppCompatActivity {
             mRotationYSeek = (SeekBar) findViewById( R.id.rotationYSeek );
             mRotationYContainer = (FrameLayout) findViewById( R.id.rotationYContainer );
             buildRotationYTest();
+            mDelayImage = (ImageView) findViewById( R.id.delayImage );
+            mDelaySeek = (SeekBar) findViewById( R.id.delaySeek );
+            mDelayContainer = (FrameLayout) findViewById( R.id.delayContainer );
+            buildDelayTest();
+      }
+
+      private void buildDelayTest ( ) {
+
+            final Evaluator evaluator = new TranslateEvaluator( mDelayImage, 900, 0 );
+            final Evaluator delay = new DelayEvaluator( evaluator, 2000 );
+            mDelaySeek.setOnSeekBarChangeListener( new SimpleOnSeekBarChangeListener() {
+
+                  @Override
+                  public void onProgressChanged ( SeekBar seekBar, int progress, boolean fromUser ) {
+
+                        float v = progress * 1f / seekBar.getMax();
+                        delay.setFraction( v );
+                  }
+            } );
       }
 
       private void buildRotationYTest ( ) {

@@ -212,6 +212,31 @@
 
             </FrameLayout>
 
+            <FrameLayout
+                android:id="@+id/delayContainer"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/segmentContainer">
+
+                  <ImageView
+                      android:id="@+id/delayImage"
+                      android:layout_width="80dp"
+                      android:layout_height="80dp"
+                      android:background="@color/gold"
+                      android:src="@drawable/batman"/>
+
+                  <SeekBar
+                      android:id="@+id/delaySeek"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="bottom"
+                      android:theme="@style/Progress"/>
+
+            </FrameLayout>
+
       </android.support.constraint.ConstraintLayout>
 
 </android.support.v4.widget.NestedScrollView>

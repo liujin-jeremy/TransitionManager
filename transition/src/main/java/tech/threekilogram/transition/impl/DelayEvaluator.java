@@ -5,13 +5,14 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import tech.threekilogram.transition.Evaluator;
 import tech.threekilogram.transition.ViewVisionState;
+import tech.threekilogram.transition.WrapperEvaluator;
 
 /**
  * wrapper a {@link Evaluator} make him could set fraction with a delayed time
  *
  * @author wuxio 2018-06-25:11:14
  */
-public class DelayEvaluator implements Evaluator {
+public class DelayEvaluator implements WrapperEvaluator {
 
       /**
        * 发送延时消息
@@ -34,20 +35,27 @@ public class DelayEvaluator implements Evaluator {
       /**
        * 使用该 what 取消延时任务
        */
-      int what = hashCode();
+      private int what = hashCode();
 
-      public DelayEvaluator (@NonNull Evaluator evaluatorActual, int delayed) {
+      public DelayEvaluator ( @NonNull Evaluator evaluatorActual, int delayed ) {
 
             mEvaluatorActual = evaluatorActual;
-            setDelayed(delayed);
+            setDelayed( delayed );
 
-            View target = mEvaluatorActual.getTarget();
-            mViewVisionState = new ViewVisionState(target);
+            final View target = mEvaluatorActual.getTarget();
+            target.post( new Runnable() {
+
+                  @Override
+                  public void run ( ) {
+
+                        mViewVisionState = new ViewVisionState( target );
+                  }
+            } );
       }
 
-      public void setDelayed (int delayed) {
+      public void setDelayed ( int delayed ) {
 
-            if(delayed < 0) {
+            if( delayed < 0 ) {
                   delayed = 0;
             }
             mDelayed = delayed;
@@ -56,25 +64,25 @@ public class DelayEvaluator implements Evaluator {
       /**
        * 取消延时设置进度
        */
-      public void cancel () {
+      public void cancel ( ) {
 
-            sHandler.removeMessages(what);
+            sHandler.removeMessages( what );
       }
 
       @Override
-      public void setFraction (float fraction) {
+      public void setFraction ( float fraction ) {
 
             /* set target location stable */
 
             View target = mEvaluatorActual.getTarget();
-            mViewVisionState.applyTo(target);
+            mViewVisionState.applyTo( target );
 
-            if(mDelayed <= 0) {
+            if( mDelayed <= 0 ) {
 
-                  setFractionWhenReceiveMessage(fraction);
+                  setFractionWhenReceiveMessage( fraction );
             } else {
 
-                  sHandler.sendDelayMessage(this, mDelayed, fraction);
+                  sHandler.sendDelayMessage( this, mDelayed, fraction );
             }
       }
 
@@ -83,18 +91,24 @@ public class DelayEvaluator implements Evaluator {
        *
        * @param fraction fraction
        */
-      private void setFractionWhenReceiveMessage (float fraction) {
+      private void setFractionWhenReceiveMessage ( float fraction ) {
 
-            mEvaluatorActual.setFraction(fraction);
+            mEvaluatorActual.setFraction( fraction );
 
             View target = mEvaluatorActual.getTarget();
-            mViewVisionState.update(target);
+            mViewVisionState.update( target );
       }
 
       @Override
-      public View getTarget () {
+      public View getTarget ( ) {
 
             return mEvaluatorActual.getTarget();
+      }
+
+      @Override
+      public Evaluator getActual ( ) {
+
+            return mEvaluatorActual;
       }
 
       /**
@@ -103,20 +117,20 @@ public class DelayEvaluator implements Evaluator {
       private static class HelperHandler extends android.os.Handler {
 
             @Override
-            public void handleMessage (Message msg) {
+            public void handleMessage ( Message msg ) {
 
-                  ((DelayEvaluator) msg.obj).setFractionWhenReceiveMessage(msg.arg1 * 1f / 1000);
+                  ( (DelayEvaluator) msg.obj ).setFractionWhenReceiveMessage( msg.arg1 * 1f / 1000 );
             }
 
-            public void sendDelayMessage (DelayEvaluator target, int delayed, float fraction) {
+            private void sendDelayMessage ( DelayEvaluator target, int delayed, float fraction ) {
 
                   Message message = Message.obtain();
 
                   message.what = target.what;
                   message.obj = target;
-                  message.arg1 = (int) (fraction * 1000);
+                  message.arg1 = (int) ( fraction * 1000 );
 
-                  sendMessageDelayed(message, delayed);
+                  sendMessageDelayed( message, delayed );
             }
       }
 }

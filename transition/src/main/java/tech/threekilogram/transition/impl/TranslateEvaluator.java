@@ -23,47 +23,54 @@ public class TranslateEvaluator implements Evaluator {
        * @param endX 结束时的x
        * @param endY 结束时的y
        */
-      public TranslateEvaluator (View view, float endX, float endY) {
+      public TranslateEvaluator ( final View view, final float endX, final float endY ) {
 
             mView = view;
-            this.mStartX = view.getX();
-            this.mStartY = view.getY();
-            this.mEndX = endX;
-            this.mEndY = endY;
+            view.post( new Runnable() {
+
+                  @Override
+                  public void run ( ) {
+
+                        mStartX = view.getX();
+                        mStartY = view.getY();
+                        mEndX = endX;
+                        mEndY = endY;
+                  }
+            } );
       }
 
-      public void setStartX (float startX) {
+      public void setStartX ( float startX ) {
 
             mStartX = startX;
       }
 
-      public void setStartY (float startY) {
+      public void setStartY ( float startY ) {
 
             mStartY = startY;
       }
 
-      public void setEndX (float endX) {
+      public void setEndX ( float endX ) {
 
             mEndX = endX;
       }
 
-      public void setEndY (float endY) {
+      public void setEndY ( float endY ) {
 
             mEndY = endY;
       }
 
       @Override
-      public void setFraction (float fraction) {
+      public void setFraction ( float fraction ) {
 
-            float currentX = (mStartX + (mEndX - mStartX) * fraction);
-            float currentY = (mStartY + (mEndY - mStartY) * fraction);
+            float currentX = ( mStartX + ( mEndX - mStartX ) * fraction );
+            float currentY = ( mStartY + ( mEndY - mStartY ) * fraction );
 
-            mView.setX(currentX);
-            mView.setY(currentY);
+            mView.setX( currentX );
+            mView.setY( currentY );
       }
 
       @Override
-      public View getTarget () {
+      public View getTarget ( ) {
 
             return mView;
       }
