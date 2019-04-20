@@ -18,18 +18,16 @@ public class ViewVisionState {
       /**
        * 坐标
        */
-      int mLeft;
-      int mTop;
-      int mRight;
-      int mBottom;
-
+      int   mLeft;
+      int   mTop;
+      int   mRight;
+      int   mBottom;
       /**
        * 旋转角度
        */
       float mRotation;
       float mRotationX;
       float mRotationY;
-
       /**
        * alphaChanged
        */
@@ -192,6 +190,19 @@ public class ViewVisionState {
       public void setAlpha ( @FloatRange(from = 0, to = 1f) float alpha ) {
 
             this.mAlpha = alpha;
+      }
+
+      public static void calculateDiff ( ViewVisionState start, ViewVisionState end, float progress, ViewVisionState result ) {
+
+            /* 计算出当前的进度的值 */
+            result.mLeft = (int) ( start.getLeft() + ( end.getLeft() - start.getLeft() ) * progress );
+            result.mTop = (int) ( start.getTop() + ( end.getTop() - start.getTop() ) * progress );
+            result.mRight = (int) ( start.getRight() + ( end.getRight() - start.getRight() ) * progress );
+            result.mBottom = (int) ( start.getBottom() + ( end.getBottom() - start.getBottom() ) * progress );
+            result.mRotation = start.getRotation() + ( end.getRotation() - start.getRotation() ) * progress;
+            result.mRotationX = start.getRotationX() + ( end.getRotationX() - start.getRotationX() ) * progress;
+            result.mRotationY = start.getRotationY() + ( end.getRotationY() - start.getRotationY() ) * progress;
+            result.mAlpha = start.getAlpha() + ( end.getAlpha() - start.getAlpha() ) * progress;
       }
 
       /**

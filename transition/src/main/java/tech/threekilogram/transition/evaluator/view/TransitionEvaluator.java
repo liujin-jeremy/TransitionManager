@@ -31,7 +31,7 @@ public class TransitionEvaluator extends ViewEvaluator {
       /**
        * 当{@link #evaluate(float)}时会重新布局view,如果此值为true,那么布局时就会重新测量
        */
-      private boolean isRemeasureWhenFractionChanged = true;
+      private boolean isRemeasureWhenChanged = true;
 
       public TransitionEvaluator ( final View view, int endLeft, int endTop, int endRight, int endBottom ) {
 
@@ -103,7 +103,7 @@ public class TransitionEvaluator extends ViewEvaluator {
             float alpha =
                 startValue.getAlpha() + ( endValue.getAlpha() - startValue.getAlpha() ) * fraction;
 
-            if( isRemeasureWhenFractionChanged ) {
+            if( isRemeasureWhenChanged ) {
 
                   Measure.remeasureViewWithExactSpec(
                       mView,
@@ -114,8 +114,8 @@ public class TransitionEvaluator extends ViewEvaluator {
 
             mView.layout( left, top, right, bottom );
             mView.setRotation( rotation );
-            mView.setRotationX( rotation );
-            mView.setRotationY( rotation );
+            mView.setRotationX( rotationX );
+            mView.setRotationY( rotationY );
             mView.setAlpha( alpha );
       }
 
@@ -135,10 +135,10 @@ public class TransitionEvaluator extends ViewEvaluator {
       /**
        * 当{@link #evaluate(float)}时会重新布局view,如果设置为true,那么布局时就会重新测量
        *
-       * @param remeasureWhenFractionChanged true:布局时重新测量
+       * @param remeasureWhenChanged true:布局时重新测量
        */
-      public void setRemeasureWhenFractionChanged ( boolean remeasureWhenFractionChanged ) {
+      public void setRemeasureWhenChanged ( boolean remeasureWhenChanged ) {
 
-            isRemeasureWhenFractionChanged = remeasureWhenFractionChanged;
+            isRemeasureWhenChanged = remeasureWhenChanged;
       }
 }
