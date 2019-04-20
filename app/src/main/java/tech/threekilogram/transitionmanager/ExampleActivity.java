@@ -12,6 +12,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
+import tech.threekilogram.transition.ViewVisionState;
 import tech.threekilogram.transition.evaluator.Evaluator;
 import tech.threekilogram.transition.evaluator.view.AlphaEvaluator;
 import tech.threekilogram.transition.evaluator.view.ColorEvaluator;
@@ -22,6 +23,7 @@ import tech.threekilogram.transition.evaluator.view.RotationYEvaluator;
 import tech.threekilogram.transition.evaluator.view.TransitionEvaluator;
 import tech.threekilogram.transition.evaluator.view.TranslateEvaluator;
 import tech.threekilogram.transition.evaluator.view.ViewEvaluator;
+import tech.threekilogram.transition.evaluator.view.VisionStateEvaluator;
 import tech.threekilogram.transition.evaluator.wrapper.DelayEvaluator;
 import tech.threekilogram.transition.evaluator.wrapper.SegmentFractionEvaluator;
 
@@ -61,6 +63,10 @@ public class ExampleActivity extends AppCompatActivity implements OnClickListene
       private Button      mRotationXReverse;
       private Button      mRotationYReverse;
       private Button      mTransitionReverse;
+      private ImageView   mVisionImage;
+      private SeekBar     mVisionSeek;
+      private FrameLayout mVisionContainer;
+      private Button      mVisionReverse;
 
       public static void start ( Context context ) {
 
@@ -112,6 +118,10 @@ public class ExampleActivity extends AppCompatActivity implements OnClickListene
             mRotationXReverse = (Button) findViewById( R.id.rotationXReverse );
             mRotationYReverse = (Button) findViewById( R.id.rotationYReverse );
             mTransitionReverse = (Button) findViewById( R.id.transitionReverse );
+            mVisionImage = (ImageView) findViewById( R.id.visionImage );
+            mVisionSeek = (SeekBar) findViewById( R.id.visionSeek );
+            mVisionContainer = (FrameLayout) findViewById( R.id.visionContainer );
+            mVisionReverse = (Button) findViewById( R.id.visionReverse );
 
             buildTranslateTest();
             buildAlphaTest();
@@ -122,6 +132,39 @@ public class ExampleActivity extends AppCompatActivity implements OnClickListene
             buildSegmentTest();
             buildRotationTest();
             buildTransitionTest();
+            buildVisionTest();
+      }
+
+      private void buildVisionTest ( ) {
+
+            ViewVisionState state = new ViewVisionState(
+                500,
+                100,
+                1000,
+                600,
+                30,
+                0,
+                0,
+                0.5f
+            );
+            final VisionStateEvaluator evaluator = new VisionStateEvaluator( mVisionImage, state );
+            mVisionSeek.setOnSeekBarChangeListener( new SimpleOnSeekBarChangeListener() {
+
+                  @Override
+                  public void onProgressChanged ( SeekBar seekBar, int progress, boolean fromUser ) {
+
+                        float v = progress * 1f / seekBar.getMax();
+                        evaluator.evaluate( v );
+                  }
+            } );
+            mVisionReverse.setOnClickListener( new OnClickListener() {
+
+                  @Override
+                  public void onClick ( View v ) {
+
+                        ( (ViewEvaluator) evaluator ).setReversed( !( (ViewEvaluator) evaluator ).isReversed() );
+                  }
+            } );
       }
 
       private void buildDelayTest ( ) {

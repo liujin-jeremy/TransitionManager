@@ -111,6 +111,24 @@ final Evaluator evaluator = new TransitionEvaluator(
 
 
 
+### 改变多个属性
+
+```
+ViewVisionState state = new ViewVisionState(
+    500,
+    100,
+    1000,
+    600,
+    30,
+    0,
+    0,
+    0.5f
+);
+final VisionStateEvaluator evaluator = new VisionStateEvaluator( mVisionImage, state );
+```
+
+![](img/pic10.gif)
+
 ### 使用不完整进度
 
 ```
