@@ -1,14 +1,13 @@
-package tech.threekilogram.transition.impl;
+package tech.threekilogram.transition.evaluator.view;
 
 import android.view.View;
-import tech.threekilogram.transition.ViewEvaluator;
 
 /**
  * 根据进度旋转view角度
  *
  * @author wuxio 2018-06-24:9:24
  */
-public class RotationEvaluator extends ViewEvaluator {
+public class RotationXEvaluator extends ViewEvaluator {
 
       /**
        * 起始角度
@@ -19,7 +18,7 @@ public class RotationEvaluator extends ViewEvaluator {
        */
       private float mRotationEnd;
 
-      public RotationEvaluator ( View view, float rotationEnd ) {
+      public RotationXEvaluator ( View view, float rotationEnd ) {
 
             super( view );
 
@@ -30,14 +29,17 @@ public class RotationEvaluator extends ViewEvaluator {
       }
 
       @Override
-      public void setFraction ( float fraction ) {
+      public void evaluate ( float process ) {
+
+            super.evaluate( process );
 
             if( isReversed ) {
-                  float current = mRotationEnd + ( mRotationBegin - mRotationEnd ) * fraction;
-                  mView.setRotation( current );
+                  float current = mRotationEnd + ( mRotationBegin - mRotationEnd ) * process;
+                  mView.setRotationX( current );
             } else {
-                  float current = mRotationBegin + ( mRotationEnd - mRotationBegin ) * fraction;
-                  mView.setRotation( current );
+
+                  float current = mRotationBegin + ( mRotationEnd - mRotationBegin ) * process;
+                  mView.setRotationX( current );
             }
       }
 

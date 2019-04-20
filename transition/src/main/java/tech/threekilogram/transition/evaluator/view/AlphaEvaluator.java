@@ -1,7 +1,6 @@
-package tech.threekilogram.transition.impl;
+package tech.threekilogram.transition.evaluator.view;
 
 import android.view.View;
-import tech.threekilogram.transition.ViewEvaluator;
 
 /**
  * 用于根据进度变换alpha
@@ -46,13 +45,15 @@ public class AlphaEvaluator extends ViewEvaluator {
       }
 
       @Override
-      public void setFraction ( float fraction ) {
+      public void evaluate ( float process ) {
+
+            super.evaluate( process );
 
             if( isReversed ) {
-                  float currentAlpha = mAlphaEnd + ( mAlphaBegin - mAlphaEnd ) * fraction;
+                  float currentAlpha = mAlphaEnd + ( mAlphaBegin - mAlphaEnd ) * process;
                   mView.setAlpha( currentAlpha );
             } else {
-                  float currentAlpha = mAlphaBegin + ( mAlphaEnd - mAlphaBegin ) * fraction;
+                  float currentAlpha = mAlphaBegin + ( mAlphaEnd - mAlphaBegin ) * process;
                   mView.setAlpha( currentAlpha );
             }
       }

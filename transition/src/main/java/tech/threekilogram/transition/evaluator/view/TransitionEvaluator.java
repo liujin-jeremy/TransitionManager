@@ -1,4 +1,4 @@
-package tech.threekilogram.transition.impl;
+package tech.threekilogram.transition.evaluator.view;
 
 /**
  * @author wuxio 2018-06-23:12:16
@@ -6,7 +6,6 @@ package tech.threekilogram.transition.impl;
 
 import android.view.View;
 import tech.threekilogram.transition.Measure;
-import tech.threekilogram.transition.ViewEvaluator;
 import tech.threekilogram.transition.ViewVisionState;
 
 /**
@@ -30,7 +29,7 @@ public class TransitionEvaluator extends ViewEvaluator {
       private ViewVisionState mEnd;
 
       /**
-       * 当{@link #setFraction(float)}时会重新布局view,如果此值为true,那么布局时就会重新测量
+       * 当{@link #evaluate(float)}时会重新布局view,如果此值为true,那么布局时就会重新测量
        */
       private boolean isRemeasureWhenFractionChanged = true;
 
@@ -121,9 +120,10 @@ public class TransitionEvaluator extends ViewEvaluator {
       }
 
       @Override
-      public void setFraction ( float fraction ) {
+      public void evaluate ( float process ) {
 
-            evaluate( fraction, mBegin, mEnd, isReversed );
+            super.evaluate( process );
+            evaluate( process, mBegin, mEnd, isReversed );
       }
 
       @Override
@@ -133,7 +133,7 @@ public class TransitionEvaluator extends ViewEvaluator {
       }
 
       /**
-       * 当{@link #setFraction(float)}时会重新布局view,如果设置为true,那么布局时就会重新测量
+       * 当{@link #evaluate(float)}时会重新布局view,如果设置为true,那么布局时就会重新测量
        *
        * @param remeasureWhenFractionChanged true:布局时重新测量
        */

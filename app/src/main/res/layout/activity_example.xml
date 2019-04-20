@@ -33,6 +33,13 @@
                       android:layout_gravity="bottom"
                       android:theme="@style/Progress"/>
 
+                  <Button
+                      android:id="@+id/translateReverse"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="end"
+                      android:text="反转"/>
+
             </FrameLayout>
 
             <FrameLayout
@@ -59,6 +66,13 @@
                       android:layout_gravity="bottom"
                       android:theme="@style/Progress"/>
 
+                  <Button
+                      android:id="@+id/alphaReverse"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="end"
+                      android:text="反转"/>
+
             </FrameLayout>
 
             <FrameLayout
@@ -83,6 +97,13 @@
                       android:layout_height="wrap_content"
                       android:layout_gravity="bottom"
                       android:theme="@style/Progress"/>
+
+                  <Button
+                      android:id="@+id/colorReverse"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="end"
+                      android:text="反转"/>
             </FrameLayout>
 
             <FrameLayout
@@ -109,6 +130,13 @@
                       android:layout_height="wrap_content"
                       android:layout_gravity="bottom"
                       android:theme="@style/Progress"/>
+
+                  <Button
+                      android:id="@+id/rotationReverse"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="end"
+                      android:text="反转"/>
             </FrameLayout>
 
             <FrameLayout
@@ -135,6 +163,13 @@
                       android:layout_height="wrap_content"
                       android:layout_gravity="bottom"
                       android:theme="@style/Progress"/>
+
+                  <Button
+                      android:id="@+id/rotationXReverse"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="end"
+                      android:text="反转"/>
             </FrameLayout>
 
             <FrameLayout
@@ -161,6 +196,13 @@
                       android:layout_height="wrap_content"
                       android:layout_gravity="bottom"
                       android:theme="@style/Progress"/>
+
+                  <Button
+                      android:id="@+id/rotationYReverse"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="end"
+                      android:text="反转"/>
             </FrameLayout>
 
             <FrameLayout
@@ -185,6 +227,12 @@
                       android:layout_height="wrap_content"
                       android:layout_gravity="bottom"
                       android:theme="@style/Progress"/>
+                  <Button
+                      android:id="@+id/transitionReverse"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="end"
+                      android:text="反转"/>
             </FrameLayout>
 
             <FrameLayout

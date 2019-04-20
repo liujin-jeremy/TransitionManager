@@ -1,7 +1,6 @@
-package tech.threekilogram.transition.impl;
+package tech.threekilogram.transition.evaluator.view;
 
 import android.view.View;
-import tech.threekilogram.transition.ViewEvaluator;
 
 /**
  * 根据进度移动view位置
@@ -59,18 +58,20 @@ public class TranslateEvaluator extends ViewEvaluator {
       }
 
       @Override
-      public void setFraction ( float fraction ) {
+      public void evaluate ( float process ) {
+
+            super.evaluate( process );
 
             if( isReversed ) {
 
-                  float currentX = ( mEndX + ( mStartX - mEndX ) * fraction );
-                  float currentY = ( mEndY + ( mStartY - mEndY ) * fraction );
+                  float currentX = ( mEndX + ( mStartX - mEndX ) * process );
+                  float currentY = ( mEndY + ( mStartY - mEndY ) * process );
 
                   mView.setX( currentX );
                   mView.setY( currentY );
             } else {
-                  float currentX = ( mStartX + ( mEndX - mStartX ) * fraction );
-                  float currentY = ( mStartY + ( mEndY - mStartY ) * fraction );
+                  float currentX = ( mStartX + ( mEndX - mStartX ) * process );
+                  float currentY = ( mStartY + ( mEndY - mStartY ) * process );
 
                   mView.setX( currentX );
                   mView.setY( currentY );

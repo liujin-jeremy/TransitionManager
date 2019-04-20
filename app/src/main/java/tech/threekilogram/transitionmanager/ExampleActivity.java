@@ -6,23 +6,26 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
-import tech.threekilogram.transition.Evaluator;
-import tech.threekilogram.transition.impl.AlphaEvaluator;
-import tech.threekilogram.transition.impl.ColorEvaluator;
-import tech.threekilogram.transition.impl.ColorEvaluator.ColorApply;
-import tech.threekilogram.transition.impl.DelayEvaluator;
-import tech.threekilogram.transition.impl.RotationEvaluator;
-import tech.threekilogram.transition.impl.RotationXEvaluator;
-import tech.threekilogram.transition.impl.RotationYEvaluator;
-import tech.threekilogram.transition.impl.SegmentFractionEvaluator;
-import tech.threekilogram.transition.impl.TransitionEvaluator;
-import tech.threekilogram.transition.impl.TranslateEvaluator;
+import tech.threekilogram.transition.evaluator.Evaluator;
+import tech.threekilogram.transition.evaluator.view.AlphaEvaluator;
+import tech.threekilogram.transition.evaluator.view.ColorEvaluator;
+import tech.threekilogram.transition.evaluator.view.ColorEvaluator.ColorApply;
+import tech.threekilogram.transition.evaluator.view.RotationEvaluator;
+import tech.threekilogram.transition.evaluator.view.RotationXEvaluator;
+import tech.threekilogram.transition.evaluator.view.RotationYEvaluator;
+import tech.threekilogram.transition.evaluator.view.TransitionEvaluator;
+import tech.threekilogram.transition.evaluator.view.TranslateEvaluator;
+import tech.threekilogram.transition.evaluator.view.ViewEvaluator;
+import tech.threekilogram.transition.evaluator.wrapper.DelayEvaluator;
+import tech.threekilogram.transition.evaluator.wrapper.SegmentFractionEvaluator;
 
-public class ExampleActivity extends AppCompatActivity {
+public class ExampleActivity extends AppCompatActivity implements OnClickListener {
 
       private ImageView   mTranslateImage;
       private SeekBar     mTranslateSeek;
@@ -51,6 +54,13 @@ public class ExampleActivity extends AppCompatActivity {
       private ImageView   mDelayImage;
       private SeekBar     mDelaySeek;
       private FrameLayout mDelayContainer;
+      private Button      mTranslateReverse;
+      private Button      mAlphaReverse;
+      private Button      mColorReverse;
+      private Button      mRotationReverse;
+      private Button      mRotationXReverse;
+      private Button      mRotationYReverse;
+      private Button      mTransitionReverse;
 
       public static void start ( Context context ) {
 
@@ -71,39 +81,47 @@ public class ExampleActivity extends AppCompatActivity {
             mTranslateContainer = (FrameLayout) findViewById( R.id.translateContainer );
             mTranslateImage = (ImageView) findViewById( R.id.translateImage );
             mTranslateSeek = (SeekBar) findViewById( R.id.translateSeek );
-            buildTranslateTest();
             mAlphaImage = (ImageView) findViewById( R.id.alphaImage );
             mAlphaSeek = (SeekBar) findViewById( R.id.alphaSeek );
             mAlphaContainer = (FrameLayout) findViewById( R.id.alphaContainer );
-            buildAlphaTest();
             mColorImage = (ImageView) findViewById( R.id.colorImage );
             mColorSeek = (SeekBar) findViewById( R.id.colorSeek );
-            buildColorTest();
             mColorContainer = (FrameLayout) findViewById( R.id.colorContainer );
             mRotationImage = (ImageView) findViewById( R.id.rotationImage );
             mRotationSeek = (SeekBar) findViewById( R.id.rotationSeek );
             mRotationContainer = (FrameLayout) findViewById( R.id.rotationContainer );
-            buildRotationTest();
             mTransitionImage = (ImageView) findViewById( R.id.transitionImage );
             mTransitionSeek = (SeekBar) findViewById( R.id.transitionSeek );
             mTransitionContainer = (FrameLayout) findViewById( R.id.transitionContainer );
-            buildTransitionTest();
             mSegmentImage = (ImageView) findViewById( R.id.segmentImage );
             mSegmentSeek = (SeekBar) findViewById( R.id.segmentSeek );
             mSegmentContainer = (FrameLayout) findViewById( R.id.segmentContainer );
-            buildSegmentTest();
             mRotationXImage = (ImageView) findViewById( R.id.rotationXImage );
             mRotationXSeek = (SeekBar) findViewById( R.id.rotationXSeek );
             mRotationXContainer = (FrameLayout) findViewById( R.id.rotationXContainer );
-            buildRotationXTest();
             mRotationYImage = (ImageView) findViewById( R.id.rotationYImage );
             mRotationYSeek = (SeekBar) findViewById( R.id.rotationYSeek );
             mRotationYContainer = (FrameLayout) findViewById( R.id.rotationYContainer );
-            buildRotationYTest();
             mDelayImage = (ImageView) findViewById( R.id.delayImage );
             mDelaySeek = (SeekBar) findViewById( R.id.delaySeek );
             mDelayContainer = (FrameLayout) findViewById( R.id.delayContainer );
+            mTranslateReverse = (Button) findViewById( R.id.translateReverse );
+            mAlphaReverse = (Button) findViewById( R.id.alphaReverse );
+            mColorReverse = (Button) findViewById( R.id.colorReverse );
+            mRotationReverse = (Button) findViewById( R.id.rotationReverse );
+            mRotationXReverse = (Button) findViewById( R.id.rotationXReverse );
+            mRotationYReverse = (Button) findViewById( R.id.rotationYReverse );
+            mTransitionReverse = (Button) findViewById( R.id.transitionReverse );
+
+            buildTranslateTest();
+            buildAlphaTest();
+            buildColorTest();
             buildDelayTest();
+            buildRotationYTest();
+            buildRotationXTest();
+            buildSegmentTest();
+            buildRotationTest();
+            buildTransitionTest();
       }
 
       private void buildDelayTest ( ) {
@@ -116,35 +134,7 @@ public class ExampleActivity extends AppCompatActivity {
                   public void onProgressChanged ( SeekBar seekBar, int progress, boolean fromUser ) {
 
                         float v = progress * 1f / seekBar.getMax();
-                        delay.setFraction( v );
-                  }
-            } );
-      }
-
-      private void buildRotationYTest ( ) {
-
-            final Evaluator evaluator = new RotationYEvaluator( mRotationYImage, 180 );
-            mRotationYSeek.setOnSeekBarChangeListener( new SimpleOnSeekBarChangeListener() {
-
-                  @Override
-                  public void onProgressChanged ( SeekBar seekBar, int progress, boolean fromUser ) {
-
-                        float v = progress * 1f / seekBar.getMax();
-                        evaluator.setFraction( v );
-                  }
-            } );
-      }
-
-      private void buildRotationXTest ( ) {
-
-            final Evaluator evaluator = new RotationXEvaluator( mRotationXImage, 180 );
-            mRotationXSeek.setOnSeekBarChangeListener( new SimpleOnSeekBarChangeListener() {
-
-                  @Override
-                  public void onProgressChanged ( SeekBar seekBar, int progress, boolean fromUser ) {
-
-                        float v = progress * 1f / seekBar.getMax();
-                        evaluator.setFraction( v );
+                        delay.evaluate( v );
                   }
             } );
       }
@@ -164,7 +154,51 @@ public class ExampleActivity extends AppCompatActivity {
                   public void onProgressChanged ( SeekBar seekBar, int progress, boolean fromUser ) {
 
                         float v = progress * 1f / seekBar.getMax();
-                        segment.setFraction( v );
+                        segment.evaluate( v );
+                  }
+            } );
+      }
+
+      private void buildRotationYTest ( ) {
+
+            final Evaluator evaluator = new RotationYEvaluator( mRotationYImage, 180 );
+            mRotationYSeek.setOnSeekBarChangeListener( new SimpleOnSeekBarChangeListener() {
+
+                  @Override
+                  public void onProgressChanged ( SeekBar seekBar, int progress, boolean fromUser ) {
+
+                        float v = progress * 1f / seekBar.getMax();
+                        evaluator.evaluate( v );
+                  }
+            } );
+            mRotationYReverse.setOnClickListener( new OnClickListener() {
+
+                  @Override
+                  public void onClick ( View v ) {
+
+                        ( (ViewEvaluator) evaluator ).setReversed( !( (ViewEvaluator) evaluator ).isReversed() );
+                  }
+            } );
+      }
+
+      private void buildRotationXTest ( ) {
+
+            final Evaluator evaluator = new RotationXEvaluator( mRotationXImage, 180 );
+            mRotationXSeek.setOnSeekBarChangeListener( new SimpleOnSeekBarChangeListener() {
+
+                  @Override
+                  public void onProgressChanged ( SeekBar seekBar, int progress, boolean fromUser ) {
+
+                        float v = progress * 1f / seekBar.getMax();
+                        evaluator.evaluate( v );
+                  }
+            } );
+            mRotationXReverse.setOnClickListener( new OnClickListener() {
+
+                  @Override
+                  public void onClick ( View v ) {
+
+                        ( (ViewEvaluator) evaluator ).setReversed( !( (ViewEvaluator) evaluator ).isReversed() );
                   }
             } );
       }
@@ -184,7 +218,15 @@ public class ExampleActivity extends AppCompatActivity {
                   public void onProgressChanged ( SeekBar seekBar, int progress, boolean fromUser ) {
 
                         float v = progress * 1f / seekBar.getMax();
-                        evaluator.setFraction( v );
+                        evaluator.evaluate( v );
+                  }
+            } );
+            mTransitionReverse.setOnClickListener( new OnClickListener() {
+
+                  @Override
+                  public void onClick ( View v ) {
+
+                        ( (ViewEvaluator) evaluator ).setReversed( !( (ViewEvaluator) evaluator ).isReversed() );
                   }
             } );
       }
@@ -198,7 +240,15 @@ public class ExampleActivity extends AppCompatActivity {
                   public void onProgressChanged ( SeekBar seekBar, int progress, boolean fromUser ) {
 
                         float v = progress * 1f / seekBar.getMax();
-                        evaluator.setFraction( v );
+                        evaluator.evaluate( v );
+                  }
+            } );
+            mRotationReverse.setOnClickListener( new OnClickListener() {
+
+                  @Override
+                  public void onClick ( View v ) {
+
+                        ( (ViewEvaluator) evaluator ).setReversed( !( (ViewEvaluator) evaluator ).isReversed() );
                   }
             } );
       }
@@ -224,7 +274,15 @@ public class ExampleActivity extends AppCompatActivity {
                   public void onProgressChanged ( SeekBar seekBar, int progress, boolean fromUser ) {
 
                         float v = progress * 1f / seekBar.getMax();
-                        evaluator.setFraction( v );
+                        evaluator.evaluate( v );
+                  }
+            } );
+            mColorReverse.setOnClickListener( new OnClickListener() {
+
+                  @Override
+                  public void onClick ( View v ) {
+
+                        ( (ViewEvaluator) evaluator ).setReversed( !( (ViewEvaluator) evaluator ).isReversed() );
                   }
             } );
       }
@@ -238,14 +296,22 @@ public class ExampleActivity extends AppCompatActivity {
                   public void onProgressChanged ( SeekBar seekBar, int progress, boolean fromUser ) {
 
                         float v = progress * 1f / seekBar.getMax();
-                        evaluator.setFraction( v );
+                        evaluator.evaluate( v );
+                  }
+            } );
+            mAlphaReverse.setOnClickListener( new OnClickListener() {
+
+                  @Override
+                  public void onClick ( View v ) {
+
+                        ( (ViewEvaluator) evaluator ).setReversed( !( (ViewEvaluator) evaluator ).isReversed() );
                   }
             } );
       }
 
       private void buildTranslateTest ( ) {
 
-            final Evaluator evaluator = new TranslateEvaluator(
+            final ViewEvaluator evaluator = new TranslateEvaluator(
                 mTranslateImage,
                 mTranslateImage.getLeft() + 600,
                 mTranslateImage.getTop() + 150
@@ -256,9 +322,48 @@ public class ExampleActivity extends AppCompatActivity {
                   public void onProgressChanged ( SeekBar seekBar, int progress, boolean fromUser ) {
 
                         float v = progress * 1f / seekBar.getMax();
-                        evaluator.setFraction( v );
+                        evaluator.evaluate( v );
                   }
             } );
+
+            mTranslateReverse.setOnClickListener( new OnClickListener() {
+
+                  @Override
+                  public void onClick ( View v ) {
+
+                        ( (ViewEvaluator) evaluator ).setReversed( !( (ViewEvaluator) evaluator ).isReversed() );
+                  }
+            } );
+      }
+
+      @Override
+      public void onClick ( View v ) {
+
+            switch( v.getId() ) {
+                  case R.id.translateReverse:
+                        // TODO 19/04/20
+                        break;
+                  case R.id.alphaReverse:
+                        // TODO 19/04/20
+                        break;
+                  case R.id.colorReverse:
+                        // TODO 19/04/20
+                        break;
+                  case R.id.rotationReverse:
+                        // TODO 19/04/20
+                        break;
+                  case R.id.rotationXReverse:
+                        // TODO 19/04/20
+                        break;
+                  case R.id.rotationYReverse:
+                        // TODO 19/04/20
+                        break;
+                  case R.id.transitionReverse:
+                        // TODO 19/04/20
+                        break;
+                  default:
+                        break;
+            }
       }
 
       private abstract class SimpleOnSeekBarChangeListener implements OnSeekBarChangeListener {

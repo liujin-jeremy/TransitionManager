@@ -1,10 +1,11 @@
-package tech.threekilogram.transition;
+package tech.threekilogram.transition.evaluator.view;
 
 /**
  * @author wuxio 2018-06-23:12:16
  */
 
 import android.view.View;
+import tech.threekilogram.transition.evaluator.Evaluator;
 
 /**
  * 通用进度动画接口
@@ -21,10 +22,20 @@ public abstract class ViewEvaluator implements Evaluator {
        * 是否反转动画
        */
       protected boolean isReversed;
+      /**
+       * 记录当前进度
+       */
+      protected float   mProcess;
 
       protected ViewEvaluator ( View view ) {
 
             mView = view;
+      }
+
+      @Override
+      public void evaluate ( float process ) {
+
+            mProcess = process;
       }
 
       /**
@@ -44,9 +55,17 @@ public abstract class ViewEvaluator implements Evaluator {
        */
       public void setReversed ( boolean reversed ) {
 
-            isReversed = reversed;
+            if( reversed != isReversed ) {
+                  isReversed = reversed;
+                  evaluate( mProcess );
+            }
       }
 
+      /**
+       * 当前是否反转了
+       *
+       * @return {@link #isReversed}的值
+       */
       public boolean isReversed ( ) {
 
             return isReversed;

@@ -1,4 +1,6 @@
-package tech.threekilogram.transition;
+package tech.threekilogram.transition.evaluator.wrapper;
+
+import tech.threekilogram.transition.evaluator.Evaluator;
 
 /**
  * @author Liujin 2019/4/20:9:59:38

@@ -1,8 +1,7 @@
-package tech.threekilogram.transition.impl;
+package tech.threekilogram.transition.evaluator.view;
 
 import android.support.annotation.ColorInt;
 import android.view.View;
-import tech.threekilogram.transition.ViewEvaluator;
 
 /**
  * 根据进度值计算出一个颜色，并设置给view
@@ -34,10 +33,12 @@ public class ColorEvaluator extends ViewEvaluator {
       }
 
       @Override
-      public void setFraction ( float fraction ) {
+      public void evaluate ( float process ) {
 
-            int currentColor = evaluate( fraction, mStartColor, mEndColor, isReversed );
-            mApply.onNewColorEvaluated( mView, fraction, currentColor );
+            super.evaluate( process );
+
+            int currentColor = evaluate( process, mStartColor, mEndColor, isReversed );
+            mApply.onNewColorEvaluated( mView, process, currentColor );
       }
 
       public void setStartColor ( @ColorInt int startColor ) {

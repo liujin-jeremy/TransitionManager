@@ -1,8 +1,7 @@
-package tech.threekilogram.transition.impl;
+package tech.threekilogram.transition.evaluator.wrapper;
 
 import android.support.annotation.FloatRange;
-import tech.threekilogram.transition.Evaluator;
-import tech.threekilogram.transition.WrapperEvaluator;
+import tech.threekilogram.transition.evaluator.Evaluator;
 
 /**
  * 将一段进度映射成另一段进度
@@ -28,18 +27,18 @@ public class SegmentFractionEvaluator extends WrapperEvaluator {
       }
 
       @Override
-      public void setFraction ( float fraction ) {
+      public void evaluate ( float process ) {
 
-            if( fraction < mStartFraction ) {
+            if( process < mStartFraction ) {
 
-                  mEvaluatorActual.setFraction( 0 );
-            } else if( fraction >= mStartFraction && fraction <= mEndFraction ) {
+                  mEvaluatorActual.evaluate( 0 );
+            } else if( process >= mStartFraction && process <= mEndFraction ) {
 
-                  fraction = ( fraction - mStartFraction ) / ( mEndFraction - mStartFraction );
-                  mEvaluatorActual.setFraction( fraction );
+                  process = ( process - mStartFraction ) / ( mEndFraction - mStartFraction );
+                  mEvaluatorActual.evaluate( process );
             } else {
 
-                  mEvaluatorActual.setFraction( 1 );
+                  mEvaluatorActual.evaluate( 1 );
             }
       }
 

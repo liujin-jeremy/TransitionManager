@@ -11,12 +11,12 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import tech.threekilogram.transition.SceneManager.OnTransitionChangeListener;
 import tech.threekilogram.transition.ViewVisionState;
-import tech.threekilogram.transition.impl.AlphaEvaluator;
-import tech.threekilogram.transition.impl.ColorEvaluator;
-import tech.threekilogram.transition.impl.ColorEvaluator.ColorApply;
-import tech.threekilogram.transition.impl.RotationEvaluator;
-import tech.threekilogram.transition.impl.TransitionEvaluator;
-import tech.threekilogram.transition.impl.TranslateEvaluator;
+import tech.threekilogram.transition.evaluator.view.AlphaEvaluator;
+import tech.threekilogram.transition.evaluator.view.ColorEvaluator;
+import tech.threekilogram.transition.evaluator.view.ColorEvaluator.ColorApply;
+import tech.threekilogram.transition.evaluator.view.RotationEvaluator;
+import tech.threekilogram.transition.evaluator.view.TransitionEvaluator;
+import tech.threekilogram.transition.evaluator.view.TranslateEvaluator;
 
 /**
  * @author wuxio
@@ -277,7 +277,7 @@ public class FullTestActivity extends AppCompatActivity {
                               );
                         }
 
-                        mTestColorEvaluator.setFraction( fraction );
+                        mTestColorEvaluator.evaluate( fraction );
                   }
 
                   private void testRotation ( TextView text, float fraction ) {
@@ -287,7 +287,7 @@ public class FullTestActivity extends AppCompatActivity {
                               mTestRotationEvaluator = new RotationEvaluator( text, 180 );
                         }
 
-                        mTestRotationEvaluator.setFraction( fraction );
+                        mTestRotationEvaluator.evaluate( fraction );
                   }
 
                   private void testAlpha ( TextView text, float fraction ) {
@@ -297,7 +297,7 @@ public class FullTestActivity extends AppCompatActivity {
                               mTestAlphaEvaluator = new AlphaEvaluator( text, 0.5f );
                         }
 
-                        mTestAlphaEvaluator.setFraction( fraction );
+                        mTestAlphaEvaluator.evaluate( fraction );
                   }
 
                   private void testTranslate ( TextView text, float fraction ) {
@@ -311,7 +311,7 @@ public class FullTestActivity extends AppCompatActivity {
                               );
                         }
 
-                        mTestTransitionTranslateEvaluator.setFraction( fraction );
+                        mTestTransitionTranslateEvaluator.evaluate( fraction );
                   }
 
                   private void testChangeBounds ( ViewRect viewRect, View view, float fraction ) {
@@ -332,7 +332,7 @@ public class FullTestActivity extends AppCompatActivity {
                               mTestTextEvaluator.setRemeasureWhenFractionChanged( true );
                         }
 
-                        mTestTextEvaluator.setFraction( fraction );
+                        mTestTextEvaluator.evaluate( fraction );
                   }
             }
 
@@ -394,7 +394,7 @@ public class FullTestActivity extends AppCompatActivity {
                               );
                         }
 
-                        mTestColorEvaluator.setFraction( fraction );
+                        mTestColorEvaluator.evaluate( fraction );
                   }
 
                   private void testRotation ( TextView text, float fraction ) {
@@ -404,7 +404,7 @@ public class FullTestActivity extends AppCompatActivity {
                               mTestRotationEvaluator = new RotationEvaluator( text, 0 );
                         }
 
-                        mTestRotationEvaluator.setFraction( fraction );
+                        mTestRotationEvaluator.evaluate( fraction );
                   }
 
                   private void testAlpha ( TextView text, float fraction ) {
@@ -414,7 +414,7 @@ public class FullTestActivity extends AppCompatActivity {
                               mTestAlphaEvaluator = new AlphaEvaluator( text, 1f );
                         }
 
-                        mTestAlphaEvaluator.setFraction( fraction );
+                        mTestAlphaEvaluator.evaluate( fraction );
                   }
 
                   private void testTranslate ( TextView text, float fraction ) {
@@ -428,7 +428,7 @@ public class FullTestActivity extends AppCompatActivity {
                               );
                         }
 
-                        mTestTransitionTranslateEvaluator.setFraction( fraction );
+                        mTestTransitionTranslateEvaluator.evaluate( fraction );
                   }
 
                   private void testChangeBounds ( ViewRect viewRect, View view, float fraction ) {
@@ -447,7 +447,7 @@ public class FullTestActivity extends AppCompatActivity {
                               mTestTextEvaluator.setRemeasureWhenFractionChanged( true );
                         }
 
-                        mTestTextEvaluator.setFraction( fraction );
+                        mTestTextEvaluator.evaluate( fraction );
                   }
             }
       }

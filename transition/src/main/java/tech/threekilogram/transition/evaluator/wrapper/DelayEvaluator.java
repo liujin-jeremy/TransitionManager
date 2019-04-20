@@ -1,9 +1,8 @@
-package tech.threekilogram.transition.impl;
+package tech.threekilogram.transition.evaluator.wrapper;
 
 import android.os.Message;
 import android.support.annotation.NonNull;
-import tech.threekilogram.transition.Evaluator;
-import tech.threekilogram.transition.WrapperEvaluator;
+import tech.threekilogram.transition.evaluator.Evaluator;
 
 /**
  * wrapper a {@link Evaluator} make him could set fraction with a delayed time
@@ -51,14 +50,14 @@ public class DelayEvaluator extends WrapperEvaluator {
       }
 
       @Override
-      public void setFraction ( float fraction ) {
+      public void evaluate ( float process ) {
 
             if( mDelayed <= 0 ) {
 
-                  setFractionWhenReceiveMessage( fraction );
+                  setFractionWhenReceiveMessage( process );
             } else {
 
-                  sHandler.sendDelayMessage( this, mDelayed, fraction );
+                  sHandler.sendDelayMessage( this, mDelayed, process );
             }
       }
 
@@ -69,7 +68,7 @@ public class DelayEvaluator extends WrapperEvaluator {
        */
       private void setFractionWhenReceiveMessage ( float fraction ) {
 
-            mEvaluatorActual.setFraction( fraction );
+            mEvaluatorActual.evaluate( fraction );
       }
 
       @Override

@@ -7,10 +7,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.FrameLayout;
-import tech.threekilogram.transition.Evaluator;
 import tech.threekilogram.transition.SceneManager;
-import tech.threekilogram.transition.impl.DelayEvaluator;
-import tech.threekilogram.transition.impl.SegmentFractionEvaluator;
+import tech.threekilogram.transition.evaluator.Evaluator;
+import tech.threekilogram.transition.evaluator.wrapper.DelayEvaluator;
+import tech.threekilogram.transition.evaluator.wrapper.SegmentFractionEvaluator;
 
 /**
  * @author wuxio

@@ -8,7 +8,9 @@ import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
 import java.util.ArrayList;
-import tech.threekilogram.transition.impl.TransitionEvaluator;
+import tech.threekilogram.transition.evaluator.Evaluator;
+import tech.threekilogram.transition.evaluator.view.TransitionEvaluator;
+import tech.threekilogram.transition.evaluator.view.ViewEvaluator;
 
 /**
  * 根据view在不同布局中的显示状态（位置，角度，mAlpha）创建场景动画
@@ -353,10 +355,10 @@ public class SceneManager {
 
                         if( isCurrentSceneEnd ) {
 
-                              evaluator.setFraction( fraction );
+                              evaluator.evaluate( fraction );
                         } else {
 
-                              evaluator.setFraction( 1 - fraction );
+                              evaluator.evaluate( 1 - fraction );
                         }
                   }
             }
@@ -375,7 +377,7 @@ public class SceneManager {
                   TransitionEvaluator transitionEvaluator =
                       new TransitionEvaluator( mSceneToChange, mEndSceneVision );
 
-                  transitionEvaluator.setFraction( 1 );
+                  transitionEvaluator.evaluate( 1 );
 
                   /* change children in beginScene */
 
@@ -395,7 +397,7 @@ public class SceneManager {
 
                   TransitionEvaluator transitionEvaluator =
                       new TransitionEvaluator( mSceneToChange, mBeginSceneVision );
-                  transitionEvaluator.setFraction( 1 );
+                  transitionEvaluator.evaluate( 1 );
 
                   /* change children in beginScene */
 
