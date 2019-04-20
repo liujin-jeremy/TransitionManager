@@ -16,20 +16,9 @@ public class MainActivity extends AppCompatActivity {
             setContentView( R.layout.activity_main );
       }
 
-
       public void toFullTestActivity ( View view ) {
 
             FullTestActivity.start( this );
-      }
-
-      public void toSceneActivity ( View view ) {
-
-            SceneActivity.start( this );
-      }
-
-      public void toSceneSetActivity ( View view ) {
-
-            SceneSetActivity.start( this );
       }
 
       public void toExampleActivity ( View view ) {

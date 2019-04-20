@@ -1,4 +1,4 @@
-package tech.threekilogram.transitionmanager;
+package tech.threekilogram.transitionmanager.dep;
 
 import android.animation.Animator;
 import android.content.Context;
@@ -11,6 +11,7 @@ import tech.threekilogram.transition.SceneManager;
 import tech.threekilogram.transition.evaluator.Evaluator;
 import tech.threekilogram.transition.evaluator.wrapper.DelayEvaluator;
 import tech.threekilogram.transition.evaluator.wrapper.SegmentFractionEvaluator;
+import tech.threekilogram.transitionmanager.R;
 
 /**
  * @author wuxio

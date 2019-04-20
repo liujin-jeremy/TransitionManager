@@ -1,4 +1,4 @@
-package tech.threekilogram.transitionmanager;
+package tech.threekilogram.transitionmanager.dep;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.FrameLayout;
 import tech.threekilogram.transition.SceneManager;
+import tech.threekilogram.transitionmanager.R;
 
 /**
  * @author wuxio
@@ -27,7 +28,7 @@ public class SceneSetActivity extends AppCompatActivity {
       protected void onCreate (Bundle savedInstanceState) {
 
             super.onCreate(savedInstanceState);
-            super.setContentView(R.layout.activity_scene);
+            super.setContentView( R.layout.activity_scene );
 
             initView();
       }

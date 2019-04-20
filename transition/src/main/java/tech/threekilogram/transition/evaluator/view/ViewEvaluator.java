@@ -49,7 +49,7 @@ public abstract class ViewEvaluator implements Evaluator {
       }
 
       /**
-       * 设置是否反转
+       * 设置是否反转,同时将当前进度应用到view上,改变显示状态
        *
        * @param reversed true:反转
        */
@@ -62,6 +62,18 @@ public abstract class ViewEvaluator implements Evaluator {
       }
 
       /**
+       * 设置是否反转的标记,不会改变显示状态
+       *
+       * @param reversed true:反转
+       */
+      public void justReversed ( boolean reversed ) {
+
+            if( reversed != isReversed ) {
+                  isReversed = reversed;
+            }
+      }
+
+      /**
        * 当前是否反转了
        *
        * @return {@link #isReversed}的值
@@ -69,5 +81,10 @@ public abstract class ViewEvaluator implements Evaluator {
       public boolean isReversed ( ) {
 
             return isReversed;
+      }
+
+      public float getProcess ( ) {
+
+            return mProcess;
       }
 }

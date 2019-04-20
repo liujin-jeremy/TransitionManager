@@ -19,9 +19,8 @@ import tech.threekilogram.transition.evaluator.view.ViewEvaluator;
  *
  * @author wuxio 2018-06-24:16:02
  */
+@Deprecated
 public class SceneManager {
-
-      private static final String TAG = "SceneManager";
 
       /**
        * a scene as Begin Scene , {@link SceneManager} will change this to end scene
@@ -53,7 +52,7 @@ public class SceneManager {
        * <p>
        * use list because the order must not changed when animate
        */
-      private ArrayList<ViewEvaluator> mEvaluatorsOfViewInBoth;
+      private ArrayList<ViewEvaluator> mEvaluators;
 
       /**
        * @param sceneToChange this is beginScene, it's child could change visionState to visionState
@@ -274,12 +273,12 @@ public class SceneManager {
        */
       private void addEvaluatorOfChildToList ( ViewEvaluator evaluator ) {
 
-            if( mEvaluatorsOfViewInBoth == null ) {
+            if( mEvaluators == null ) {
 
-                  mEvaluatorsOfViewInBoth = new ArrayList<>();
+                  mEvaluators = new ArrayList<>();
             }
 
-            mEvaluatorsOfViewInBoth.add( evaluator );
+            mEvaluators.add( evaluator );
       }
 
       /**
@@ -291,7 +290,7 @@ public class SceneManager {
        */
       public Evaluator getChildEvaluator ( @IdRes int childId ) {
 
-            ArrayList<ViewEvaluator> evaluators = mEvaluatorsOfViewInBoth;
+            ArrayList<ViewEvaluator> evaluators = mEvaluators;
 
             if( evaluators != null ) {
 
@@ -318,7 +317,7 @@ public class SceneManager {
        */
       public void updateChildEvaluator ( @IdRes int childId, ViewEvaluator evaluator ) {
 
-            ArrayList<ViewEvaluator> evaluators = mEvaluatorsOfViewInBoth;
+            ArrayList<ViewEvaluator> evaluators = mEvaluators;
 
             if( evaluators != null ) {
 
@@ -342,7 +341,7 @@ public class SceneManager {
        */
       private void notifyAllEvaluatorFractionUpdate ( float fraction ) {
 
-            ArrayList<ViewEvaluator> temp = mEvaluatorsOfViewInBoth;
+            ArrayList<ViewEvaluator> temp = mEvaluators;
 
             if( temp != null ) {
 
