@@ -4,12 +4,11 @@ package tech.threekilogram.transition;
  * @author wuxio 2018-06-21:18:14
  */
 
-import android.graphics.Rect;
 import android.support.annotation.FloatRange;
 import android.view.View;
 
 /**
- * 记录一个view的坐标，角度，alpha
+ * 记录一个view的坐标，角度，透明度
  *
  * @author wuxio
  */
@@ -19,29 +18,29 @@ public class ViewVisionState {
       /**
        * 坐标
        */
-      int left;
-      int top;
-      int right;
-      int bottom;
+      int mLeft;
+      int mTop;
+      int mRight;
+      int mBottom;
 
       /**
        * 旋转角度
        */
-      float rotation;
+      float mRotation;
+      float mRotationX;
+      float mRotationY;
 
       /**
        * alphaChanged
        */
-      float alpha;
+      float mAlpha;
 
-      ViewVisionState () {
-
-      }
+      public ViewVisionState ( ) { }
 
       /**
        * 创建一个当前的可见状态
        */
-      public ViewVisionState (View view) {
+      public ViewVisionState ( View view ) {
 
             this(
                 view.getLeft(),
@@ -49,6 +48,8 @@ public class ViewVisionState {
                 view.getRight(),
                 view.getBottom(),
                 view.getRotation(),
+                view.getRotationX(),
+                view.getRotationY(),
                 view.getAlpha()
             );
       }
@@ -56,7 +57,7 @@ public class ViewVisionState {
       /**
        * 根据另一个可视状态创建一个一模一样的
        */
-      public ViewVisionState (ViewVisionState visionState) {
+      public ViewVisionState ( ViewVisionState visionState ) {
 
             this(
                 visionState.getLeft(),
@@ -64,42 +65,9 @@ public class ViewVisionState {
                 visionState.getRight(),
                 visionState.getBottom(),
                 visionState.getRotation(),
+                visionState.mRotationX,
+                visionState.mRotationY,
                 visionState.getAlpha()
-            );
-      }
-
-      /**
-       * 创建一个未来的可见状态
-       */
-      public ViewVisionState (
-          View view,
-          Rect rect) {
-
-            this(
-                rect.left,
-                rect.top,
-                rect.right,
-                rect.bottom,
-                view.getRotation(),
-                view.getAlpha()
-            );
-      }
-
-      /**
-       * 创建一个未来的可见状态
-       */
-      public ViewVisionState (
-          Rect rect,
-          float rotation,
-          float alpha) {
-
-            this(
-                rect.left,
-                rect.top,
-                rect.right,
-                rect.bottom,
-                rotation,
-                alpha
             );
       }
 
@@ -111,14 +79,16 @@ public class ViewVisionState {
           int left,
           int top,
           int right,
-          int bottom) {
+          int bottom ) {
 
-            this.left = left;
-            this.top = top;
-            this.right = right;
-            this.bottom = bottom;
-            this.rotation = view.getRotation();
-            this.alpha = view.getAlpha();
+            this.mLeft = left;
+            this.mTop = top;
+            this.mRight = right;
+            this.mBottom = bottom;
+            this.mRotation = view.getRotation();
+            this.mRotationX = view.getRotationX();
+            this.mRotationY = view.getRotationY();
+            this.mAlpha = view.getAlpha();
       }
 
       /**
@@ -130,74 +100,98 @@ public class ViewVisionState {
           int right,
           int bottom,
           float rotation,
-          float alpha) {
+          float rotationX,
+          float rotationY,
+          float alpha ) {
 
-            this.left = left;
-            this.top = top;
-            this.right = right;
-            this.bottom = bottom;
-            this.rotation = rotation;
-            this.alpha = alpha;
+            this.mLeft = left;
+            this.mTop = top;
+            this.mRight = right;
+            this.mBottom = bottom;
+            this.mRotation = rotation;
+            this.mRotationX = rotationX;
+            this.mRotationY = rotationY;
+            this.mAlpha = alpha;
       }
 
-      public int getLeft () {
+      public int getLeft ( ) {
 
-            return left;
+            return mLeft;
       }
 
-      public int getTop () {
+      public int getTop ( ) {
 
-            return top;
+            return mTop;
       }
 
-      public int getRight () {
+      public int getRight ( ) {
 
-            return right;
+            return mRight;
       }
 
-      public int getBottom () {
+      public int getBottom ( ) {
 
-            return bottom;
+            return mBottom;
       }
 
-      public float getRotation () {
+      public float getRotation ( ) {
 
-            return rotation;
+            return mRotation;
       }
 
-      public float getAlpha () {
+      public float getRotationX ( ) {
 
-            return alpha;
+            return mRotationX;
       }
 
-      public void setLeft (int left) {
+      public float getRotationY ( ) {
 
-            this.left = left;
+            return mRotationY;
       }
 
-      public void setTop (int top) {
+      public float getAlpha ( ) {
 
-            this.top = top;
+            return mAlpha;
       }
 
-      public void setRight (int right) {
+      public void setLeft ( int left ) {
 
-            this.right = right;
+            this.mLeft = left;
       }
 
-      public void setBottom (int bottom) {
+      public void setTop ( int top ) {
 
-            this.bottom = bottom;
+            this.mTop = top;
       }
 
-      public void setRotation (float rotation) {
+      public void setRight ( int right ) {
 
-            this.rotation = rotation;
+            this.mRight = right;
       }
 
-      public void setAlpha (@FloatRange(from = 0, to = 1f) float alpha) {
+      public void setBottom ( int bottom ) {
 
-            this.alpha = alpha;
+            this.mBottom = bottom;
+      }
+
+      public void setRotation ( float rotation ) {
+
+            this.mRotation = rotation;
+      }
+
+      public void setRotationX ( float rotationX ) {
+
+            mRotationX = rotationX;
+      }
+
+      public void setRotationY ( float rotationY ) {
+
+            mRotationY = rotationY;
+      }
+
+      public void setAlpha ( @FloatRange(from = 0, to = 1f) float alpha ) {
+
+            this.mAlpha = alpha;
       }
 
       /**
@@ -205,24 +199,24 @@ public class ViewVisionState {
        *
        * @param view 新的状态的view
        */
-      public void update (View view) {
+      public void update ( View view ) {
 
-            left = view.getLeft();
-            top = view.getTop();
-            right = view.getRight();
-            bottom = view.getBottom();
+            mLeft = view.getLeft();
+            mTop = view.getTop();
+            mRight = view.getRight();
+            mBottom = view.getBottom();
 
-            rotation = view.getRotation();
-            alpha = view.getAlpha();
+            mRotation = view.getRotation();
+            mAlpha = view.getAlpha();
       }
 
       /**
        * @param view 应用给view
        */
-      public void applyTo (View view) {
+      public void applyTo ( View view ) {
 
-            view.layout(left, top, right, bottom);
-            view.setRotation(rotation);
-            view.setAlpha(alpha);
+            view.layout( mLeft, mTop, mRight, mBottom );
+            view.setRotation( mRotation );
+            view.setAlpha( mAlpha );
       }
 }

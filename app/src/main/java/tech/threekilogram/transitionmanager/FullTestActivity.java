@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import tech.threekilogram.transition.SceneManager.OnTransitionChangeListener;
@@ -23,6 +24,13 @@ import tech.threekilogram.transition.impl.TranslateEvaluator;
 public class FullTestActivity extends AppCompatActivity {
 
       private static final String TAG = "FullTestActivity";
+
+      private TextView mTestTransitionText;
+      private TextView mTestTranslateText;
+      private TextView mTestAlphaText;
+      private TextView mTestRotationText;
+      private TextView mTestColorText;
+      private FrameLayout mRoot;
 
       public static void start ( Context context ) {
 
@@ -42,14 +50,36 @@ public class FullTestActivity extends AppCompatActivity {
 
       private void initView ( ) {
 
+            mRoot = (FrameLayout) findViewById( R.id.root );
             mTestFrame = findViewById( R.id.testFrame );
-            mTestFrame.setOnClickListener( new TestFrameTransition( mTestFrame ) );
+            mTestTransitionText = (TextView) findViewById( R.id.testTransitionText );
+            mTestTranslateText = (TextView) findViewById( R.id.testTranslateText );
+            mTestAlphaText = (TextView) findViewById( R.id.testAlphaText );
+            mTestRotationText = (TextView) findViewById( R.id.testRotationText );
+            mTestColorText = (TextView) findViewById( R.id.testColorText );
+      }
+
+      private class EvaluatorFactory {
+
+            public EvaluatorFactory ( ) {
+
+                  mTestFrame.post( new Runnable() {
+
+                        @Override
+                        public void run ( ) {
+
+                              TransitionEvaluator containerEva = new TransitionEvaluator( mTestFrame, 0, 0, mRoot.getWidth(),
+                                                                                          mRoot.getHeight()
+                              );
+                        }
+                  } );
+            }
       }
 
       /**
        * 点击执行动画,点击事件
        */
-      private static class TestFrameTransition implements View.OnClickListener {
+      private static class TestFrameTransition implements OnClickListener {
 
             /**
              * 记录位置信息
@@ -125,7 +155,6 @@ public class FullTestActivity extends AppCompatActivity {
              * 执行折叠动画
              */
             private void collapse ( ) {
-
 
             }
 
@@ -235,14 +264,9 @@ public class FullTestActivity extends AppCompatActivity {
 
                               mTestColorEvaluator = new ColorEvaluator(
                                   mTestColorText,
+                                  startColor,
                                   endColor,
                                   new ColorApply() {
-
-                                        @Override
-                                        public int getStartColor ( View view ) {
-
-                                              return startColor;
-                                        }
 
                                         @Override
                                         public void onNewColorEvaluated ( View view, float process, int colorNew ) {
@@ -357,14 +381,9 @@ public class FullTestActivity extends AppCompatActivity {
 
                               mTestColorEvaluator = new ColorEvaluator(
                                   mTestColorText,
+                                  startColor,
                                   endColor,
                                   new ColorApply() {
-
-                                        @Override
-                                        public int getStartColor ( View view ) {
-
-                                              return startColor;
-                                        }
 
                                         @Override
                                         public void onNewColorEvaluated ( View view, float process, int colorNew ) {

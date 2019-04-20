@@ -57,13 +57,13 @@ public class SceneActivity extends AppCompatActivity {
 
                         Evaluator evaluator01 = mSceneManager.getChildEvaluator( R.id.view02 );
                         DelayEvaluator delayEvaluator = new DelayEvaluator( evaluator01, 1000 );
-                        mSceneManager.updateChildEvaluator( R.id.view02, delayEvaluator );
+                        //mSceneManager.updateChildEvaluator( R.id.view02, delayEvaluator );
 
                         Evaluator evaluator1 = mSceneManager.getChildEvaluator( R.id.view03 );
                         SegmentFractionEvaluator fractionEvaluator = new SegmentFractionEvaluator( evaluator1, 0.4f,
                                                                                                    0.9f
                         );
-                        mSceneManager.updateChildEvaluator( R.id.view03, fractionEvaluator );
+                        //mSceneManager.updateChildEvaluator( R.id.view03, fractionEvaluator );
                   }
             } );
 

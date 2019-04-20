@@ -5,8 +5,8 @@ package tech.threekilogram.transition.impl;
  */
 
 import android.view.View;
-import tech.threekilogram.transition.Evaluator;
 import tech.threekilogram.transition.Measure;
+import tech.threekilogram.transition.ViewEvaluator;
 import tech.threekilogram.transition.ViewVisionState;
 
 /**
@@ -14,7 +14,7 @@ import tech.threekilogram.transition.ViewVisionState;
  *
  * @author wuxio
  */
-public class TransitionEvaluator implements Evaluator {
+public class TransitionEvaluator extends ViewEvaluator {
 
       /**
        * 作用于该view
@@ -32,23 +32,16 @@ public class TransitionEvaluator implements Evaluator {
       /**
        * 当{@link #setFraction(float)}时会重新布局view,如果此值为true,那么布局时就会重新测量
        */
-      private boolean isRemeasureWhenFractionChanged;
+      private boolean isRemeasureWhenFractionChanged = true;
 
       public TransitionEvaluator ( final View view, int endLeft, int endTop, int endRight, int endBottom ) {
 
-            final ViewVisionState end = new ViewVisionState( view, endLeft, endTop, endRight, endBottom );
-            view.post( new Runnable() {
-
-                  @Override
-                  public void run ( ) {
-
-                        setField( view, new ViewVisionState( view ), end );
-                  }
-            } );
+            this( view, new ViewVisionState( view, endLeft, endTop, endRight, endBottom ) );
       }
 
       public TransitionEvaluator ( final View view, final ViewVisionState end ) {
 
+            super( view );
             view.post( new Runnable() {
 
                   @Override
@@ -61,6 +54,7 @@ public class TransitionEvaluator implements Evaluator {
 
       public TransitionEvaluator ( View view, ViewVisionState begin, ViewVisionState end ) {
 
+            super( view );
             setField( view, begin, end );
       }
 
@@ -71,7 +65,13 @@ public class TransitionEvaluator implements Evaluator {
             mEnd = end;
       }
 
-      private void evaluate ( float fraction, ViewVisionState startValue, ViewVisionState endValue ) {
+      private void evaluate ( float fraction, ViewVisionState startValue, ViewVisionState endValue, boolean reversed ) {
+
+            if( reversed ) {
+                  ViewVisionState temp = startValue;
+                  startValue = endValue;
+                  endValue = temp;
+            }
 
             /* 计算出当前的进度的值 */
 
@@ -93,6 +93,14 @@ public class TransitionEvaluator implements Evaluator {
                 startValue.getRotation()
                     + ( endValue.getRotation() - startValue.getRotation() ) * fraction;
 
+            float rotationX =
+                startValue.getRotationX()
+                    + ( endValue.getRotationX() - startValue.getRotationX() ) * fraction;
+
+            float rotationY =
+                startValue.getRotationY()
+                    + ( endValue.getRotationY() - startValue.getRotationY() ) * fraction;
+
             float alpha =
                 startValue.getAlpha() + ( endValue.getAlpha() - startValue.getAlpha() ) * fraction;
 
@@ -107,13 +115,15 @@ public class TransitionEvaluator implements Evaluator {
 
             mView.layout( left, top, right, bottom );
             mView.setRotation( rotation );
+            mView.setRotationX( rotation );
+            mView.setRotationY( rotation );
             mView.setAlpha( alpha );
       }
 
       @Override
       public void setFraction ( float fraction ) {
 
-            evaluate( fraction, mBegin, mEnd );
+            evaluate( fraction, mBegin, mEnd, isReversed );
       }
 
       @Override

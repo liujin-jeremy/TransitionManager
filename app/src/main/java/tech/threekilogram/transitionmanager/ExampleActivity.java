@@ -205,20 +205,19 @@ public class ExampleActivity extends AppCompatActivity {
 
       private void buildColorTest ( ) {
 
-            final Evaluator evaluator = new ColorEvaluator( mColorImage, Color.RED, new ColorApply() {
+            final Evaluator evaluator = new ColorEvaluator(
+                mColorImage,
+                getResources().getColor( R.color.gold ),
+                Color.RED,
+                new ColorApply() {
 
-                  @Override
-                  public int getStartColor ( View view ) {
+                      @Override
+                      public void onNewColorEvaluated ( View view, float process, int colorNew ) {
 
-                        return getResources().getColor( R.color.gold );
-                  }
-
-                  @Override
-                  public void onNewColorEvaluated ( View view, float process, int colorNew ) {
-
-                        view.setBackgroundColor( colorNew );
-                  }
-            } );
+                            view.setBackgroundColor( colorNew );
+                      }
+                }
+            );
             mColorSeek.setOnSeekBarChangeListener( new SimpleOnSeekBarChangeListener() {
 
                   @Override

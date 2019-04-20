@@ -2,14 +2,14 @@ package tech.threekilogram.transition.impl;
 
 import android.support.annotation.ColorInt;
 import android.view.View;
-import tech.threekilogram.transition.Evaluator;
+import tech.threekilogram.transition.ViewEvaluator;
 
 /**
  * 根据进度值计算出一个颜色，并设置给view
  *
  * @author wuxio 2018-06-24:17:21
  */
-public class ColorEvaluator implements Evaluator {
+public class ColorEvaluator extends ViewEvaluator {
 
       @ColorInt
       private int mStartColor;
@@ -19,32 +19,25 @@ public class ColorEvaluator implements Evaluator {
       /**
        * 使用该接口获取开始颜色，并且决定如何设置新的颜色
        */
-      private ColorApply mConstructor;
-
-      private View mView;
+      private ColorApply mApply;
 
       public ColorEvaluator (
           View view,
+          @ColorInt int startColor,
           @ColorInt int endColor,
-          ColorApply constructor ) {
+          ColorApply apply ) {
 
-            mView = view;
-            mConstructor = constructor;
-            mStartColor = constructor.getStartColor( view );
+            super( view );
+            mApply = apply;
+            mStartColor = startColor;
             mEndColor = endColor;
       }
 
       @Override
       public void setFraction ( float fraction ) {
 
-            int currentColor = evaluate( fraction, mStartColor, mEndColor );
-            mConstructor.onNewColorEvaluated( mView, fraction, currentColor );
-      }
-
-      @Override
-      public View getTarget ( ) {
-
-            return mView;
+            int currentColor = evaluate( fraction, mStartColor, mEndColor, isReversed );
+            mApply.onNewColorEvaluated( mView, fraction, currentColor );
       }
 
       public void setStartColor ( @ColorInt int startColor ) {
@@ -61,16 +54,6 @@ public class ColorEvaluator implements Evaluator {
        * 使用该接口构建一个Evaluator
        */
       public interface ColorApply {
-
-            /**
-             * 获取view 起始变化颜色
-             *
-             * @param view target
-             *
-             * @return start color
-             */
-            @ColorInt
-            int getStartColor ( View view );
 
             /**
              * when new color evaluate this will call
@@ -91,7 +74,13 @@ public class ColorEvaluator implements Evaluator {
        *
        * @return 当前颜色值
        */
-      private static int evaluate ( float fraction, int startValue, int endValue ) {
+      private static int evaluate ( float fraction, int startValue, int endValue, boolean reversed ) {
+
+            if( reversed ) {
+                  int temp = startValue;
+                  startValue = endValue;
+                  endValue = temp;
+            }
 
             float startA = ( ( startValue >> 24 ) & 0xff ) / 255.0f;
             float startR = ( ( startValue >> 16 ) & 0xff ) / 255.0f;

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import tech.threekilogram.transition.impl.TransitionEvaluator;
 
 /**
- * 根据view在不同布局中的显示状态（位置，角度，alpha）创建场景动画
+ * 根据view在不同布局中的显示状态（位置，角度，mAlpha）创建场景动画
  * <p>
  * create scene transition
  *
@@ -24,40 +24,34 @@ public class SceneManager {
       /**
        * a scene as Begin Scene , {@link SceneManager} will change this to end scene
        */
-      private ViewGroup mSceneToChange;
-
+      private ViewGroup                mSceneToChange;
       /**
        * begin scene vision State
        */
-      private ViewVisionState mBeginSceneVision;
-
+      private ViewVisionState          mBeginSceneVision;
       /**
        * end scene vision state
        */
-      private ViewVisionState mEndSceneVision;
-
+      private ViewVisionState          mEndSceneVision;
       /**
        * true : current scene is to end
        */
-      private boolean isCurrentSceneEnd;
-
+      private boolean                  isCurrentSceneEnd;
       /**
        * use this to change {@link #mSceneToChange} to end scene
        */
-      private Animator mSceneAnimator;
-
+      private Animator                 mSceneAnimator;
       /**
        * use this to change child in {@link #mSceneToChange} to end scene state
        */
-      private OnSceneUpdateListener mUpdateListener;
-
+      private OnSceneUpdateListener    mUpdateListener;
       /**
        * this list contains all {@link Evaluator} of child in both scene,use {@link Evaluator} to
        * changeView VisionState
        * <p>
        * use list because the order must not changed when animate
        */
-      private ArrayList<Evaluator> mEvaluatorsOfViewInBoth;
+      private ArrayList<ViewEvaluator> mEvaluatorsOfViewInBoth;
 
       /**
        * @param sceneToChange this is beginScene, it's child could change visionState to visionState
@@ -119,10 +113,10 @@ public class SceneManager {
       /**
        * @param sceneToChange this is beginScene, it's child could change visionState to visionState
        *     defined by {@code layoutEndSceneID}
-       * @param sceneEndLeft this decide beginScene's left when at endState
-       * @param sceneEndTop this decide beginScene's top when at endState
-       * @param sceneEndRight this decide beginScene's right when at endState
-       * @param sceneEndBottom this decide beginScene's bottom when at endState
+       * @param sceneEndLeft this decide beginScene's mLeft when at endState
+       * @param sceneEndTop this decide beginScene's mTop when at endState
+       * @param sceneEndRight this decide beginScene's mRight when at endState
+       * @param sceneEndBottom this decide beginScene's mBottom when at endState
        * @param layoutEndSceneID end scene will inflate from this layout, end scene decide child in
        *     begin scene's end vision state
        *     <p>
@@ -158,10 +152,10 @@ public class SceneManager {
       /**
        * @param sceneToChange this is beginScene, it's child could change visionState to visionState
        *     defined by {@code layoutEndSceneID}
-       * @param sceneEndLeft this decide beginScene's left when at endState
-       * @param sceneEndTop this decide beginScene's top when at endState
-       * @param sceneEndRight this decide beginScene's right when at endState
-       * @param sceneEndBottom this decide beginScene's bottom when at endState
+       * @param sceneEndLeft this decide beginScene's mLeft when at endState
+       * @param sceneEndTop this decide beginScene's mTop when at endState
+       * @param sceneEndRight this decide beginScene's mRight when at endState
+       * @param sceneEndBottom this decide beginScene's mBottom when at endState
        * @param sceneEnd end scene ； end scene decide child in begin scene's end vision state
        *     <p>
        *     note : {@code sceneToChange} must layout finished
@@ -276,7 +270,7 @@ public class SceneManager {
       /**
        * add the views evaluator to list
        */
-      private void addEvaluatorOfChildToList ( Evaluator evaluator ) {
+      private void addEvaluatorOfChildToList ( ViewEvaluator evaluator ) {
 
             if( mEvaluatorsOfViewInBoth == null ) {
 
@@ -295,14 +289,14 @@ public class SceneManager {
        */
       public Evaluator getChildEvaluator ( @IdRes int childId ) {
 
-            ArrayList<Evaluator> evaluators = mEvaluatorsOfViewInBoth;
+            ArrayList<ViewEvaluator> evaluators = mEvaluatorsOfViewInBoth;
 
             if( evaluators != null ) {
 
                   int size = evaluators.size();
                   for( int i = 0; i < size; i++ ) {
 
-                        Evaluator evaluator = evaluators.get( i );
+                        ViewEvaluator evaluator = evaluators.get( i );
 
                         if( evaluator.getTarget().getId() == childId ) {
                               return evaluator;
@@ -320,16 +314,16 @@ public class SceneManager {
        *
        * @return child evaluator
        */
-      public void updateChildEvaluator ( @IdRes int childId, Evaluator evaluator ) {
+      public void updateChildEvaluator ( @IdRes int childId, ViewEvaluator evaluator ) {
 
-            ArrayList<Evaluator> evaluators = mEvaluatorsOfViewInBoth;
+            ArrayList<ViewEvaluator> evaluators = mEvaluatorsOfViewInBoth;
 
             if( evaluators != null ) {
 
                   int size = evaluators.size();
                   for( int i = 0; i < size; i++ ) {
 
-                        Evaluator temp = evaluators.get( i );
+                        ViewEvaluator temp = evaluators.get( i );
 
                         if( temp.getTarget().getId() == childId ) {
 
@@ -346,7 +340,7 @@ public class SceneManager {
        */
       private void notifyAllEvaluatorFractionUpdate ( float fraction ) {
 
-            ArrayList<Evaluator> temp = mEvaluatorsOfViewInBoth;
+            ArrayList<ViewEvaluator> temp = mEvaluatorsOfViewInBoth;
 
             if( temp != null ) {
 

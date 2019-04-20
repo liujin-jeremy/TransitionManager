@@ -3,7 +3,20 @@ package tech.threekilogram.transition;
 /**
  * @author Liujin 2019/4/20:9:59:38
  */
-public interface WrapperEvaluator extends Evaluator {
+public abstract class WrapperEvaluator implements Evaluator {
 
-      Evaluator getActual ( );
+      /**
+       * 实际起作用的evaluator
+       */
+      protected Evaluator mEvaluatorActual;
+
+      protected WrapperEvaluator ( Evaluator evaluator ) {
+
+            mEvaluatorActual = evaluator;
+      }
+
+      protected Evaluator getActual ( ) {
+
+            return mEvaluatorActual;
+      }
 }

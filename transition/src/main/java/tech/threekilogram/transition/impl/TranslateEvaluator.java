@@ -1,20 +1,19 @@
 package tech.threekilogram.transition.impl;
 
 import android.view.View;
-import tech.threekilogram.transition.Evaluator;
+import tech.threekilogram.transition.ViewEvaluator;
 
 /**
  * 根据进度移动view位置
  *
  * @author wuxio 2018-06-23:12:17
  */
-public class TranslateEvaluator implements Evaluator {
+public class TranslateEvaluator extends ViewEvaluator {
 
       private float mStartX;
       private float mStartY;
       private float mEndX;
       private float mEndY;
-      private View  mView;
 
       /**
        * {@link View#getX()} 和 {@link View#getY()}
@@ -25,7 +24,7 @@ public class TranslateEvaluator implements Evaluator {
        */
       public TranslateEvaluator ( final View view, final float endX, final float endY ) {
 
-            mView = view;
+            super( view );
             view.post( new Runnable() {
 
                   @Override
@@ -62,16 +61,19 @@ public class TranslateEvaluator implements Evaluator {
       @Override
       public void setFraction ( float fraction ) {
 
-            float currentX = ( mStartX + ( mEndX - mStartX ) * fraction );
-            float currentY = ( mStartY + ( mEndY - mStartY ) * fraction );
+            if( isReversed ) {
 
-            mView.setX( currentX );
-            mView.setY( currentY );
-      }
+                  float currentX = ( mEndX + ( mStartX - mEndX ) * fraction );
+                  float currentY = ( mEndY + ( mStartY - mEndY ) * fraction );
 
-      @Override
-      public View getTarget ( ) {
+                  mView.setX( currentX );
+                  mView.setY( currentY );
+            } else {
+                  float currentX = ( mStartX + ( mEndX - mStartX ) * fraction );
+                  float currentY = ( mStartY + ( mEndY - mStartY ) * fraction );
 
-            return mView;
+                  mView.setX( currentX );
+                  mView.setY( currentY );
+            }
       }
 }

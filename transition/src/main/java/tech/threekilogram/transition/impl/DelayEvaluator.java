@@ -2,9 +2,7 @@ package tech.threekilogram.transition.impl;
 
 import android.os.Message;
 import android.support.annotation.NonNull;
-import android.view.View;
 import tech.threekilogram.transition.Evaluator;
-import tech.threekilogram.transition.ViewVisionState;
 import tech.threekilogram.transition.WrapperEvaluator;
 
 /**
@@ -12,7 +10,7 @@ import tech.threekilogram.transition.WrapperEvaluator;
  *
  * @author wuxio 2018-06-25:11:14
  */
-public class DelayEvaluator implements WrapperEvaluator {
+public class DelayEvaluator extends WrapperEvaluator {
 
       /**
        * 发送延时消息
@@ -20,37 +18,20 @@ public class DelayEvaluator implements WrapperEvaluator {
       private static HelperHandler sHandler = new HelperHandler();
 
       /**
-       * 实际起作用的evaluator
-       */
-      private Evaluator       mEvaluatorActual;
-      /**
        * 延时时间
        */
-      private int             mDelayed;
-      /**
-       * 记录上一次显示状态
-       */
-      private ViewVisionState mViewVisionState;
+      private int mDelayed;
 
       /**
        * 使用该 what 取消延时任务
        */
-      private int what = hashCode();
+      private int what;
 
       public DelayEvaluator ( @NonNull Evaluator evaluatorActual, int delayed ) {
 
-            mEvaluatorActual = evaluatorActual;
+            super( evaluatorActual );
             setDelayed( delayed );
-
-            final View target = mEvaluatorActual.getTarget();
-            target.post( new Runnable() {
-
-                  @Override
-                  public void run ( ) {
-
-                        mViewVisionState = new ViewVisionState( target );
-                  }
-            } );
+            what = hashCode();
       }
 
       public void setDelayed ( int delayed ) {
@@ -72,11 +53,6 @@ public class DelayEvaluator implements WrapperEvaluator {
       @Override
       public void setFraction ( float fraction ) {
 
-            /* set target location stable */
-
-            View target = mEvaluatorActual.getTarget();
-            mViewVisionState.applyTo( target );
-
             if( mDelayed <= 0 ) {
 
                   setFractionWhenReceiveMessage( fraction );
@@ -94,15 +70,6 @@ public class DelayEvaluator implements WrapperEvaluator {
       private void setFractionWhenReceiveMessage ( float fraction ) {
 
             mEvaluatorActual.setFraction( fraction );
-
-            View target = mEvaluatorActual.getTarget();
-            mViewVisionState.update( target );
-      }
-
-      @Override
-      public View getTarget ( ) {
-
-            return mEvaluatorActual.getTarget();
       }
 
       @Override

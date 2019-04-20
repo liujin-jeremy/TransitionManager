@@ -1,7 +1,6 @@
 package tech.threekilogram.transition.impl;
 
 import android.support.annotation.FloatRange;
-import android.view.View;
 import tech.threekilogram.transition.Evaluator;
 import tech.threekilogram.transition.WrapperEvaluator;
 
@@ -10,9 +9,7 @@ import tech.threekilogram.transition.WrapperEvaluator;
  *
  * @author wuxio 2018-06-25:12:57
  */
-public class SegmentFractionEvaluator implements WrapperEvaluator {
-
-      private Evaluator mEvaluatorActual;
+public class SegmentFractionEvaluator extends WrapperEvaluator {
 
       /**
        * 将这两段进度之间的进度映射成 （0~1）
@@ -25,7 +22,7 @@ public class SegmentFractionEvaluator implements WrapperEvaluator {
           @FloatRange(from = 0, to = 1) float startFraction,
           @FloatRange(from = 0, to = 1) float endFraction ) {
 
-            mEvaluatorActual = evaluatorActual;
+            super( evaluatorActual );
             mStartFraction = startFraction;
             mEndFraction = endFraction;
       }
@@ -46,12 +43,6 @@ public class SegmentFractionEvaluator implements WrapperEvaluator {
             }
       }
 
-      @Override
-      public View getTarget ( ) {
-
-            return mEvaluatorActual.getTarget();
-      }
-
       public void setEndFraction ( float endFraction ) {
 
             mEndFraction = endFraction;
@@ -60,11 +51,5 @@ public class SegmentFractionEvaluator implements WrapperEvaluator {
       public void setStartFraction ( float startFraction ) {
 
             mStartFraction = startFraction;
-      }
-
-      @Override
-      public Evaluator getActual ( ) {
-
-            return mEvaluatorActual;
       }
 }
