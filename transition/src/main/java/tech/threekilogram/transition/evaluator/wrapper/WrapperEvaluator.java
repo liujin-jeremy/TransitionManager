@@ -1,5 +1,6 @@
 package tech.threekilogram.transition.evaluator.wrapper;
 
+import android.view.View;
 import tech.threekilogram.transition.evaluator.Evaluator;
 
 /**
@@ -20,5 +21,11 @@ public abstract class WrapperEvaluator implements Evaluator {
       protected Evaluator getActual ( ) {
 
             return mEvaluatorActual;
+      }
+
+      @Override
+      public View getTarget ( ) {
+
+            return mEvaluatorActual.getTarget();
       }
 }

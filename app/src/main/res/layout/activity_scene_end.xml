@@ -10,28 +10,29 @@
       <FrameLayout
           android:id="@+id/scene"
           android:layout_width="match_parent"
-          android:layout_height="200dp"
-          android:layout_gravity="bottom"
+          android:layout_height="match_parent"
           android:background="@color/gold">
 
             <TextView
                 android:id="@+id/view00"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="end|bottom"
                 android:background="@color/beige"
                 android:text="view00"/>
 
             <FrameLayout
                 android:id="@+id/viewGroup00"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="bottom"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="end|center_vertical"
                 android:background="@color/burlywood">
 
                   <TextView
                       android:id="@+id/view01"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
+                      android:layout_gravity="center_vertical|end"
                       android:background="@color/beige"
                       android:text="view01"/>
 
@@ -39,8 +40,8 @@
 
             <TextView
                 android:id="@+id/viewExtra00"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:background="@color/beige"
                 android:text="viewExtra00"/>
@@ -50,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="36dp"
-                android:layout_gravity="start"
+                android:layout_gravity="end"
                 android:background="@color/beige"
                 android:text="delay 3000"/>
 
@@ -59,7 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="58dp"
-                android:layout_gravity="start"
+                android:layout_gravity="end"
                 android:background="@color/beige"
                 android:text="fraction"/>
 

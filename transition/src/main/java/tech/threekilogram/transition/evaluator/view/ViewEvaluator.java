@@ -43,6 +43,7 @@ public abstract class ViewEvaluator implements Evaluator {
        *
        * @return target : which view to set Fraction
        */
+      @Override
       public View getTarget ( ) {
 
             return mView;

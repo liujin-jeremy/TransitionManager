@@ -29,14 +29,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="toSceneActivity"
-                android:text="toSceneActivity"/>
+                android:text="测试SceneManager"/>
 
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="toSceneSetActivity"
-                android:text="toSceneSetActivity"/>
+            <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:onClick="toSceneSetActivity"-->
+            <!--android:text="toSceneSetActivity"/>-->
 
       </LinearLayout>
 

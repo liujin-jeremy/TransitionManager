@@ -25,4 +25,9 @@ public class MainActivity extends AppCompatActivity {
 
             ExampleActivity.start( this );
       }
+
+      public void toSceneActivity ( View view ) {
+
+            SceneActivity.start( this );
+      }
 }

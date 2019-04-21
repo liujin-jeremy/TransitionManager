@@ -20,7 +20,7 @@
         </activity>
         <activity android:name=".FullTestActivity">
         </activity>
-        <activity android:name=".dep.SceneActivity">
+        <activity android:name=".SceneActivity">
         </activity>
         <activity android:name=".dep.SceneSetActivity"/>
     </application>

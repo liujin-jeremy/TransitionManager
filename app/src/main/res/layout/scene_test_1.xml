@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <TextView
-            android:id="@+id/view00"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|bottom"
-            android:background="@color/beige"
-            android:text="view00"/>
+      <TextView
+          android:id="@+id/view00"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="end|bottom"
+          android:background="@color/beige"
+          android:text="view00"/>
 
-    <FrameLayout
-            android:id="@+id/viewGroup00"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_gravity="end|center_vertical"
-            android:background="@color/burlywood">
+      <FrameLayout
+          android:id="@+id/viewGroup00"
+          android:layout_width="200dp"
+          android:layout_height="200dp"
+          android:layout_gravity="end|center_vertical"
+          android:background="@color/burlywood">
 
-        <TextView
+            <TextView
                 android:id="@+id/view01"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -26,32 +27,32 @@
                 android:background="@color/beige"
                 android:text="view01"/>
 
-    </FrameLayout>
+      </FrameLayout>
 
-    <TextView
-            android:id="@+id/viewExtra00"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:background="@color/beige"
-            android:text="viewExtra00"/>
+      <TextView
+          android:id="@+id/viewExtra00"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="end"
+          android:background="@color/beige"
+          android:text="viewExtra00"/>
 
-    <TextView
-            android:id="@+id/view02"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginTop="36dp"
-            android:background="@color/beige"
-            android:text="delay 3000"/>
+      <TextView
+          android:id="@+id/view02"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="36dp"
+          android:layout_gravity="end"
+          android:background="@color/beige"
+          android:text="delay 3000"/>
 
-    <TextView
-            android:id="@+id/view03"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginTop="58dp"
-            android:background="@color/beige"
-            android:text="fraction"/>
+      <TextView
+          android:id="@+id/view03"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="58dp"
+          android:layout_gravity="end"
+          android:background="@color/beige"
+          android:text="fraction"/>
 
 </FrameLayout>
