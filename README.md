@@ -182,3 +182,22 @@ mAnimator.setDuration( 1000 );
 ```
 
 ![](img/pic09.gif)
+
+
+
+### SceneManager
+
+根据两个布局,比对相同id的view的显示信息,制作动画
+
+```
+mSceneManager = new SceneManager( mRoot, R.layout.activity_scene_end );
+```
+
+```
+mSceneManager.evaluate( animatedFraction ); // 更新进度
+```
+
+![](img/pic11.gif)
+
+
+
