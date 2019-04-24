@@ -1,7 +1,7 @@
-package tech.threekilogram.transition.evaluator.wrapper;
+package tech.liujin.transition.evaluator.wrapper;
 
 import android.view.View;
-import tech.threekilogram.transition.evaluator.Evaluator;
+import tech.liujin.transition.evaluator.Evaluator;
 
 /**
  * @author Liujin 2019/4/20:9:59:38

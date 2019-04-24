@@ -1,8 +1,8 @@
-package tech.threekilogram.transition.evaluator.wrapper;
+package tech.liujin.transition.evaluator.wrapper;
 
 import android.os.Message;
 import android.support.annotation.NonNull;
-import tech.threekilogram.transition.evaluator.Evaluator;
+import tech.liujin.transition.evaluator.Evaluator;
 
 /**
  * wrapper a {@link Evaluator} make him could set fraction with a delayed time

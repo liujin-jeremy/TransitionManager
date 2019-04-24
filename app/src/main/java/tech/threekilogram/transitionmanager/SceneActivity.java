@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
-import tech.threekilogram.transition.SceneManager;
+import tech.liujin.transition.SceneManager;
 
 /**
  * @author wuxio

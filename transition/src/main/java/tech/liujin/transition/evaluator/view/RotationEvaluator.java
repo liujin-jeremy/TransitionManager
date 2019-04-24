@@ -1,4 +1,4 @@
-package tech.threekilogram.transition.evaluator.view;
+package tech.liujin.transition.evaluator.view;
 
 import android.view.View;
 
@@ -7,7 +7,7 @@ import android.view.View;
  *
  * @author wuxio 2018-06-24:9:24
  */
-public class RotationYEvaluator extends ViewEvaluator {
+public class RotationEvaluator extends ViewEvaluator {
 
       /**
        * 起始角度
@@ -18,7 +18,7 @@ public class RotationYEvaluator extends ViewEvaluator {
        */
       private float mRotationEnd;
 
-      public RotationYEvaluator ( View view, float rotationEnd ) {
+      public RotationEvaluator ( View view, float rotationEnd ) {
 
             super( view );
 
@@ -34,13 +34,11 @@ public class RotationYEvaluator extends ViewEvaluator {
             super.evaluate( process );
 
             if( isReversed ) {
-
                   float current = mRotationEnd + ( mRotationBegin - mRotationEnd ) * process;
-                  mView.setRotationY( current );
+                  mView.setRotation( current );
             } else {
-
                   float current = mRotationBegin + ( mRotationEnd - mRotationBegin ) * process;
-                  mView.setRotationY( current );
+                  mView.setRotation( current );
             }
       }
 

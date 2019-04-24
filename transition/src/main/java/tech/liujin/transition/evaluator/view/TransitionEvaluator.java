@@ -1,12 +1,12 @@
-package tech.threekilogram.transition.evaluator.view;
+package tech.liujin.transition.evaluator.view;
 
 /**
  * @author wuxio 2018-06-23:12:16
  */
 
 import android.view.View;
-import tech.threekilogram.transition.Measure;
-import tech.threekilogram.transition.ViewVisionState;
+import tech.liujin.transition.Measure;
+import tech.liujin.transition.ViewVisionState;
 
 /**
  * 使用该类制作静态变化效果,根据进度变化

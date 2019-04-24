@@ -1,4 +1,4 @@
-package tech.threekilogram.transition;
+package tech.liujin.transition;
 
 /**
  * @author wuxio 2018-06-21:18:14

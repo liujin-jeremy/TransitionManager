@@ -1,11 +1,11 @@
-package tech.threekilogram.transition.evaluator.view;
+package tech.liujin.transition.evaluator.view;
 
 /**
  * @author wuxio 2018-06-23:12:16
  */
 
 import android.view.View;
-import tech.threekilogram.transition.evaluator.Evaluator;
+import tech.liujin.transition.evaluator.Evaluator;
 
 /**
  * 通用进度动画接口

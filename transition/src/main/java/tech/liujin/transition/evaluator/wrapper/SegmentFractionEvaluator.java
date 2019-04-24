@@ -1,7 +1,7 @@
-package tech.threekilogram.transition.evaluator.wrapper;
+package tech.liujin.transition.evaluator.wrapper;
 
 import android.support.annotation.FloatRange;
-import tech.threekilogram.transition.evaluator.Evaluator;
+import tech.liujin.transition.evaluator.Evaluator;
 
 /**
  * 将一段进度映射成另一段进度

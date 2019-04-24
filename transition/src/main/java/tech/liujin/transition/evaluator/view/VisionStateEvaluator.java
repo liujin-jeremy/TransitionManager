@@ -1,8 +1,8 @@
-package tech.threekilogram.transition.evaluator.view;
+package tech.liujin.transition.evaluator.view;
 
 import android.view.View;
-import tech.threekilogram.transition.Measure;
-import tech.threekilogram.transition.ViewVisionState;
+import tech.liujin.transition.Measure;
+import tech.liujin.transition.ViewVisionState;
 
 /**
  * @author Liujin 2019/4/20:18:50:18
