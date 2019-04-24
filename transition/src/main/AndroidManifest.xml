@@ -1,2 +1,2 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="tech.threekilogram.transition"/>
+<manifest
+    package="tech.liujin.transition"/>
