@@ -1,7 +1,7 @@
 ## 一个动画框架
 
 ```
-implementation 'tech.liujin:transition:1.0.0'
+implementation 'tech.liujin:transition:1.0.5'
 ```
 
 ### 位移
