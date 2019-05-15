@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
 import tech.liujin.transition.SceneManager;
-import tech.liujin.transition.evaluator.wrapper.DelayEvaluator;
 import tech.liujin.transition.evaluator.wrapper.SegmentFractionEvaluator;
 
 /**
@@ -51,10 +50,10 @@ public class SceneActivity extends AppCompatActivity {
                   @Override
                   public void run ( ) {
 
-                        mSceneManager.updateChildEvaluator(
-                            R.id.view02,
-                            new DelayEvaluator( mSceneManager.getChildEvaluator( R.id.view02 ), 3000 )
-                        );
+//                        mSceneManager.updateChildEvaluator(
+//                            R.id.view02,
+//                            new DelayEvaluator( mSceneManager.getChildEvaluator( R.id.view02 ), 3000 )
+//                        );
                         mSceneManager.updateChildEvaluator(
                             R.id.view03,
                             new SegmentFractionEvaluator( mSceneManager.getChildEvaluator( R.id.view03 ), 0.2f, 0.7f )
@@ -77,7 +76,6 @@ public class SceneActivity extends AppCompatActivity {
                         }
 
                         mListener.setFlip( !mListener.isFlip );
-
                         mAnimator.start();
                   }
             } );
@@ -85,7 +83,7 @@ public class SceneActivity extends AppCompatActivity {
 
       private class UpdateListener implements AnimatorUpdateListener {
 
-            private boolean isFlip;
+            private boolean isFlip = true;
 
             public void setFlip ( boolean flip ) {
 

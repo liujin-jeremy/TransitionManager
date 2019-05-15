@@ -2,6 +2,7 @@ package tech.liujin.transition.evaluator.wrapper;
 
 import android.os.Message;
 import android.support.annotation.NonNull;
+import java.util.concurrent.atomic.AtomicInteger;
 import tech.liujin.transition.evaluator.Evaluator;
 
 /**
@@ -14,7 +15,11 @@ public class DelayEvaluator extends WrapperEvaluator {
       /**
        * 发送延时消息
        */
-      private static HelperHandler sHandler = new HelperHandler();
+      private static       HelperHandler sHandler = new HelperHandler();
+      /**
+       * index provider
+       */
+      private static final AtomicInteger INTEGER  = new AtomicInteger();
 
       /**
        * 延时时间
@@ -30,7 +35,7 @@ public class DelayEvaluator extends WrapperEvaluator {
 
             super( evaluatorActual );
             setDelayed( delayed );
-            what = hashCode();
+            what = INTEGER.getAndAdd( 1 );
       }
 
       public void setDelayed ( int delayed ) {
@@ -85,7 +90,7 @@ public class DelayEvaluator extends WrapperEvaluator {
             @Override
             public void handleMessage ( Message msg ) {
 
-                  ( (DelayEvaluator) msg.obj ).setFractionWhenReceiveMessage( msg.arg1 * 1f / 1000 );
+                  ( (DelayEvaluator) msg.obj ).setFractionWhenReceiveMessage( msg.arg1 * 1f / 100000 );
             }
 
             private void sendDelayMessage ( DelayEvaluator target, int delayed, float fraction ) {
@@ -94,7 +99,7 @@ public class DelayEvaluator extends WrapperEvaluator {
 
                   message.what = target.what;
                   message.obj = target;
-                  message.arg1 = (int) ( fraction * 1000 );
+                  message.arg1 = (int) ( fraction * 100000 );
 
                   sendMessageDelayed( message, delayed );
             }
