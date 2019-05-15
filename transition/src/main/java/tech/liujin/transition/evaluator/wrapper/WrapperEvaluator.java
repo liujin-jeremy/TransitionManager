@@ -9,7 +9,7 @@ import tech.liujin.transition.evaluator.Evaluator;
 public abstract class WrapperEvaluator implements Evaluator {
 
       /**
-       * 实际起作用的evaluator
+       * 被装饰的evaluator
        */
       protected Evaluator mEvaluatorActual;
 
@@ -18,7 +18,7 @@ public abstract class WrapperEvaluator implements Evaluator {
             mEvaluatorActual = evaluator;
       }
 
-      protected Evaluator getActual ( ) {
+      public Evaluator getActual ( ) {
 
             return mEvaluatorActual;
       }

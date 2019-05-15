@@ -62,6 +62,8 @@ public class VisionStateEvaluator extends ViewEvaluator {
       @Override
       public void evaluate ( float process ) {
 
+            super.evaluate( process );
+
             if( isReversed ) {
                   ViewVisionState.calculateDiff( mStateEnd, mStateStart, process, mTemp );
             } else {
@@ -87,5 +89,11 @@ public class VisionStateEvaluator extends ViewEvaluator {
       public void setRemeasureWhenChanged ( boolean remeasureWhenChanged ) {
 
             isRemeasureWhenChanged = remeasureWhenChanged;
+      }
+
+      @Override
+      public String toString ( ) {
+
+            return "process:" + mProcess + " " + mTemp.toString();
       }
 }

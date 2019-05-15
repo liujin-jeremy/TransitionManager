@@ -112,6 +112,64 @@ public class ViewVisionState {
             this.mAlpha = alpha;
       }
 
+      public static void calculateDiff ( ViewVisionState start, ViewVisionState end, float progress, ViewVisionState result ) {
+
+            /* 计算出当前的进度的值 */
+            result.mLeft = (int) ( start.getLeft() + ( end.getLeft() - start.getLeft() ) * progress );
+            result.mTop = (int) ( start.getTop() + ( end.getTop() - start.getTop() ) * progress );
+            result.mRight = (int) ( start.getRight() + ( end.getRight() - start.getRight() ) * progress );
+            result.mBottom = (int) ( start.getBottom() + ( end.getBottom() - start.getBottom() ) * progress );
+            result.mRotation = start.getRotation() + ( end.getRotation() - start.getRotation() ) * progress;
+            result.mRotationX = start.getRotationX() + ( end.getRotationX() - start.getRotationX() ) * progress;
+            result.mRotationY = start.getRotationY() + ( end.getRotationY() - start.getRotationY() ) * progress;
+            result.mAlpha = start.getAlpha() + ( end.getAlpha() - start.getAlpha() ) * progress;
+      }
+
+      /**
+       * 根据一个view的显示状态，重新设置值
+       *
+       * @param view 新的状态的view
+       */
+      public void update ( View view ) {
+
+            mLeft = view.getLeft();
+            mTop = view.getTop();
+            mRight = view.getRight();
+            mBottom = view.getBottom();
+
+            mRotation = view.getRotation();
+            mRotationX = view.getRotationX();
+            mRotationY = view.getRotationY();
+            mAlpha = view.getAlpha();
+      }
+
+      /**
+       * @param view 应用给view
+       */
+      public void applyTo ( View view ) {
+
+            view.setRotation( mRotation );
+            view.setRotationX( mRotationX );
+            view.setRotationY( mRotationY );
+            view.setAlpha( mAlpha );
+            view.layout( mLeft, mTop, mRight, mBottom );
+      }
+
+      @Override
+      public String toString ( ) {
+
+            return "ViewVisionState{" +
+                "mLeft=" + mLeft +
+                ", mTop=" + mTop +
+                ", mRight=" + mRight +
+                ", mBottom=" + mBottom +
+                ", mRotation=" + mRotation +
+                ", mRotationX=" + mRotationX +
+                ", mRotationY=" + mRotationY +
+                ", mAlpha=" + mAlpha +
+                '}';
+      }
+
       public int getLeft ( ) {
 
             return mLeft;
@@ -190,44 +248,5 @@ public class ViewVisionState {
       public void setAlpha ( @FloatRange(from = 0, to = 1f) float alpha ) {
 
             this.mAlpha = alpha;
-      }
-
-      public static void calculateDiff ( ViewVisionState start, ViewVisionState end, float progress, ViewVisionState result ) {
-
-            /* 计算出当前的进度的值 */
-            result.mLeft = (int) ( start.getLeft() + ( end.getLeft() - start.getLeft() ) * progress );
-            result.mTop = (int) ( start.getTop() + ( end.getTop() - start.getTop() ) * progress );
-            result.mRight = (int) ( start.getRight() + ( end.getRight() - start.getRight() ) * progress );
-            result.mBottom = (int) ( start.getBottom() + ( end.getBottom() - start.getBottom() ) * progress );
-            result.mRotation = start.getRotation() + ( end.getRotation() - start.getRotation() ) * progress;
-            result.mRotationX = start.getRotationX() + ( end.getRotationX() - start.getRotationX() ) * progress;
-            result.mRotationY = start.getRotationY() + ( end.getRotationY() - start.getRotationY() ) * progress;
-            result.mAlpha = start.getAlpha() + ( end.getAlpha() - start.getAlpha() ) * progress;
-      }
-
-      /**
-       * 根据一个view的显示状态，重新设置值
-       *
-       * @param view 新的状态的view
-       */
-      public void update ( View view ) {
-
-            mLeft = view.getLeft();
-            mTop = view.getTop();
-            mRight = view.getRight();
-            mBottom = view.getBottom();
-
-            mRotation = view.getRotation();
-            mAlpha = view.getAlpha();
-      }
-
-      /**
-       * @param view 应用给view
-       */
-      public void applyTo ( View view ) {
-
-            view.layout( mLeft, mTop, mRight, mBottom );
-            view.setRotation( mRotation );
-            view.setAlpha( mAlpha );
       }
 }

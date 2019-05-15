@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -28,6 +29,8 @@ import tech.liujin.transition.evaluator.wrapper.DelayEvaluator;
 import tech.liujin.transition.evaluator.wrapper.SegmentFractionEvaluator;
 
 public class ExampleActivity extends AppCompatActivity implements OnClickListener {
+
+      private static final String TAG = ExampleActivity.class.getSimpleName();
 
       private ImageView   mTranslateImage;
       private SeekBar     mTranslateSeek;
@@ -162,7 +165,9 @@ public class ExampleActivity extends AppCompatActivity implements OnClickListene
                   @Override
                   public void onClick ( View v ) {
 
-                        ( (ViewEvaluator) evaluator ).setReversed( !( (ViewEvaluator) evaluator ).isReversed() );
+                        boolean reversed = !( (ViewEvaluator) evaluator ).isReversed();
+                        ( (ViewEvaluator) evaluator ).setReversed( reversed );
+                        Log.i( TAG, "onClick: " + reversed + evaluator.toString() );
                   }
             } );
       }

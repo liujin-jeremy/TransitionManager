@@ -40,12 +40,18 @@
                       android:layout_gravity="end"
                       android:text="反转"/>
 
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="top|center_horizontal"
+                      android:text="translate"/>
+
             </FrameLayout>
 
             <FrameLayout
                 android:id="@+id/alphaContainer"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="200dp"
                 android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -55,7 +61,7 @@
                       android:id="@+id/alphaImage"
                       android:layout_width="80dp"
                       android:layout_height="80dp"
-                      android:layout_gravity="center|top"
+                      android:layout_gravity="center"
                       android:background="@color/gold"
                       android:src="@drawable/batman"/>
 
@@ -73,12 +79,18 @@
                       android:layout_gravity="end"
                       android:text="反转"/>
 
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="top|center_horizontal"
+                      android:text="alpha"/>
+
             </FrameLayout>
 
             <FrameLayout
                 android:id="@+id/colorContainer"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="200dp"
                 android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -87,7 +99,7 @@
                       android:id="@+id/colorImage"
                       android:layout_width="80dp"
                       android:layout_height="80dp"
-                      android:layout_gravity="center|top"
+                      android:layout_gravity="center"
                       android:background="@color/gold"
                       android:src="@drawable/batman"/>
 
@@ -104,12 +116,18 @@
                       android:layout_height="wrap_content"
                       android:layout_gravity="end"
                       android:text="反转"/>
+
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="top|center_horizontal"
+                      android:text="color"/>
             </FrameLayout>
 
             <FrameLayout
                 android:id="@+id/rotationContainer"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="200dp"
                 android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -120,7 +138,7 @@
                       android:id="@+id/rotationImage"
                       android:layout_width="80dp"
                       android:layout_height="80dp"
-                      android:layout_gravity="center|top"
+                      android:layout_gravity="center"
                       android:background="@color/gold"
                       android:src="@drawable/batman"/>
 
@@ -137,12 +155,18 @@
                       android:layout_height="wrap_content"
                       android:layout_gravity="end"
                       android:text="反转"/>
+
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="top|center_horizontal"
+                      android:text="rotation"/>
             </FrameLayout>
 
             <FrameLayout
                 android:id="@+id/rotationXContainer"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="200dp"
                 android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -153,7 +177,7 @@
                       android:id="@+id/rotationXImage"
                       android:layout_width="80dp"
                       android:layout_height="80dp"
-                      android:layout_gravity="center|top"
+                      android:layout_gravity="center"
                       android:background="@color/gold"
                       android:src="@drawable/batman"/>
 
@@ -170,12 +194,18 @@
                       android:layout_height="wrap_content"
                       android:layout_gravity="end"
                       android:text="反转"/>
+
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="top|center_horizontal"
+                      android:text="rotationX"/>
             </FrameLayout>
 
             <FrameLayout
                 android:id="@+id/rotationYContainer"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="200dp"
                 android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -186,7 +216,7 @@
                       android:id="@+id/rotationYImage"
                       android:layout_width="80dp"
                       android:layout_height="80dp"
-                      android:layout_gravity="center|top"
+                      android:layout_gravity="center"
                       android:background="@color/gold"
                       android:src="@drawable/batman"/>
 
@@ -203,6 +233,12 @@
                       android:layout_height="wrap_content"
                       android:layout_gravity="end"
                       android:text="反转"/>
+
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="top|center_horizontal"
+                      android:text="rotationY"/>
             </FrameLayout>
 
             <FrameLayout
@@ -233,6 +269,12 @@
                       android:layout_height="wrap_content"
                       android:layout_gravity="end"
                       android:text="反转"/>
+
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="top|center_horizontal"
+                      android:text="transition"/>
             </FrameLayout>
 
             <FrameLayout
@@ -258,12 +300,25 @@
                       android:layout_gravity="bottom"
                       android:theme="@style/Progress"/>
 
+                  <Button
+                      android:id="@+id/segmentReverse"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="end"
+                      android:text="反转"/>
+
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="top|center_horizontal"
+                      android:text="segment"/>
+
             </FrameLayout>
 
             <FrameLayout
                 android:id="@+id/delayContainer"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="200dp"
                 android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -273,6 +328,7 @@
                       android:id="@+id/delayImage"
                       android:layout_width="80dp"
                       android:layout_height="80dp"
+                      android:layout_gravity="start|center_vertical"
                       android:background="@color/gold"
                       android:src="@drawable/batman"/>
 
@@ -282,6 +338,19 @@
                       android:layout_height="wrap_content"
                       android:layout_gravity="bottom"
                       android:theme="@style/Progress"/>
+
+                  <Button
+                      android:id="@+id/delayReverse"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="end"
+                      android:text="反转"/>
+
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="top|center_horizontal"
+                      android:text="delay"/>
 
             </FrameLayout>
 
@@ -314,6 +383,12 @@
                       android:layout_height="wrap_content"
                       android:layout_gravity="end"
                       android:text="反转"/>
+
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="top|center_horizontal"
+                      android:text="vision"/>
             </FrameLayout>
 
       </android.support.constraint.ConstraintLayout>

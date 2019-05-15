@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
 import tech.liujin.transition.SceneManager;
+import tech.liujin.transition.evaluator.wrapper.DelayEvaluator;
+import tech.liujin.transition.evaluator.wrapper.SegmentFractionEvaluator;
 
 /**
  * @author wuxio
@@ -44,6 +46,22 @@ public class SceneActivity extends AppCompatActivity {
             mScene = findViewById( R.id.scene );
 
             mSceneManager = new SceneManager( mRoot, R.layout.activity_scene_end );
+            mRoot.post( new Runnable() {
+
+                  @Override
+                  public void run ( ) {
+
+                        mSceneManager.updateChildEvaluator(
+                            R.id.view02,
+                            new DelayEvaluator( mSceneManager.getChildEvaluator( R.id.view02 ), 3000 )
+                        );
+                        mSceneManager.updateChildEvaluator(
+                            R.id.view03,
+                            new SegmentFractionEvaluator( mSceneManager.getChildEvaluator( R.id.view03 ), 0.2f, 0.7f )
+                        );
+                  }
+            } );
+
             mAnimator = ValueAnimator.ofInt( 0, 1 );
             mAnimator.setDuration( 1200 );
             mListener = new UpdateListener();
@@ -58,7 +76,8 @@ public class SceneActivity extends AppCompatActivity {
                               return;
                         }
 
-                        mListener.isFlip = !mListener.isFlip;
+                        mListener.setFlip( !mListener.isFlip );
+
                         mAnimator.start();
                   }
             } );
@@ -68,15 +87,17 @@ public class SceneActivity extends AppCompatActivity {
 
             private boolean isFlip;
 
+            public void setFlip ( boolean flip ) {
+
+                  isFlip = flip;
+                  mSceneManager.setReversed( isFlip );
+            }
+
             @Override
             public void onAnimationUpdate ( ValueAnimator animation ) {
 
                   float animatedFraction = animation.getAnimatedFraction();
-                  if( isFlip ) {
-                        mSceneManager.evaluate( animatedFraction );
-                  } else {
-                        mSceneManager.evaluate( 1 - animatedFraction );
-                  }
+                  mSceneManager.evaluate( animatedFraction );
             }
       }
 }

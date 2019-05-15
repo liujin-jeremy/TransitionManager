@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import tech.liujin.transition.evaluator.Evaluator;
 import tech.liujin.transition.evaluator.view.ViewEvaluator;
 import tech.liujin.transition.evaluator.view.VisionStateEvaluator;
+import tech.liujin.transition.evaluator.wrapper.WrapperEvaluator;
 
 /**
  * 根据view在不同布局中的显示状态（位置，角度，mAlpha）创建场景动画
@@ -130,23 +131,6 @@ public class SceneManager {
       }
 
       /**
-       * if view in begin Scene is 0 size(width && height is 0),measure it with size defined at end
-       * scene
-       */
-      @Deprecated
-      private void remeasure0SizeViewInBeginScene ( View beginChild, View childById ) {
-
-            if( beginChild.getMeasuredWidth() == 0 && beginChild.getMeasuredHeight() == 0 ) {
-
-                  Measure.remeasureViewWithExactSpec(
-                      beginChild,
-                      childById.getRight() - childById.getLeft(),
-                      childById.getBottom() - childById.getTop()
-                  );
-            }
-      }
-
-      /**
        * call this will get the child evaluator
        *
        * @param childId child Id
@@ -155,18 +139,9 @@ public class SceneManager {
        */
       public Evaluator getChildEvaluator ( @IdRes int childId ) {
 
-            ArrayList<Evaluator> evaluators = mEvaluators;
-
-            if( evaluators != null ) {
-
-                  int size = evaluators.size();
-                  for( int i = 0; i < size; i++ ) {
-
-                        Evaluator evaluator = evaluators.get( i );
-
-                        if( evaluator.getTarget().getId() == childId ) {
-                              return evaluator;
-                        }
+            for( Evaluator evaluator : mEvaluators ) {
+                  if( evaluator.getTarget().getId() == childId ) {
+                        return evaluator;
                   }
             }
 
@@ -180,7 +155,7 @@ public class SceneManager {
        *
        * @return child evaluator
        */
-      public void updateChildEvaluator ( @IdRes int childId, ViewEvaluator evaluator ) {
+      public void updateChildEvaluator ( @IdRes int childId, Evaluator evaluator ) {
 
             ArrayList<Evaluator> evaluators = mEvaluators;
             if( evaluators != null ) {
@@ -201,15 +176,24 @@ public class SceneManager {
        */
       public void evaluate ( float process ) {
 
-            ArrayList<Evaluator> temp = mEvaluators;
-            if( temp != null ) {
+            for( Evaluator evaluator : mEvaluators ) {
+                  evaluator.evaluate( process );
+            }
+      }
 
-                  /* update all evaluator's process */
-                  int size = temp.size();
-                  for( int i = 0; i < size; i++ ) {
+      public void setReversed ( boolean reversed ) {
 
-                        Evaluator evaluator = temp.get( i );
-                        evaluator.evaluate( process );
+            for( Evaluator evaluator : mEvaluators ) {
+                  if( evaluator instanceof ViewEvaluator ) {
+                        ( (ViewEvaluator) evaluator ).setReversed( reversed );
+                        continue;
+                  }
+
+                  while( evaluator instanceof WrapperEvaluator ) {
+                        evaluator = ( (WrapperEvaluator) evaluator ).getActual();
+                  }
+                  if( evaluator instanceof ViewEvaluator ) {
+                        ( (ViewEvaluator) evaluator ).setReversed( reversed );
                   }
             }
       }
