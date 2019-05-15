@@ -278,13 +278,50 @@
             </FrameLayout>
 
             <FrameLayout
-                android:id="@+id/segmentContainer"
+                android:id="@+id/visionContainer"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/transitionContainer">
+
+                  <ImageView
+                      android:id="@+id/visionImage"
+                      android:layout_width="80dp"
+                      android:layout_height="80dp"
+                      android:background="@color/gold"
+                      android:src="@drawable/batman"/>
+
+                  <SeekBar
+                      android:id="@+id/visionSeek"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="bottom"
+                      android:theme="@style/Progress"/>
+
+                  <Button
+                      android:id="@+id/visionReverse"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="end"
+                      android:text="反转"/>
+
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="top|center_horizontal"
+                      android:text="vision"/>
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/segmentContainer"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/visionContainer">
 
                   <ImageView
                       android:id="@+id/segmentImage"
@@ -354,42 +391,7 @@
 
             </FrameLayout>
 
-            <FrameLayout
-                android:id="@+id/visionContainer"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/delayContainer">
 
-                  <ImageView
-                      android:id="@+id/visionImage"
-                      android:layout_width="80dp"
-                      android:layout_height="80dp"
-                      android:background="@color/gold"
-                      android:src="@drawable/batman"/>
-
-                  <SeekBar
-                      android:id="@+id/visionSeek"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:layout_gravity="bottom"
-                      android:theme="@style/Progress"/>
-
-                  <Button
-                      android:id="@+id/visionReverse"
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:layout_gravity="end"
-                      android:text="反转"/>
-
-                  <TextView
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:layout_gravity="top|center_horizontal"
-                      android:text="vision"/>
-            </FrameLayout>
 
       </android.support.constraint.ConstraintLayout>
 

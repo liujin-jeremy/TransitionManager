@@ -70,6 +70,8 @@ public class ExampleActivity extends AppCompatActivity implements OnClickListene
       private SeekBar     mVisionSeek;
       private FrameLayout mVisionContainer;
       private Button      mVisionReverse;
+      private Button      mSegmentReverse;
+      private Button      mDelayReverse;
 
       public static void start ( Context context ) {
 
@@ -87,44 +89,46 @@ public class ExampleActivity extends AppCompatActivity implements OnClickListene
 
       private void initView ( ) {
 
-            mTranslateContainer = (FrameLayout) findViewById( R.id.translateContainer );
-            mTranslateImage = (ImageView) findViewById( R.id.translateImage );
-            mTranslateSeek = (SeekBar) findViewById( R.id.translateSeek );
-            mAlphaImage = (ImageView) findViewById( R.id.alphaImage );
-            mAlphaSeek = (SeekBar) findViewById( R.id.alphaSeek );
-            mAlphaContainer = (FrameLayout) findViewById( R.id.alphaContainer );
-            mColorImage = (ImageView) findViewById( R.id.colorImage );
-            mColorSeek = (SeekBar) findViewById( R.id.colorSeek );
-            mColorContainer = (FrameLayout) findViewById( R.id.colorContainer );
-            mRotationImage = (ImageView) findViewById( R.id.rotationImage );
-            mRotationSeek = (SeekBar) findViewById( R.id.rotationSeek );
-            mRotationContainer = (FrameLayout) findViewById( R.id.rotationContainer );
-            mTransitionImage = (ImageView) findViewById( R.id.transitionImage );
-            mTransitionSeek = (SeekBar) findViewById( R.id.transitionSeek );
-            mTransitionContainer = (FrameLayout) findViewById( R.id.transitionContainer );
-            mSegmentImage = (ImageView) findViewById( R.id.segmentImage );
-            mSegmentSeek = (SeekBar) findViewById( R.id.segmentSeek );
-            mSegmentContainer = (FrameLayout) findViewById( R.id.segmentContainer );
-            mRotationXImage = (ImageView) findViewById( R.id.rotationXImage );
-            mRotationXSeek = (SeekBar) findViewById( R.id.rotationXSeek );
-            mRotationXContainer = (FrameLayout) findViewById( R.id.rotationXContainer );
-            mRotationYImage = (ImageView) findViewById( R.id.rotationYImage );
-            mRotationYSeek = (SeekBar) findViewById( R.id.rotationYSeek );
-            mRotationYContainer = (FrameLayout) findViewById( R.id.rotationYContainer );
-            mDelayImage = (ImageView) findViewById( R.id.delayImage );
-            mDelaySeek = (SeekBar) findViewById( R.id.delaySeek );
-            mDelayContainer = (FrameLayout) findViewById( R.id.delayContainer );
-            mTranslateReverse = (Button) findViewById( R.id.translateReverse );
-            mAlphaReverse = (Button) findViewById( R.id.alphaReverse );
-            mColorReverse = (Button) findViewById( R.id.colorReverse );
-            mRotationReverse = (Button) findViewById( R.id.rotationReverse );
-            mRotationXReverse = (Button) findViewById( R.id.rotationXReverse );
-            mRotationYReverse = (Button) findViewById( R.id.rotationYReverse );
-            mTransitionReverse = (Button) findViewById( R.id.transitionReverse );
-            mVisionImage = (ImageView) findViewById( R.id.visionImage );
-            mVisionSeek = (SeekBar) findViewById( R.id.visionSeek );
-            mVisionContainer = (FrameLayout) findViewById( R.id.visionContainer );
-            mVisionReverse = (Button) findViewById( R.id.visionReverse );
+            mTranslateContainer = findViewById( R.id.translateContainer );
+            mTranslateImage = findViewById( R.id.translateImage );
+            mTranslateSeek = findViewById( R.id.translateSeek );
+            mAlphaImage = findViewById( R.id.alphaImage );
+            mAlphaSeek = findViewById( R.id.alphaSeek );
+            mAlphaContainer = findViewById( R.id.alphaContainer );
+            mColorImage = findViewById( R.id.colorImage );
+            mColorSeek = findViewById( R.id.colorSeek );
+            mColorContainer = findViewById( R.id.colorContainer );
+            mRotationImage = findViewById( R.id.rotationImage );
+            mRotationSeek = findViewById( R.id.rotationSeek );
+            mRotationContainer = findViewById( R.id.rotationContainer );
+            mTransitionImage = findViewById( R.id.transitionImage );
+            mTransitionSeek = findViewById( R.id.transitionSeek );
+            mTransitionContainer = findViewById( R.id.transitionContainer );
+            mSegmentImage = findViewById( R.id.segmentImage );
+            mSegmentSeek = findViewById( R.id.segmentSeek );
+            mSegmentContainer = findViewById( R.id.segmentContainer );
+            mRotationXImage = findViewById( R.id.rotationXImage );
+            mRotationXSeek = findViewById( R.id.rotationXSeek );
+            mRotationXContainer = findViewById( R.id.rotationXContainer );
+            mRotationYImage = findViewById( R.id.rotationYImage );
+            mRotationYSeek = findViewById( R.id.rotationYSeek );
+            mRotationYContainer = findViewById( R.id.rotationYContainer );
+            mDelayImage = findViewById( R.id.delayImage );
+            mDelaySeek = findViewById( R.id.delaySeek );
+            mDelayContainer = findViewById( R.id.delayContainer );
+            mTranslateReverse = findViewById( R.id.translateReverse );
+            mAlphaReverse = findViewById( R.id.alphaReverse );
+            mColorReverse = findViewById( R.id.colorReverse );
+            mRotationReverse = findViewById( R.id.rotationReverse );
+            mRotationXReverse = findViewById( R.id.rotationXReverse );
+            mRotationYReverse = findViewById( R.id.rotationYReverse );
+            mTransitionReverse = findViewById( R.id.transitionReverse );
+            mVisionImage = findViewById( R.id.visionImage );
+            mVisionSeek = findViewById( R.id.visionSeek );
+            mVisionContainer = findViewById( R.id.visionContainer );
+            mVisionReverse = findViewById( R.id.visionReverse );
+            mSegmentReverse = findViewById( R.id.segmentReverse );
+            mDelayReverse = findViewById( R.id.delayReverse );
 
             buildTranslateTest();
             buildAlphaTest();
@@ -136,6 +140,69 @@ public class ExampleActivity extends AppCompatActivity implements OnClickListene
             buildRotationTest();
             buildTransitionTest();
             buildVisionTest();
+      }
+
+      private void buildDelayTest ( ) {
+
+            ViewVisionState state = new ViewVisionState(
+                500,
+                100,
+                1000,
+                600,
+                30,
+                0,
+                0,
+                0.5f
+            );
+            final VisionStateEvaluator evaluator = new VisionStateEvaluator( mDelayImage, state );
+            final DelayEvaluator delay = new DelayEvaluator( evaluator, 2000 );
+            mDelaySeek.setOnSeekBarChangeListener( new SimpleOnSeekBarChangeListener() {
+
+                  @Override
+                  public void onProgressChanged ( SeekBar seekBar, int progress, boolean fromUser ) {
+
+                        float v = progress * 1f / seekBar.getMax();
+                        delay.evaluate( v );
+                  }
+            } );
+            mDelayReverse.setOnClickListener( new OnClickListener() {
+
+                  @Override
+                  public void onClick ( View v ) {
+
+                        boolean reversed = !( (ViewEvaluator) delay.getActual() ).isReversed();
+                        ( (ViewEvaluator) delay.getActual() ).setReversed( reversed );
+                  }
+            } );
+      }
+
+      private void buildSegmentTest ( ) {
+
+            Evaluator evaluator = new TranslateEvaluator(
+                mSegmentImage,
+                800,
+                150
+            );
+            final SegmentFractionEvaluator segment = new SegmentFractionEvaluator( evaluator, 0.3f, 0.7f );
+
+            mSegmentSeek.setOnSeekBarChangeListener( new SimpleOnSeekBarChangeListener() {
+
+                  @Override
+                  public void onProgressChanged ( SeekBar seekBar, int progress, boolean fromUser ) {
+
+                        float v = progress * 1f / seekBar.getMax();
+                        segment.evaluate( v );
+                  }
+            } );
+            mSegmentReverse.setOnClickListener( new OnClickListener() {
+
+                  @Override
+                  public void onClick ( View v ) {
+
+                        boolean reversed = !( (ViewEvaluator) segment.getActual() ).isReversed();
+                        ( (ViewEvaluator) segment.getActual() ).setReversed( reversed );
+                  }
+            } );
       }
 
       private void buildVisionTest ( ) {
@@ -168,41 +235,6 @@ public class ExampleActivity extends AppCompatActivity implements OnClickListene
                         boolean reversed = !( (ViewEvaluator) evaluator ).isReversed();
                         ( (ViewEvaluator) evaluator ).setReversed( reversed );
                         Log.i( TAG, "onClick: " + reversed + evaluator.toString() );
-                  }
-            } );
-      }
-
-      private void buildDelayTest ( ) {
-
-            final Evaluator evaluator = new TranslateEvaluator( mDelayImage, 900, 0 );
-            final Evaluator delay = new DelayEvaluator( evaluator, 2000 );
-            mDelaySeek.setOnSeekBarChangeListener( new SimpleOnSeekBarChangeListener() {
-
-                  @Override
-                  public void onProgressChanged ( SeekBar seekBar, int progress, boolean fromUser ) {
-
-                        float v = progress * 1f / seekBar.getMax();
-                        delay.evaluate( v );
-                  }
-            } );
-      }
-
-      private void buildSegmentTest ( ) {
-
-            Evaluator evaluator = new TranslateEvaluator(
-                mSegmentImage,
-                800,
-                150
-            );
-            final Evaluator segment = new SegmentFractionEvaluator( evaluator, 0.3f, 0.7f );
-
-            mSegmentSeek.setOnSeekBarChangeListener( new SimpleOnSeekBarChangeListener() {
-
-                  @Override
-                  public void onProgressChanged ( SeekBar seekBar, int progress, boolean fromUser ) {
-
-                        float v = progress * 1f / seekBar.getMax();
-                        segment.evaluate( v );
                   }
             } );
       }
@@ -408,6 +440,12 @@ public class ExampleActivity extends AppCompatActivity implements OnClickListene
                         break;
                   case R.id.transitionReverse:
                         // TODO 19/04/20
+                        break;
+                  case R.id.visionReverse:// TODO 19/05/15
+                        break;
+                  case R.id.segmentReverse:// TODO 19/05/15
+                        break;
+                  case R.id.delayReverse:// TODO 19/05/15
                         break;
                   default:
                         break;
