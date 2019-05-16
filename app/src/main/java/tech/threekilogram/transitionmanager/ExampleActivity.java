@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -24,7 +23,6 @@ import tech.liujin.transition.evaluator.view.RotationYEvaluator;
 import tech.liujin.transition.evaluator.view.TransitionEvaluator;
 import tech.liujin.transition.evaluator.view.TranslateEvaluator;
 import tech.liujin.transition.evaluator.view.ViewEvaluator;
-import tech.liujin.transition.evaluator.view.VisionStateEvaluator;
 import tech.liujin.transition.evaluator.wrapper.DelayEvaluator;
 import tech.liujin.transition.evaluator.wrapper.SegmentFractionEvaluator;
 
@@ -123,10 +121,6 @@ public class ExampleActivity extends AppCompatActivity implements OnClickListene
             mRotationXReverse = findViewById( R.id.rotationXReverse );
             mRotationYReverse = findViewById( R.id.rotationYReverse );
             mTransitionReverse = findViewById( R.id.transitionReverse );
-            mVisionImage = findViewById( R.id.visionImage );
-            mVisionSeek = findViewById( R.id.visionSeek );
-            mVisionContainer = findViewById( R.id.visionContainer );
-            mVisionReverse = findViewById( R.id.visionReverse );
             mSegmentReverse = findViewById( R.id.segmentReverse );
             mDelayReverse = findViewById( R.id.delayReverse );
 
@@ -139,7 +133,6 @@ public class ExampleActivity extends AppCompatActivity implements OnClickListene
             buildSegmentTest();
             buildRotationTest();
             buildTransitionTest();
-            buildVisionTest();
       }
 
       private void buildDelayTest ( ) {
@@ -154,7 +147,7 @@ public class ExampleActivity extends AppCompatActivity implements OnClickListene
                 0,
                 0.5f
             );
-            final VisionStateEvaluator evaluator = new VisionStateEvaluator( mDelayImage, state );
+            final TransitionEvaluator evaluator = new TransitionEvaluator( mDelayImage, state );
             final DelayEvaluator delay = new DelayEvaluator( evaluator, 2000 );
             mDelaySeek.setOnSeekBarChangeListener( new SimpleOnSeekBarChangeListener() {
 
@@ -201,40 +194,6 @@ public class ExampleActivity extends AppCompatActivity implements OnClickListene
 
                         boolean reversed = !( (ViewEvaluator) segment.getActual() ).isReversed();
                         ( (ViewEvaluator) segment.getActual() ).setReversed( reversed );
-                  }
-            } );
-      }
-
-      private void buildVisionTest ( ) {
-
-            ViewVisionState state = new ViewVisionState(
-                500,
-                100,
-                1000,
-                600,
-                30,
-                0,
-                0,
-                0.5f
-            );
-            final VisionStateEvaluator evaluator = new VisionStateEvaluator( mVisionImage, state );
-            mVisionSeek.setOnSeekBarChangeListener( new SimpleOnSeekBarChangeListener() {
-
-                  @Override
-                  public void onProgressChanged ( SeekBar seekBar, int progress, boolean fromUser ) {
-
-                        float v = progress * 1f / seekBar.getMax();
-                        evaluator.evaluate( v );
-                  }
-            } );
-            mVisionReverse.setOnClickListener( new OnClickListener() {
-
-                  @Override
-                  public void onClick ( View v ) {
-
-                        boolean reversed = !( (ViewEvaluator) evaluator ).isReversed();
-                        ( (ViewEvaluator) evaluator ).setReversed( reversed );
-                        Log.i( TAG, "onClick: " + reversed + evaluator.toString() );
                   }
             } );
       }
@@ -419,37 +378,6 @@ public class ExampleActivity extends AppCompatActivity implements OnClickListene
       @Override
       public void onClick ( View v ) {
 
-            switch( v.getId() ) {
-                  case R.id.translateReverse:
-                        // TODO 19/04/20
-                        break;
-                  case R.id.alphaReverse:
-                        // TODO 19/04/20
-                        break;
-                  case R.id.colorReverse:
-                        // TODO 19/04/20
-                        break;
-                  case R.id.rotationReverse:
-                        // TODO 19/04/20
-                        break;
-                  case R.id.rotationXReverse:
-                        // TODO 19/04/20
-                        break;
-                  case R.id.rotationYReverse:
-                        // TODO 19/04/20
-                        break;
-                  case R.id.transitionReverse:
-                        // TODO 19/04/20
-                        break;
-                  case R.id.visionReverse:// TODO 19/05/15
-                        break;
-                  case R.id.segmentReverse:// TODO 19/05/15
-                        break;
-                  case R.id.delayReverse:// TODO 19/05/15
-                        break;
-                  default:
-                        break;
-            }
       }
 
       private abstract class SimpleOnSeekBarChangeListener implements OnSeekBarChangeListener {

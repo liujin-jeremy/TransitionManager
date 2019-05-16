@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import tech.liujin.transition.ViewVisionState;
 import tech.liujin.transition.evaluator.Evaluator;
+import tech.liujin.transition.evaluator.view.TransitionEvaluator;
 import tech.liujin.transition.evaluator.view.ViewEvaluator;
-import tech.liujin.transition.evaluator.view.VisionStateEvaluator;
 import tech.liujin.transition.evaluator.wrapper.WrapperEvaluator;
 
 /**
@@ -116,7 +116,7 @@ public class SceneManager {
 
                         ViewVisionState childStartState = new ViewVisionState( childAtStart );
                         ViewVisionState childEndState = new ViewVisionState( childAtEnd );
-                        VisionStateEvaluator evaluator = new VisionStateEvaluator( childAtStart, childStartState, childEndState );
+                        TransitionEvaluator evaluator = new TransitionEvaluator( childAtStart, childStartState, childEndState );
                         mEvaluators.add( evaluator );
 
                         /* if childAtStart is viewGroup compare it's children with child find start scene provideVisionState */

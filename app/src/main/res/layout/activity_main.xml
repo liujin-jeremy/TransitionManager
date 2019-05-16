@@ -33,10 +33,17 @@
 
             <Button
                 android:id="@+id/toSide"
-                android:onClick="toSide"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="toSide"
                 android:text="改变边界"/>
+
+            <Button
+                android:id="@+id/toLayoutSide"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="toLayoutSide"
+                android:text="改变布局边界"/>
 
 
             <!--<Button-->

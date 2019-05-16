@@ -35,4 +35,9 @@ public class MainActivity extends AppCompatActivity {
 
             SideActivity.start( this );
       }
+
+      public void toLayoutSide ( View view ) {
+
+            LayoutSideActivity.start( this );
+      }
 }

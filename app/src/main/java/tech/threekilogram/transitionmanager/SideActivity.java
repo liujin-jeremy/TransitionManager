@@ -8,7 +8,7 @@ import android.view.Gravity;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
-import tech.liujin.transition.evaluator.view.VisionStateEvaluator;
+import tech.liujin.transition.evaluator.view.TransitionEvaluator;
 
 public class SideActivity extends AppCompatActivity {
 
@@ -59,7 +59,7 @@ public class SideActivity extends AppCompatActivity {
                   @Override
                   public void run ( ) {
 
-                        final VisionStateEvaluator evaluator = VisionStateEvaluator
+                        final TransitionEvaluator evaluator = TransitionEvaluator
                             .changeBottom( mChangeBottomText, mChangeBottomText.getBottom() + 100 );
 
                         mChangeBottomTextSeek.setOnSeekBarChangeListener( new SimpleOnSeekBarChangeListener() {
@@ -83,7 +83,7 @@ public class SideActivity extends AppCompatActivity {
                   @Override
                   public void run ( ) {
 
-                        final VisionStateEvaluator evaluator = VisionStateEvaluator
+                        final TransitionEvaluator evaluator = TransitionEvaluator
                             .changeTop( mChangeTopText, mChangeTopText.getTop() - 100 );
 
                         mChangeTopTextSeek.setOnSeekBarChangeListener( new SimpleOnSeekBarChangeListener() {
@@ -107,7 +107,7 @@ public class SideActivity extends AppCompatActivity {
                   @Override
                   public void run ( ) {
 
-                        final VisionStateEvaluator evaluator = VisionStateEvaluator
+                        final TransitionEvaluator evaluator = TransitionEvaluator
                             .changeRight( mChangeRightText, mChangeRightText.getRight() + 200 );
 
                         mChangeRightTextSeek.setOnSeekBarChangeListener( new SimpleOnSeekBarChangeListener() {
@@ -131,7 +131,7 @@ public class SideActivity extends AppCompatActivity {
                   @Override
                   public void run ( ) {
 
-                        final VisionStateEvaluator evaluator = VisionStateEvaluator
+                        final TransitionEvaluator evaluator = TransitionEvaluator
                             .changeLeft( mChangeLeftText, mChangeLeftText.getLeft() - 200 );
 
                         mChangeLeftTextSeek.setOnSeekBarChangeListener( new SimpleOnSeekBarChangeListener() {

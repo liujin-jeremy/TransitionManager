@@ -5,7 +5,7 @@ package tech.liujin.transition.evaluator.view;
  */
 
 import android.view.View;
-import tech.liujin.transition.Measure;
+import tech.liujin.transition.MockMeasure;
 import tech.liujin.transition.ViewVisionState;
 
 /**
@@ -33,9 +33,51 @@ public class TransitionEvaluator extends ViewEvaluator {
        */
       private boolean isRemeasureWhenChanged = true;
 
+      public static TransitionEvaluator changeLeft ( final View target, int newLeft ) {
+
+            ViewVisionState end = new ViewVisionState( target );
+            end.setLeft( newLeft );
+            return new TransitionEvaluator( target, end );
+      }
+
+      public static TransitionEvaluator changeRight ( final View target, int newRight ) {
+
+            ViewVisionState end = new ViewVisionState( target );
+            end.setRight( newRight );
+            return new TransitionEvaluator( target, end );
+      }
+
+      public static TransitionEvaluator changeTop ( final View target, int newTop ) {
+
+            ViewVisionState end = new ViewVisionState( target );
+            end.setTop( newTop );
+            return new TransitionEvaluator( target, end );
+      }
+
+      public static TransitionEvaluator changeBottom ( final View target, int newBottom ) {
+
+            ViewVisionState end = new ViewVisionState( target );
+            end.setBottom( newBottom );
+            return new TransitionEvaluator( target, end );
+      }
+
       public TransitionEvaluator ( final View view, int endLeft, int endTop, int endRight, int endBottom ) {
 
             this( view, new ViewVisionState( view, endLeft, endTop, endRight, endBottom ) );
+      }
+
+      public TransitionEvaluator (
+          final View view,
+          int left,
+          int top,
+          int right,
+          int bottom,
+          float rotation,
+          float rotationX,
+          float rotationY,
+          float alpha ) {
+
+            this( view, new ViewVisionState( left, top, right, bottom, rotation, rotationX, rotationY, alpha ) );
       }
 
       public TransitionEvaluator ( final View view, final ViewVisionState end ) {
@@ -105,7 +147,7 @@ public class TransitionEvaluator extends ViewEvaluator {
 
             if( isRemeasureWhenChanged ) {
 
-                  Measure.remeasureViewWithExactSpec(
+                  MockMeasure.measureExactly(
                       mView,
                       Math.abs( right - left ),
                       Math.abs( bottom - top )
