@@ -18,6 +18,34 @@ public class VisionStateEvaluator extends ViewEvaluator {
        */
       private boolean isRemeasureWhenChanged = true;
 
+      public static VisionStateEvaluator changeLeft ( final View target, int newLeft ) {
+
+            ViewVisionState end = new ViewVisionState( target );
+            end.setLeft( newLeft );
+            return new VisionStateEvaluator( target, end );
+      }
+
+      public static VisionStateEvaluator changeRight ( final View target, int newRight ) {
+
+            ViewVisionState end = new ViewVisionState( target );
+            end.setRight( newRight );
+            return new VisionStateEvaluator( target, end );
+      }
+
+      public static VisionStateEvaluator changeTop ( final View target, int newTop ) {
+
+            ViewVisionState end = new ViewVisionState( target );
+            end.setTop( newTop );
+            return new VisionStateEvaluator( target, end );
+      }
+
+      public static VisionStateEvaluator changeBottom ( final View target, int newBottom ) {
+
+            ViewVisionState end = new ViewVisionState( target );
+            end.setBottom( newBottom );
+            return new VisionStateEvaluator( target, end );
+      }
+
       public VisionStateEvaluator ( final View view, final ViewVisionState end ) {
 
             super( view );

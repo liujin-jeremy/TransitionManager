@@ -30,4 +30,9 @@ public class MainActivity extends AppCompatActivity {
 
             SceneActivity.start( this );
       }
+
+      public void toSide ( View view ) {
+
+            SideActivity.start( this );
+      }
 }
