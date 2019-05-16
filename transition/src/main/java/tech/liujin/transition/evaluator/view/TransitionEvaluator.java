@@ -61,6 +61,14 @@ public class TransitionEvaluator extends ViewEvaluator {
             return new TransitionEvaluator( target, end );
       }
 
+      public static TransitionEvaluator changeHeight ( final View target, int newHeight ) {
+
+            ViewVisionState end = new ViewVisionState( target );
+            int offset = newHeight - target.getHeight();
+            end.setBottom( target.getBottom() + offset );
+            return new TransitionEvaluator( target, end );
+      }
+
       public TransitionEvaluator ( final View view, int endLeft, int endTop, int endRight, int endBottom ) {
 
             this( view,
