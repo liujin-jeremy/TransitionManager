@@ -105,6 +105,13 @@ public class TransitionEvaluator extends ViewEvaluator {
             mEnd = end;
       }
 
+      @Override
+      public void evaluate ( float process ) {
+
+            super.evaluate( process );
+            evaluate( process, mBegin, mEnd, isReversed );
+      }
+
       private void evaluate ( float fraction, ViewVisionState startValue, ViewVisionState endValue, boolean reversed ) {
 
             if( reversed ) {
@@ -136,13 +143,6 @@ public class TransitionEvaluator extends ViewEvaluator {
             mView.setRotationX( rotationX );
             mView.setRotationY( rotationY );
             mView.setAlpha( alpha );
-      }
-
-      @Override
-      public void evaluate ( float process ) {
-
-            super.evaluate( process );
-            evaluate( process, mBegin, mEnd, isReversed );
       }
 
       @Override

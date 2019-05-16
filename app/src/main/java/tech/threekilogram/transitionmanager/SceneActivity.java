@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
 import tech.liujin.transition.animator.AnimatorFactory;
-import tech.liujin.transition.evaluator.wrapper.DelayEvaluator;
 import tech.liujin.transition.evaluator.wrapper.SegmentFractionEvaluator;
 import tech.liujin.transition.scene.SceneManager;
 
@@ -51,10 +50,6 @@ public class SceneActivity extends AppCompatActivity {
                   @Override
                   public void run ( ) {
 
-                        mSceneManager.updateChildEvaluator(
-                            R.id.view02,
-                            new DelayEvaluator( mSceneManager.getChildEvaluator( R.id.view02 ), 3000 )
-                        );
                         mSceneManager.updateChildEvaluator(
                             R.id.view03,
                             new SegmentFractionEvaluator( mSceneManager.getChildEvaluator( R.id.view03 ), 0.2f, 0.7f )
