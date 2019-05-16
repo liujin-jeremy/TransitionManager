@@ -8,7 +8,7 @@
     tools:context=".LayoutSideActivity">
 
       <tech.liujin.transition.view.CollapsingLayout
-          android:id="@+id/collapsingHeight"
+          android:id="@+id/collapsingSize"
           android:layout_width="match_parent"
           android:layout_height="match_parent"
           android:background="@color/gainsboro"
@@ -39,7 +39,7 @@
           android:src="@color/gold"
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintTop_toBottomOf="@+id/collapsingHeight"/>
+          app:layout_constraintTop_toBottomOf="@+id/collapsingSize"/>
 
       <SeekBar
           android:id="@+id/seek"

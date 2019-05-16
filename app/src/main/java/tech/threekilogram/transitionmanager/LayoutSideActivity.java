@@ -38,7 +38,7 @@ public class LayoutSideActivity extends AppCompatActivity {
 
             mTextView = findViewById( R.id.textView );
             mImageView = findViewById( R.id.imageView );
-            mCollapsingHeight = findViewById( R.id.collapsingHeight );
+            mCollapsingHeight = findViewById( R.id.collapsingSize );
 
             mTextView.post( new Runnable() {
 
@@ -50,7 +50,7 @@ public class LayoutSideActivity extends AppCompatActivity {
                         mTextView.setMaxLines( 1000 );
                         int mostHeight = MockMeasure.measureAtMostHeight( mTextView );
 
-                        mCollapsingHeight.setHeight( height, mostHeight );
+                        mCollapsingHeight.setSize( height, mostHeight );
                   }
             } );
             mSeek = (SeekBar) findViewById( R.id.seek );

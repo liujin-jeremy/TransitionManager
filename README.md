@@ -1,7 +1,7 @@
 ## 一个动画框架
 
 ```
-implementation 'tech.liujin:transition:1.0.5'
+implementation 'tech.liujin:transition:1.0.6'
 ```
 
 ### 位移
@@ -124,7 +124,7 @@ ViewVisionState state = new ViewVisionState(
     0,
     0.5f
 );
-final VisionStateEvaluator evaluator = new VisionStateEvaluator( mVisionImage, state );
+final TransitionEvaluator evaluator = new TransitionEvaluator( mVisionImage, state );
 ```
 
 ![](img/pic10.gif)
@@ -200,4 +200,46 @@ mSceneManager.evaluate( animatedFraction ); // 更新进度
 ![](img/pic11.gif)
 
 
+
+
+
+## CollapsingLayout
+
+折叠展开布局
+
+```
+<tech.liujin.transition.view.CollapsingLayout
+    android:id="@+id/collapsingSize"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gainsboro"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+      <TextView
+          android:id="@+id/textView"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          android:layout_marginLeft="8dp"
+          android:text="@string/mistake"
+          />
+</tech.liujin.transition.view.CollapsingLayout>
+```
+
+```
+mCollapsingHeight = findViewById( R.id.collapsingSize );
+mTextView.post( new Runnable() {
+      @Override
+      public void run ( ) {
+            mTextView.setMaxLines( 1 );
+            int height = MockMeasure.measureAtMostHeight( mTextView );
+            mTextView.setMaxLines( 1000 );
+            int mostHeight = MockMeasure.measureAtMostHeight( mTextView );
+            mCollapsingHeight.setSize( height, mostHeight );
+      }
+} );
+```
+
+![](img/pic12.gif)
 

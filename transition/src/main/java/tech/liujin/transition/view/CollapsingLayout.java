@@ -10,11 +10,9 @@ import android.widget.FrameLayout;
  */
 public class CollapsingLayout extends FrameLayout {
 
-      private static final String TAG = CollapsingLayout.class.getSimpleName();
-
       private float mCurrentProcess;
-      private int   mNormalHeight;
-      private int   mCollapsingHeight;
+      private int   mNormalSize;
+      private int   mCollapsingSize;
 
       public CollapsingLayout ( Context context ) {
 
@@ -41,29 +39,29 @@ public class CollapsingLayout extends FrameLayout {
             super.setLayoutParams( params );
       }
 
-      public void setHeight ( int normalHeight, int collapsingHeight ) {
+      public void setSize ( int normalSize, int collapsingSize ) {
 
-            mNormalHeight = normalHeight;
-            mCollapsingHeight = collapsingHeight;
+            mNormalSize = normalSize;
+            mCollapsingSize = collapsingSize;
             collapsing( mCurrentProcess );
       }
 
-      public void setNormalHeight ( int normalHeight ) {
+      public void setNormalSize ( int normalSize ) {
 
-            mNormalHeight = normalHeight;
+            mNormalSize = normalSize;
             collapsing( mCurrentProcess );
       }
 
-      public void setCollapsingHeight ( int collapsingHeight ) {
+      public void setCollapsingSize ( int collapsingSize ) {
 
-            mCollapsingHeight = collapsingHeight;
+            mCollapsingSize = collapsingSize;
             collapsing( mCurrentProcess );
       }
 
       public void collapsing ( float process ) {
 
             mCurrentProcess = process;
-            getLayoutParams().height = (int) ( process * ( mCollapsingHeight - mNormalHeight ) + mNormalHeight );
+            getLayoutParams().height = (int) ( process * ( mCollapsingSize - mNormalSize ) + mNormalSize );
             requestLayout();
       }
 }
