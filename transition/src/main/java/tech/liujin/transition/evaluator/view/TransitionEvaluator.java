@@ -18,7 +18,7 @@ public class TransitionEvaluator extends ViewEvaluator {
       /**
        * 作用于该view
        */
-      private View            mView;
+      private View mView;
       /**
        * 起始状态
        */
@@ -63,18 +63,17 @@ public class TransitionEvaluator extends ViewEvaluator {
 
       public TransitionEvaluator ( final View view, int endLeft, int endTop, int endRight, int endBottom ) {
 
-            this( view, new ViewVisionState( view, endLeft, endTop, endRight, endBottom ) );
+            this( view,
+                  endLeft, endTop, endRight, endBottom,
+                  view.getRotation(), view.getRotationX(), view.getRotationY(),
+                  view.getAlpha()
+            );
       }
 
       public TransitionEvaluator (
           final View view,
-          int left,
-          int top,
-          int right,
-          int bottom,
-          float rotation,
-          float rotationX,
-          float rotationY,
+          int left, int top, int right, int bottom,
+          float rotation, float rotationX, float rotationY,
           float alpha ) {
 
             this( view, new ViewVisionState( left, top, right, bottom, rotation, rotationX, rotationY, alpha ) );
@@ -115,38 +114,16 @@ public class TransitionEvaluator extends ViewEvaluator {
             }
 
             /* 计算出当前的进度的值 */
-
-            int left =
-                (int) ( startValue.getLeft()
-                    + ( endValue.getLeft() - startValue.getLeft() ) * fraction );
-
-            int top =
-                (int) ( startValue.getTop() + ( endValue.getTop() - startValue.getTop() ) * fraction );
-
-            int right = (int) ( startValue.getRight()
-                + ( endValue.getRight() - startValue.getRight() ) * fraction );
-
-            int bottom =
-                (int) ( startValue.getBottom()
-                    + ( endValue.getBottom() - startValue.getBottom() ) * fraction );
-
-            float rotation =
-                startValue.getRotation()
-                    + ( endValue.getRotation() - startValue.getRotation() ) * fraction;
-
-            float rotationX =
-                startValue.getRotationX()
-                    + ( endValue.getRotationX() - startValue.getRotationX() ) * fraction;
-
-            float rotationY =
-                startValue.getRotationY()
-                    + ( endValue.getRotationY() - startValue.getRotationY() ) * fraction;
-
-            float alpha =
-                startValue.getAlpha() + ( endValue.getAlpha() - startValue.getAlpha() ) * fraction;
+            int left = (int) ( startValue.getLeft() + ( endValue.getLeft() - startValue.getLeft() ) * fraction );
+            int top = (int) ( startValue.getTop() + ( endValue.getTop() - startValue.getTop() ) * fraction );
+            int right = (int) ( startValue.getRight() + ( endValue.getRight() - startValue.getRight() ) * fraction );
+            int bottom = (int) ( startValue.getBottom() + ( endValue.getBottom() - startValue.getBottom() ) * fraction );
+            float rotation = startValue.getRotation() + ( endValue.getRotation() - startValue.getRotation() ) * fraction;
+            float rotationX = startValue.getRotationX() + ( endValue.getRotationX() - startValue.getRotationX() ) * fraction;
+            float rotationY = startValue.getRotationY() + ( endValue.getRotationY() - startValue.getRotationY() ) * fraction;
+            float alpha = startValue.getAlpha() + ( endValue.getAlpha() - startValue.getAlpha() ) * fraction;
 
             if( isRemeasureWhenChanged ) {
-
                   MockMeasure.measureExactly(
                       mView,
                       Math.abs( right - left ),

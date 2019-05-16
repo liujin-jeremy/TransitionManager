@@ -249,7 +249,11 @@ public class ExampleActivity extends AppCompatActivity implements OnClickListene
                 500,
                 50,
                 900,
-                450
+                450,
+                30,
+                30,
+                30,
+                0.5f
             );
             mTransitionSeek.setOnSeekBarChangeListener( new SimpleOnSeekBarChangeListener() {
 

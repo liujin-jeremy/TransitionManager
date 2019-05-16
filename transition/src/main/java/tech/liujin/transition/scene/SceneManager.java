@@ -130,6 +130,11 @@ public class SceneManager {
             }
       }
 
+      public ArrayList<Evaluator> getEvaluators ( ) {
+
+            return mEvaluators;
+      }
+
       /**
        * call this will get the child evaluator
        *
