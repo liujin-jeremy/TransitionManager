@@ -1,27 +1,24 @@
 package tech.threekilogram.transitionmanager;
 
-import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import tech.liujin.transition.MockMeasure;
-import tech.liujin.transition.animator.AnimatorFactory;
-import tech.liujin.transition.evaluator.view.TransitionEvaluator;
+import tech.liujin.transition.view.CollapsingLayout;
 
 public class LayoutSideActivity extends AppCompatActivity {
 
       private static final String TAG = LayoutSideActivity.class.getSimpleName();
 
-      private TextView            mTextView;
-      private ImageView           mImageView;
-      private Animator            mAnimator;
-      private TransitionEvaluator mEvaluator;
+      private TextView         mTextView;
+      private ImageView        mImageView;
+      private CollapsingLayout mCollapsingHeight;
+      private SeekBar          mSeek;
 
       public static void start ( Context context ) {
 
@@ -39,9 +36,9 @@ public class LayoutSideActivity extends AppCompatActivity {
 
       private void initView ( ) {
 
-            mTextView = (TextView) findViewById( R.id.textView );
-            mImageView = (ImageView) findViewById( R.id.imageView );
-            mImageView.setVisibility( View.GONE );
+            mTextView = findViewById( R.id.textView );
+            mImageView = findViewById( R.id.imageView );
+            mCollapsingHeight = findViewById( R.id.collapsingHeight );
 
             mTextView.post( new Runnable() {
 
@@ -50,28 +47,30 @@ public class LayoutSideActivity extends AppCompatActivity {
 
                         mTextView.setMaxLines( 1 );
                         int height = MockMeasure.measureAtMostHeight( mTextView );
-                        mTextView.setMaxLines( 10000 );
+                        mTextView.setMaxLines( 1000 );
                         int mostHeight = MockMeasure.measureAtMostHeight( mTextView );
 
-                        Log.i( TAG, "run: " + height + " " + mostHeight );
-
-                        mEvaluator = TransitionEvaluator.changeHeight( mTextView, mostHeight );
-                        mAnimator = AnimatorFactory.makeAnimator( mEvaluator );
-                        mAnimator.setDuration( 2000 );
+                        mCollapsingHeight.setHeight( height, mostHeight );
                   }
             } );
-
-            mTextView.setOnClickListener( new OnClickListener() {
+            mSeek = (SeekBar) findViewById( R.id.seek );
+            mSeek.setOnSeekBarChangeListener( new OnSeekBarChangeListener() {
 
                   @Override
-                  public void onClick ( View v ) {
+                  public void onProgressChanged ( SeekBar seekBar, int progress, boolean fromUser ) {
 
-                        if( mAnimator.isRunning() ) {
-                              return;
-                        }
+                        float v = progress * 1f / seekBar.getMax();
+                        mCollapsingHeight.collapsing( v );
+                  }
 
-                        mEvaluator.setReversed( !mEvaluator.isReversed() );
-                        mAnimator.start();
+                  @Override
+                  public void onStartTrackingTouch ( SeekBar seekBar ) {
+
+                  }
+
+                  @Override
+                  public void onStopTrackingTouch ( SeekBar seekBar ) {
+
                   }
             } );
       }
