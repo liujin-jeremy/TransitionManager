@@ -1,4 +1,4 @@
-package tech.liujin.transition;
+package tech.liujin.transition.scene;
 
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
 import java.util.ArrayList;
+import tech.liujin.transition.ViewVisionState;
 import tech.liujin.transition.evaluator.Evaluator;
 import tech.liujin.transition.evaluator.view.ViewEvaluator;
 import tech.liujin.transition.evaluator.view.VisionStateEvaluator;
@@ -123,7 +124,6 @@ public class SceneManager {
                               createChildrenEvaluator( (ViewGroup) childAtStart, (ViewGroup) childAtEnd );
                         }
 
-                        //remeasure0SizeViewInBeginScene( childAtStart, childAtEnd );
                         /* remove the compared view , short time */
                         end.removeView( childAtEnd );
                   }
@@ -189,11 +189,11 @@ public class SceneManager {
                         continue;
                   }
 
-                  while( evaluator instanceof WrapperEvaluator ) {
-                        evaluator = ( (WrapperEvaluator) evaluator ).getActual();
-                  }
-                  if( evaluator instanceof ViewEvaluator ) {
-                        ( (ViewEvaluator) evaluator ).setReversed( reversed );
+                  if( evaluator instanceof WrapperEvaluator ) {
+                        ViewEvaluator viewEvaluator = ( (WrapperEvaluator) evaluator ).tryGetViewEvaluator();
+                        if( viewEvaluator != null ) {
+                              viewEvaluator.setReversed( reversed );
+                        }
                   }
             }
       }

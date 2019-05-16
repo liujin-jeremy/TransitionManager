@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.FrameLayout;
-import tech.liujin.transition.SceneManager;
+import tech.liujin.transition.scene.SceneManager;
 import tech.threekilogram.transitionmanager.R;
 
 /**

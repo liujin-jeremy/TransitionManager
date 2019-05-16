@@ -9,8 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
-import tech.liujin.transition.SceneManager;
 import tech.liujin.transition.evaluator.wrapper.SegmentFractionEvaluator;
+import tech.liujin.transition.scene.SceneManager;
 
 /**
  * @author wuxio

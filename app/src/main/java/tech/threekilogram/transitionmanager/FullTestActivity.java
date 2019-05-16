@@ -1,8 +1,6 @@
 package tech.threekilogram.transitionmanager;
 
 import android.animation.Animator;
-import android.animation.ValueAnimator;
-import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,6 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import tech.liujin.transition.animator.AnimatorFactory;
 import tech.liujin.transition.evaluator.view.AlphaEvaluator;
 import tech.liujin.transition.evaluator.view.ColorEvaluator;
 import tech.liujin.transition.evaluator.view.ColorEvaluator.ColorApply;
@@ -94,11 +93,11 @@ public class FullTestActivity extends AppCompatActivity {
                               buildTranslate();
                               buildRotation();
                               buildColor();
+
+                              initAnimator();
+                              setOnClick();
                         }
                   } );
-
-                  initAnimator();
-                  setOnClick();
             }
 
             private void buildColor ( ) {
@@ -160,8 +159,14 @@ public class FullTestActivity extends AppCompatActivity {
 
             private void initAnimator ( ) {
 
-                  mAnimator = ValueAnimator.ofFloat( 0, 1 );
-                  ( (ValueAnimator) mAnimator ).addUpdateListener( new UpdateListener() );
+                  mAnimator = AnimatorFactory.makeAnimator(
+                      mContainerEva,
+                      mTransitionEvaluator,
+                      mAlphaEvaluator,
+                      mTranslateEvaluator,
+                      mRotationEvaluator,
+                      mColorEvaluator
+                  );
                   mAnimator.setDuration( 1000 );
             }
 
@@ -178,31 +183,6 @@ public class FullTestActivity extends AppCompatActivity {
                               mAnimator.start();
                         }
                   } );
-            }
-
-            private class UpdateListener implements AnimatorUpdateListener {
-
-                  @Override
-                  public void onAnimationUpdate ( ValueAnimator animation ) {
-
-                        float animatedFraction = animation.getAnimatedFraction();
-
-                        mContainerEva.evaluate( animatedFraction );
-                        mTransitionEvaluator.evaluate( animatedFraction );
-                        mAlphaEvaluator.evaluate( animatedFraction );
-                        mTranslateEvaluator.evaluate( animatedFraction );
-                        mRotationEvaluator.evaluate( animatedFraction );
-                        mColorEvaluator.evaluate( animatedFraction );
-
-                        if( mContainerEva.getProcess() == 1 ) {
-                              mContainerEva.justReversed( !mContainerEva.isReversed() );
-                              mTransitionEvaluator.justReversed( !mTransitionEvaluator.isReversed() );
-                              mTranslateEvaluator.justReversed( !mTranslateEvaluator.isReversed() );
-                              mAlphaEvaluator.justReversed( !mAlphaEvaluator.isReversed() );
-                              mRotationEvaluator.justReversed( !mRotationEvaluator.isReversed() );
-                              mColorEvaluator.justReversed( !mColorEvaluator.isReversed() );
-                        }
-                  }
             }
       }
 }
